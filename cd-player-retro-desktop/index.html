@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>复古桌面CD播放器市场竞品与VOC洞察报告</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --ink:#1a1d24; --ink-2:#5b6270; --ink-3:#8890a0;
+    --border:#e4e7ec; --accent:#3c5ee0; --accent-bg:#eaeeff; --accent-dark:#22318f;
+    --danger:#d0432f; --danger-bg:#fceceb; --danger-dark:#7c2318;
+    --success:#1d8f5e; --success-bg:#e7f6ee; --success-dark:#0d5236;
+    --amber:#b56b0a; --amber-bg:#fdf1de; --amber-dark:#6e3f04;
+    --radius:10px; --shadow:0 1px 2px rgba(20,20,30,.06), 0 8px 24px rgba(20,20,30,.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65;}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%; display:block;}
+  section, .hero{scroll-margin-top:24px;}
+
+  .back-to-top{
+    position:fixed; right:28px; bottom:28px; width:42px; height:42px; border-radius:50%;
+    background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:18px; box-shadow:0 4px 14px rgba(20,20,30,.25); border:none; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:50;
+  }
+  .back-to-top.show{opacity:1; pointer-events:auto;}
+  .back-to-top:hover{transform:translateY(-3px);}
+
+  .bar-cell{position:relative;}
+  .bar-track{position:absolute; left:0; bottom:0; height:3px; width:100%; background:var(--border); border-radius:2px;}
+  .bar-fill{position:absolute; left:0; bottom:0; height:3px; border-radius:2px; background:var(--accent);}
+  table.data-table td.bar-cell{padding-bottom:14px;}
+
+  .layout{display:flex; max-width:1360px; margin:0 auto;}
+  .sidebar{
+    width:220px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:28px 16px; border-right:1px solid var(--border);
+  }
+  .sidebar-title{font-size:13px; font-weight:600; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em; margin:0 0 14px 8px;}
+  .sidebar nav a{
+    display:block; padding:9px 12px; border-radius:8px; font-size:14px; color:var(--ink-2); margin-bottom:2px;
+  }
+  .sidebar nav a:hover{background:var(--accent-bg); color:var(--accent-dark); text-decoration:none;}
+  .sidebar nav a.active{background:var(--accent); color:#fff;}
+
+  .main{flex:1; min-width:0; padding:0 40px 80px;}
+
+  .hero{padding:48px 0 28px; border-bottom:1px solid var(--border);}
+  .eyebrow{font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  h1{font-size:30px; font-weight:700; margin:10px 0 8px; line-height:1.3;}
+  .subtitle{font-size:15px; color:var(--ink-2); max-width:720px; margin:0 0 20px;}
+  .method-box{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; font-size:13.5px; color:var(--ink-2); margin-bottom:24px;
+  }
+  .method-box b{color:var(--ink);}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:24px 0 8px;}
+  .kpi{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);}
+  .kpi-label{font-size:12.5px; color:var(--ink-3); margin-bottom:6px;}
+  .kpi-value{font-size:26px; font-weight:700;}
+  .kpi-sub{font-size:12px; color:var(--ink-2); margin-top:4px;}
+  .kpi-sub.danger{color:var(--danger);}
+
+  section{padding:52px 0; border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{margin-bottom:22px;}
+  .section-num{font-size:12.5px; font-weight:700; color:var(--accent); letter-spacing:.04em;}
+  h2{font-size:22px; font-weight:700; margin:6px 0 6px;}
+  .section-desc{font-size:14px; color:var(--ink-2); max-width:760px;}
+
+  .toolbar{display:flex; align-items:center; gap:8px; margin-top:18px; flex-wrap:wrap;}
+  .toolbar-label{font-size:12.5px; color:var(--ink-3); margin-right:2px;}
+  .sort-btn{font-size:12.5px; font-weight:600; padding:6px 13px; border-radius:100px; border:1px solid var(--border); background:var(--card); color:var(--ink-2); cursor:pointer; transition:all .15s ease;}
+  .sort-btn:hover{border-color:var(--accent); color:var(--accent-dark); background:var(--accent-bg);}
+  .sort-btn.active{background:var(--accent); border-color:var(--accent); color:#fff;}
+
+  .comp-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:16px; margin-top:16px;}
+  .comp-card{position:relative; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; transition:transform .15s ease, box-shadow .15s ease;}
+  .comp-card:hover{transform:translateY(-3px); box-shadow:0 4px 10px rgba(20,20,30,.08), 0 14px 30px rgba(20,20,30,.08);}
+  .comp-card.highlight{border:2px solid var(--accent);}
+  .comp-rank{position:absolute; top:10px; left:10px; z-index:2; background:rgba(26,29,36,.78); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;}
+  .comp-img-wrap{background:#fbfbfa; padding:18px; display:flex; align-items:center; justify-content:center; height:140px; border-bottom:1px solid var(--border); cursor:pointer;}
+  .comp-img-wrap img{max-height:104px; width:auto; margin:0 auto; transition:transform .2s ease;}
+  .comp-img-wrap:hover img{transform:scale(1.06);}
+  .comp-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .comp-badge-row{display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .badge{display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px;}
+  .badge.pill-accent{background:var(--accent-bg); color:var(--accent-dark);}
+  .badge.pill-danger{background:var(--danger-bg); color:var(--danger-dark);}
+  .badge.pill-success{background:var(--success-bg); color:var(--success-dark);}
+  .comp-title{font-size:14.5px; font-weight:700; margin:0;}
+  .comp-title a{color:var(--ink); display:inline-flex; align-items:center; gap:4px;}
+  .comp-title a:hover{color:var(--accent-dark); text-decoration:none;}
+  .link-arrow{font-style:normal; font-size:12px; color:var(--accent); opacity:.7;}
+  .tag-benchmark{display:inline-block; font-size:10.5px; font-weight:700; color:var(--accent-dark); background:var(--accent-bg); padding:2px 7px; border-radius:100px; vertical-align:middle;}
+  .comp-brand{font-size:12.5px; color:var(--ink-3);}
+  .comp-meta{font-size:12.5px; color:var(--ink-2); display:flex; flex-direction:column; gap:3px; margin-top:2px;}
+  .asin-link{color:var(--ink-2); font-variant-numeric:tabular-nums;}
+  .asin-link:hover{color:var(--accent);}
+  .comp-sales{margin-top:auto; padding-top:10px; border-top:1px dashed var(--border); font-size:13px;}
+  .comp-sales b{font-size:16px;}
+  .comp-features{font-size:12.5px; color:var(--ink-2); margin:0; padding-left:16px;}
+  .comp-features li{margin-bottom:2px;}
+  .comp-open-btn{display:block; text-align:center; margin-top:10px; font-size:12.5px; font-weight:600; padding:8px; border-radius:8px; background:var(--accent-bg); color:var(--accent-dark); transition:background .15s ease;}
+  .comp-open-btn:hover{background:var(--accent); color:#fff; text-decoration:none;}
+
+  .chart-card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:20px;}
+  .chart-card-title{font-size:14px; font-weight:600; margin:0 0 4px;}
+  .chart-card-sub{font-size:12.5px; color:var(--ink-3); margin:0 0 14px;}
+  .chart-wrap{position:relative; width:100%;}
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .legend-row{display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-2); margin-top:10px;}
+  .legend-dot{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px;}
+
+  .callout{border-radius:var(--radius); padding:16px 18px; font-size:13.5px; margin-top:16px;}
+  .callout.info{background:var(--accent-bg); color:var(--accent-dark); border:1px solid #c7d1f7;}
+  .callout.danger{background:var(--danger-bg); color:var(--danger-dark); border:1px solid #f1c7c0;}
+  .callout b{font-weight:700;}
+
+  table.data-table{width:100%; border-collapse:collapse; font-size:13px; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);}
+  table.data-table th, table.data-table td{padding:10px 12px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top;}
+  table.data-table th{background:#f8f9fb; font-weight:600; color:var(--ink-2); font-size:12px; text-transform:uppercase; letter-spacing:.02em; position:sticky; top:0;}
+  table.data-table tr:last-child td{border-bottom:none;}
+  table.data-table tbody tr{transition:background .12s ease;}
+  table.data-table tbody tr:hover{background:#f8f9fb;}
+  table.data-table td.num{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+
+  .tag{display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;}
+  .tag.keep{background:var(--success-bg); color:var(--success-dark);}
+  .tag.diff{background:var(--amber-bg); color:var(--amber-dark);}
+  .tag.fix{background:var(--danger-bg); color:var(--danger-dark);}
+
+  .rec-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:12px;}
+  .rec-item{display:flex; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);}
+  .rec-rank{font-size:20px; font-weight:800; color:var(--ink-3); width:28px; flex-shrink:0;}
+  .rec-item.p1 .rec-rank{color:var(--danger);}
+  .rec-item.p2 .rec-rank{color:var(--amber);}
+  .rec-item.p3 .rec-rank{color:var(--success);}
+  .rec-title{font-size:14.5px; font-weight:700; margin:0 0 4px;}
+  .rec-body{font-size:13.5px; color:var(--ink-2); margin:0;}
+  .rec-evidence{font-size:12px; color:var(--ink-3); margin-top:6px;}
+
+  footer{padding:28px 0 60px; font-size:12px; color:var(--ink-3);}
+
+  .dd-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; align-items:start;}
+  .dd-card{background:var(--card); border:1px solid var(--border); border-top:4px solid var(--ink-3); border-radius:12px; box-shadow:var(--shadow); overflow:hidden;}
+  .dd-card.dd-nodata{border-top-color:var(--danger);}
+  .dd-card.dd-ok{border-top-color:var(--accent);}
+  .dd-head{padding:16px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .dd-head h3{font-size:15.5px; font-weight:700; margin:0;}
+  .dd-head .dd-asin{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
+  .dd-sample{padding:10px 18px; font-size:12px; color:var(--ink-2); background:#f8f9fb; border-bottom:1px solid var(--border);}
+  .dd-sample b{color:var(--ink);}
+  .dd-body{padding:16px 18px; display:flex; flex-direction:column; gap:16px;}
+  .dd-sub{font-size:12.5px; font-weight:700; color:var(--ink-2); text-transform:uppercase; letter-spacing:.03em; margin:0 0 8px;}
+  .dd-stat-row{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; padding:4px 0; border-bottom:1px dotted var(--border);}
+  .dd-stat-row:last-child{border-bottom:none;}
+  .dd-stat-name{color:var(--ink-2);}
+  .dd-stat-val{font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;}
+  .quote-block{background:#f8f9fb; border-left:3px solid var(--accent); border-radius:0 6px 6px 0; padding:8px 12px; font-size:12.5px; color:var(--ink-2); margin-bottom:8px;}
+  .quote-block:last-child{margin-bottom:0;}
+  .quote-block .quote-author{display:block; margin-top:4px; font-size:11.5px; color:var(--ink-3); font-weight:600;}
+  .no-data-box{background:var(--danger-bg); color:var(--danger-dark); border-radius:8px; padding:14px 16px; font-size:13px;}
+  .no-data-box b{font-weight:700;}
+  .fact-box{background:var(--accent-bg); color:var(--accent-dark); border-radius:8px; padding:12px 14px; font-size:12.5px; margin-top:10px;}
+
+  @media (max-width: 1180px){
+    .dd-grid{grid-template-columns:1fr;}
+  }
+
+  @media (max-width: 980px){
+    .layout{display:block;}
+    .sidebar{display:none;}
+    .main{padding:0 20px 60px;}
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">目录</div>
+    <nav id="toc">
+      <a href="#overview">0. 概览与方法论</a>
+      <a href="#profiles">1. 10款竞品档案 &amp; 销量趋势</a>
+      <a href="#voc">2. VOC痛点与买家画像</a>
+      <a href="#deepdive">3. 重点竞品深度分析</a>
+      <a href="#external">4. 全网调研：外部信号</a>
+      <a href="#market">5. 关键词流量与类目结构</a>
+      <a href="#review">6. L-CD213改款设计复核</a>
+      <a href="#recommend">7. 结论与建设性建议</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <div class="hero" id="overview">
+      <div class="eyebrow">Amazon Retro Desktop CD Player · 竞品与VOC分析报告</div>
+      <h1>复古桌面CD播放器市场：10款"木质/金属桌面造型"真竞品真实销量 × 约390条评论VOC洞察</h1>
+      <p class="subtitle">对标产品：深圳市利普微科技 L-CD213 便携式CD播放器（金属/实木双材质 · 29.1×22.1×5.5cm · 10W功率 · 4Ω-8W喇叭 · 蓝牙5.1双向 · 光纤+AUX输出 · 内置3.7V8000mAh 21700锂电池 · 6种灯光模式）。本报告与此前的L-X2小型手持款报告是<b>两个不同的子赛道</b>——竞品口径完全独立收紧，不复用同一批竞品。</p>
+
+      <div class="method-box">
+        <b>竞品口径说明：</b>类目节点仍是 <code>Electronics › Portable Audio & Video › Portable CD Players</code>（nodeId 465608），但结构标准收紧为"木质/复古桌面造型 + 内置喇叭 + 蓝牙双向 + 桌面/家用场景定位"——与L-X2报告完全不同的子结构（那批是手持/小型口袋造型）。多数竞品还带光纤输出(SPDIF)，这是本子赛道区别于小型手持款的关键配置差异，用于对标L-CD213的10W大功率+光纤输出定位。已排除：无内置喇叭的"Hi-Fi源组件"款（如THINKYA JA-310R、Pledei CD Ripper——这两款只做信号源，靠外接音箱出声，与L-CD213"内置8W喇叭独立可用"的结构不同，明确剔除）。最终锁定 <b>10款</b> 结构一致的真竞品，价格带 $35.99–$129.99（比L-X2报告的$26-56价格带明显更高，印证这是一个溢价定位的子赛道）。<br><br>
+        <b>数据来源与方法：</b>销量数据通过 <code>asin_sales_trend</code> 逐一调取真实月度成交量，统一取 <b>父体(parent)销量口径 parentUnitSales</b>，取2026-08最新数据点；评论数据对10款竞品逐一调用 <code>review</code> 接口，差评优先/好评抽样，共读取编码约 <b>390条</b> 评论原文。<br><br>
+        <b>数据缺口披露：</b>Greadio三角形款(B0DTT1XFZ8)与KAEMVMON(B0DP2LQH8M)两款调用 <code>review</code> 接口均返回 <code>total=0</code>，如实标注为数据缺口，不做VOC分析，仅呈现结构性事实(销量趋势/价格/评分)。<br><br>
+        <b>抽样口径披露：</b>评论抽取对1-3星差评做了优先覆盖，"痛点提及次数/总样本"的占比会<b>系统性高估</b>真实发生率，应理解为"负面反馈内部的相对结构"。痛点排序结论不受此偏差影响。
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">覆盖竞品数</div>
+          <div class="kpi-value">10款</div>
+          <div class="kpi-sub">价格带 $35.99 – $129.99</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">编码评论样本量</div>
+          <div class="kpi-value">约390条</div>
+          <div class="kpi-sub">2款0条数据缺口，如实标注</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">10款评分数总量</div>
+          <div class="kpi-value">1,412条</div>
+          <div class="kpi-sub">Gueray Y-02单款占848条(60%)</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">内置喇叭音质差评占比</div>
+          <div class="kpi-value">32.4%</div>
+          <div class="kpi-sub danger">全品类头号痛点，与L-X2报告完全不同</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="profiles">
+      <div class="section-head">
+        <div class="section-num">01</div>
+        <h2>10款竞品档案：图片 · 价格 · 尺寸 · 功能 · 真实销量</h2>
+        <p class="section-desc">已收紧为"木质/复古桌面+内置喇叭+蓝牙双向"结构真竞品。销量为2026-08父体(parent)真实月度成交数据。点击品牌名或"在Amazon查看"可直接打开商品页。</p>
+      </div>
+
+      <div class="toolbar">
+        <span class="toolbar-label">排序：</span>
+        <button class="sort-btn active" data-sort="sales">按销量 ↓</button>
+        <button class="sort-btn" data-sort="rating">按评分 ↓</button>
+        <button class="sort-btn" data-sort="price">按价格 ↑</button>
+      </div>
+
+      <div class="comp-grid" id="compGrid"></div>
+
+      <div class="chart-card" style="margin-top:20px;">
+        <div class="chart-card-title">重点竞品 父体月销量趋势</div>
+        <div class="chart-card-sub">数据源：asin_sales_trend 月度历史 parentUnitSales。仅展示有完整历史数据的竞品。</div>
+        <div class="chart-wrap" style="height:280px;"><canvas id="trendChart"></canvas></div>
+        <div class="legend-row" id="trendLegend"></div>
+      </div>
+
+      <div class="callout info">
+        <b>数据解读：</b>Gueray Y-02(B0DRC5QL3L，$35.99)以899件/月一骑绝尘，848条评分/4.5分同样是10款里最高，是这个子赛道唯一跑出规模的产品——价格反而是10款里第二低，说明这个细分目前"低价+过得去的复古外观"比"高价+全功能堆料"更能起量。THINKYA的三款($109.99-$129.99，DVP-560/K10/R02)走的是完全不同的高端路线，销量个位数到百位数不等，评分参差(3.8-4.7)，其中R02凭借FM收音+光纤+电池的完整功能组合评分最高(4.5)。KAEMVMON已连续6个月0销量，是这个价位段"性价比不够、评论也建立不起来"的典型失败案例。
+      </div>
+    </section>
+
+    <section id="voc">
+      <div class="section-head">
+        <div class="section-num">02</div>
+        <h2>VOC洞察：差评归因 与 买家画像/使用场景</h2>
+        <p class="section-desc">基于约390条编码评论的量化统计，占比 = 提及次数 / 390。</p>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">差评归因统计（9类）</div>
+        <div class="chart-card-sub">N=390条编码评论，各类别独立计数，不互斥</div>
+        <div class="chart-wrap" style="height:360px;"><canvas id="painChart"></canvas></div>
+      </div>
+
+      <table class="data-table" style="margin-top:16px; margin-bottom:24px;">
+        <thead><tr><th>差评类别</th><th class="num">提及次数</th><th class="num">占比(N=390)</th><th>出现竞品</th></tr></thead>
+        <tbody id="painTableBody"></tbody>
+      </table>
+
+      <p class="section-desc" style="margin:0 0 12px;"><b>买家角色</b>回答"谁在用"，<b>使用场景</b>回答"买来做什么"——两个独立维度分开统计。</p>
+
+      <div class="two-col">
+        <div class="chart-card">
+          <div class="chart-card-title">买家/使用者角色分析</div>
+          <div class="chart-card-sub">N=390条编码评论</div>
+          <div class="chart-wrap" style="height:240px;"><canvas id="roleChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">使用场景分析</div>
+          <div class="chart-card-sub">N=390条编码评论</div>
+          <div class="chart-wrap" style="height:260px;"><canvas id="scenarioChart"></canvas></div>
+        </div>
+      </div>
+
+      <table class="data-table" style="margin-top:16px;">
+        <thead><tr><th>买家/使用者角色类别</th><th class="num">提及次数</th><th class="num">占比(N=390)</th></tr></thead>
+        <tbody id="roleTableBody"></tbody>
+      </table>
+
+      <table class="data-table" style="margin-top:16px;">
+        <thead><tr><th>使用场景类别</th><th class="num">提及次数</th><th class="num">占比(N=390)</th></tr></thead>
+        <tbody id="scenarioTableBody"></tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>核心发现①：内置喇叭音质差是这个子赛道压倒性的头号痛点，且和L-X2报告的"蓝牙连不上"完全不是同一个问题。</b>"单薄/无低音/tinny/音量小"(约126次/32.4%)出现在几乎每一款竞品里，甚至大量出现在5星好评的"但是"分句里——"needs better built in speakers"(K10好评,5★)、"内部喇叭几乎不够用"("internal speakers are nearly inadequate"，DVP-560)、"我提前就知道内置喇叭一般，配好外接音箱后惊艳"(K10好评)。这说明买这类产品的用户对"外观复古+能接大音箱"的容忍度很高，但对"内置喇叭本身要好听"期待也不低——这是一个用户没有主动说出口、但反复验证的隐性需求。L-CD213的4Ω-8W喇叭功率远超多数竞品(多为2-5W)，理论上具备天然优势，前提是喇叭选型和箱体声学设计真的把这个功率用出来，而不是"功率参数好看但音质依旧单薄"。
+      </div>
+      <div class="callout danger" style="margin-top:16px;">
+        <b>核心发现②：CD读盘故障+整体短命合计仍是第二大类，说明"复古外观"不能替代基础可靠性。</b>"不读盘/跳曲/无故停止"(约52次/13.3%)与"数周至数月内报废"(约38次/9.7%)合计23%，典型证据："the CD spins for 4-5 seconds when I start to play, then it stops"(Gueray, 1★)、"Won't spin...没有任何在线故障排查资料"(HOTT, 1★)、"CD player didn't work, the rest worked great"(Gueray, 1★)。这和L-X2报告的发现一致——无论定位高低，CD机芯稳定性都是决定复购与差评率的第一物理约束。
+      </div>
+      <div class="callout info">
+        <b>核心发现③：即使在这个"桌面/家用"定位的子赛道，蓝牙功能仍有"标注双向实际单向/功能受限"的问题，只是权重明显低于喇叭和读盘问题。</b>典型证据："doesn't support Bluetooth transmit mode except in CD mode"(Gueray好评4★，仍在挑刺)、"Bluetooth will only play through the player's speakers and not through optical"(DVP-560)、"Bluetooth never worked"(K10, 1★)。这说明蓝牙RX/TX边界不清晰是整个便携CD播放器大类目的通病，与产品定位、价位无关，L-X2和L-CD213都应把"蓝牙功能范围在文案里讲清楚"作为标配动作。
+      </div>
+    </section>
+
+    <section id="deepdive">
+      <div class="section-head">
+        <div class="section-num">03</div>
+        <h2>重点竞品深度分析：Gueray Y-02 / THINKYA DVP-560 / HOTT C229</h2>
+        <p class="section-desc">Gueray Y-02是这个子赛道唯一跑出销量规模的竞品；DVP-560代表THINKYA高端路线且拥有全品类最丰富的评论文本(112条)；HOTT C229是唯一有完整13个月+销量历史的中端竞品。Greadio三角形款与KAEMVMON因评论接口返回0条如实标注数据缺口。</p>
+      </div>
+
+      <div class="dd-grid">
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>Gueray Y-02</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B0DRC5QL3L" target="_blank" rel="noopener">B0DRC5QL3L ↗</a></div>
+            </div>
+            <span class="badge pill-accent">40条已读</span>
+          </div>
+          <div class="dd-sample">差评/中评(1-3星)20/26条(76.9%覆盖) + 好评(4-5星)20/94条，评分总量848条，10款中销量与评分数双第一</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以20条1-3星为分母)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">CD读盘/播放故障(停止播放/不读盘/跳曲)</span><span class="dd-stat-val">9/20 · 45.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">音量小/音质单薄</span><span class="dd-stat-val">5/20 · 25.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">蓝牙功能受限/不工作</span><span class="dd-stat-val">3/20 · 15.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">电池不能墙充/必须专用充电器</span><span class="dd-stat-val">1/20 · 5.0%</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求(评论原文直引)</p>
+              <div class="quote-block">"it doesn't support Bluetooth transmit mode except in CD mode."<span class="quote-author">— William Engelke, 4★ → 对应建议P1-2 蓝牙功能范围需在文案讲清楚</span></div>
+              <div class="quote-block">"When you turn it on, it goes back to the default volume- not what you had left it on... No dial for scrolling the radio, you have to use the remote to enter in the station number."<span class="quote-author">— Linds, 3★ → 对应建议P3-1 音量记忆功能</span></div>
+              <div class="quote-block">"Bought this for my 87 year old dad to listen to his Elvis cds. It was very easy to teach him how to use it."<span class="quote-author">— Becki Lemons, 5★ → 印证老年用户是真实核心人群</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>THINKYA DVP-560</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B0GVJBDJGD" target="_blank" rel="noopener">B0GVJBDJGD ↗</a></div>
+            </div>
+            <span class="badge pill-accent">40条已读</span>
+          </div>
+          <div class="dd-sample">评论总量112条(不加星级过滤混合抽样40条，大量为Vine测评)，评分36条/3.8分，10款中评论文本最丰富</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以40条混合样本为分母)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">内置喇叭音质差(tinny/单薄/无重低音)</span><span class="dd-stat-val">11/40 · 27.5%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">舱盖/结构缺陷(铰链断裂/不带锁扣)</span><span class="dd-stat-val">2/40 · 5.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">耳机输出有杂音/静电噪音</span><span class="dd-stat-val">2/40 · 5.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">蓝牙仅能通过内置喇叭出声，不能转发到光纤输出</span><span class="dd-stat-val">1/40 · 2.5%</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求(评论原文直引)</p>
+              <div class="quote-block">"I hooked it up to an older pair of Edifier speakers using the SPDIF output, and it sounded dramatically better... don't expect the Bluetooth audio quality to be its strongest feature."<span class="quote-author">— MicahO, Vine 5★ → 对应建议P1-1 光纤输出音质优先于内置喇叭，Listing应引导"外接党"这条路径</span></div>
+              <div class="quote-block">"the plastic cover hinge broke (one side) on the first day of use."<span class="quote-author">— T D, 3★ → 对应建议P2-2 舱盖铰链结构强度</span></div>
+              <div class="quote-block">"My 14-year-old niece saw this sitting on my shelf and immediately wanted one for herself. It's funny how things come full circle."<span class="quote-author">— MicahO, Vine 5★ → 印证"CD怀旧正在被Z世代重新发现"这一场景真实存在</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>HOTT C229</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B0D7M5FFN6" target="_blank" rel="noopener">B0D7M5FFN6 ↗</a></div>
+            </div>
+            <span class="badge pill-accent">40条已读</span>
+          </div>
+          <div class="dd-sample">差评/中评(1-3星)20/22条(90.9%覆盖) + 好评(4-5星)20/112条，评分总量279条，10款中唯一有完整26个月销量历史</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以20条1-3星为分母)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">CD读盘/播放故障(跳曲/不转/ERR报错)</span><span class="dd-stat-val">7/20 · 35.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">内置喇叭音质差(tinny/muddy)</span><span class="dd-stat-val">6/20 · 30.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">AUX/接口标注误导(宣传输入实际只支持输出)</span><span class="dd-stat-val">2/20 · 10.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">操作复杂/说明书不足</span><span class="dd-stat-val">1/20 · 5.0%</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求(评论原文直引)</p>
+              <div class="quote-block">"I fully expected this as the port is labeled for headphones but what I didn't expect was the audio quality being poor from this output... The high frequencies were very soft and the low end was very muddy."<span class="quote-author">— TheStumpys, 3★ → 对应建议P1-1 耳机/线路输出的音质与喇叭是两条独立链路，都要达标</span></div>
+              <div class="quote-block">"My recommendations to the manufacturer would be to spend time on sound quality. Start by adding a strong onboard pre amp... Removed the power supply from inside the unit and use a wall adapter instead to eliminate that noise."<span class="quote-author">— Adam Dettore, 1★ → 对应建议P1-1+P2-1 内置电源纹波噪声是喇叭音质差的可能根因之一，非玄学</span></div>
+              <div class="quote-block">"connected to my receiver via optical or hook it directly into my studio monitors... The built in battery on the unit makes it portable."<span class="quote-author">— dragonballT, Vine 3★ → 印证"专业/发烧友用户会把它当信号源用"这一细分场景</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>数据缺口如实呈现：Greadio三角形款(B0DTT1XFZ8)与KAEMVMON(B0DP2LQH8M)。</b>两款均不加星级过滤全量调用 <code>review</code> 接口，均返回 <code>total=0</code>。Greadio评分数据显示101条评分/4.5分，但评论文本索引为空——同一"评分数存在但评论文本索引缺失"型数据缺口，在L-X2报告的Gueray 606上也出现过，可能是该类接口对特定listing的系统性索引延迟，不代表真实无人评论；KAEMVMON评分仅14条且近6个月0销量，数据本身也偏薄，两种情况都不做基于评论的VOC分析。
+      </div>
+
+      <div class="callout info" style="margin-top:16px;">
+        <b>三竞品对比小结：</b>三款覆盖了这个子赛道的价格光谱——Gueray Y-02($36)靠低价跑量，痛点集中在读盘故障(45%)；DVP-560($110)走高端但喇叭音质仍是最大槽点(27.5%)，评论区反复出现"外接音箱后判若两物"的模式；HOTT C229($80)居中，读盘(35%)与喇叭(30%)两个痛点并重，且有用户直接给出工程建议(加装前置放大、电源纹波噪声抑制)。三者共同验证了核心发现①②——不管价位，喇叭音质与CD机芯稳定性都是决定评分的两大变量，价格越高不代表这两点做得越好。
+      </div>
+    </section>
+
+    <section id="external">
+      <div class="section-head">
+        <div class="section-num">04</div>
+        <h2>全网调研：外部信号</h2>
+        <p class="section-desc">聚焦L-CD213的大容量电池(21700 8000mAh)与高功率(10W)特征，核查相关合规与召回记录。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th style="width:20%">发现</th><th>核实内容</th><th style="width:20%">对本项目的意义</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>8000mAh 21700电池能量29.6Wh，未超Amazon Shipping的100Wh门槛，但仍需完整合规文件</b></td>
+            <td>Amazon Shipping对锂电池按能量分级：0-100Wh可通过Amazon物流渠道发运，101Wh以上不可用Amazon Shipping。L-CD213的3.7V×8000mAh=29.6Wh，在门槛以内，但依然需要UN38.3测试报告与SDS安全数据表，且属于2026年新规下"随货发运锂电池"，需满足SOC≤30%出货电量要求与TIC DV第三方验证(5月6日起)。</td>
+            <td>29.6Wh虽然安全过关，但比L-X2报告里7.4Wh的电池大4倍，是这10款竞品里少见的大容量方案(多数竞品用2000-4000mAh)——电池仓散热、过充保护电路的设计余量要求相应更高，供应链选型不能直接套用小电池的方案</td>
+          </tr>
+          <tr>
+            <td><b>大容量便携电子产品未查到本品类专属最新召回，但同类"移动电源/大容量锂电池消费电子"是CPSC 2025-2026年执法重点</b></td>
+            <td>2025-2026年CPSC密集处理移动电源类锂电池召回：Casely无线移动电源(致1人死亡、多起起火)、Belkin移动电源与无线充电座、Flaunt MagSafe充电宝(5起起火烧伤报告)。均因"锂电池过热/膨胀/起火"被召回，且都是消费者可自由携带、内置大容量电池的产品结构。</td>
+            <td>虽然这些召回不是CD播放器本身，但结构相似度高（内置大容量可充电锂电池+塑料/金属外壳+消费者日常携带使用）——L-CD213作为10款竞品里少见的大电池方案，电池仓的过热保护、温控芯片（HOTT C229已在用NTC温控，可作为参考）是必须做够而非选配的安全冗余</td>
+          </tr>
+          <tr>
+            <td><b>"cd player with speakers"关键词均价$139.99，验证这个子赛道确实是溢价定位</b></td>
+            <td>见第5节关键词矩阵，该词月搜3.7万，均价$139.99，远高于L-X2报告里对应关键词的均价，与本报告10款竞品$36-130的价格带互相印证。</td>
+            <td>L-CD213金属/实木双材质+10W功率+光纤的产品力，定价可以比小型手持款更有底气，但要注意价格越高，用户对内置喇叭音质的心理预期也越高（DVP-560即使卖到$110仍因喇叭音质被扣分）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>对症下药的结论：</b>L-CD213的8000mAh大电池虽然合规上过关，但结构上更接近"移动电源类产品"的安全风险画像——这类产品正是CPSC近两年最密集执法的品类。电池仓设计、温控保护、过充保护电路应该按移动电源的安全冗余标准去做，而不是套用小容量CD播放器电池仓的常规方案。
+      </div>
+
+      <p class="section-desc" style="margin-top:16px; font-size:12.5px;">
+        Sources：
+        <a href="https://pages.shipping.amazon.com/rs/757-KPI-428/images/Amazon_Shipping_Dangerous_Goods_Shipping_Guide.pdf" target="_blank" rel="noopener">Amazon Dangerous Goods Shipping Guide</a> ·
+        <a href="https://amazonsellersappeal.com/2026-lithium-battery-rules/" target="_blank" rel="noopener">2026锂电池新规与Amazon合规</a> ·
+        <a href="https://www.cpsc.gov/Recalls/2026/Casely-Reannounces-Recall-of-Wireless-Portable-Power-Banks-Due-to-Risk-of-Serious-Injury-or-Death-from-Fire-and-Burn-Hazards-One-Fatality-Reported-After-2025-Recall" target="_blank" rel="noopener">CPSC: Casely移动电源召回(致死案例)</a> ·
+        <a href="https://www.cpsc.gov/Recalls/2026/Belkin-Recalls-Portable-Power-Banks-and-Wireless-Charging-Stands-Due-to-Fire-and-Burn-Hazards" target="_blank" rel="noopener">CPSC: Belkin移动电源召回</a> ·
+        <a href="https://www.cpsc.gov/Recalls/2026/Flaunt-Recalls-Magsafe-Battery-Chargers-Due-to-Risk-of-Serious-Injury-or-Death-from-Fire-and-Burn-Hazards" target="_blank" rel="noopener">CPSC: Flaunt充电宝召回</a> ·
+        <a href="https://www.cpsc.gov/Recalls" target="_blank" rel="noopener">CPSC官方召回查询</a>
+      </p>
+    </section>
+
+    <section id="market">
+      <div class="section-head">
+        <div class="section-num">05</div>
+        <h2>关键词流量与类目结构</h2>
+        <p class="section-desc">数据源：keyword_miner 与 market_research_statistics（同节点465608，样本与L-X2报告一致，此处不重复解读新品接受度/品牌集中度/评分生存线等结构性结论，仅呈现关键词矩阵与本子赛道专属解读）。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>关键词</th><th class="num">月搜索量</th><th class="num">月购买量</th><th class="num">SPR*</th><th class="num">PPC竞价</th><th class="num">竞品商品数</th><th class="num">均价</th></tr></thead>
+        <tbody>
+          <tr><td><b>cd player with speakers</b>(核心词)</td><td class="num"><b>37,323</b></td><td class="num">735</td><td class="num">18</td><td class="num">$1.09</td><td class="num">3,976</td><td class="num">$139.99</td></tr>
+          <tr><td>retro cd player</td><td class="num">11,739</td><td class="num">45</td><td class="num">2</td><td class="num">$0.85</td><td class="num">1,084</td><td class="num">$39.99</td></tr>
+          <tr><td>cd player for home</td><td class="num">2,645</td><td class="num">107</td><td class="num">3</td><td class="num">$1.04</td><td class="num">5,705</td><td class="num">$39.99</td></tr>
+          <tr><td>hifi cd player</td><td class="num">603</td><td class="num">1</td><td class="num">1</td><td class="num" style="color:var(--success-dark);">$0.24</td><td class="num">1,874</td><td class="num">$179.99</td></tr>
+          <tr><td>cd player optical output</td><td class="num" style="color:var(--ink-3);">无数据</td><td class="num">–</td><td class="num">1</td><td class="num">$0.70</td><td class="num">519</td><td class="num">$129.99</td></tr>
+          <tr><td>wood cd player</td><td class="num" style="color:var(--ink-3);">无数据</td><td class="num">–</td><td class="num">1</td><td class="num">$0.49</td><td class="num">620</td><td class="num">$89.79</td></tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="font-size:12px; margin-top:8px;">*SPR = Search-to-Purchase Rank，越低表示上首页所需的历史销量门槛越低</p>
+
+      <div class="callout info" style="margin-top:16px;">
+        <b>流量结构解读：</b>"cd player with speakers"是这个子赛道流量最大的词(月搜3.7万)，均价$139.99恰好印证这是溢价定位——比L-X2报告对应核心词的均价高出近4倍。但"cd player optical output"、"wood cd player"、"hifi cd player"这几个最贴合L-CD213产品结构的词，搜索量都极小或查无数据，说明<b>买家还没有形成"用光纤输出/木质材质"去精准搜索的习惯</b>，这与产品结构本身(优质产品力)和市场认知(用户还不知道要这样搜)之间存在真实的时间差——现阶段获客大概率要靠"retro cd player"、"cd player for home"这类泛词的自然流量+图片文案教育用户，而不是指望精准词带来免费流量。
+      </div>
+
+      <table class="data-table" style="margin-top:16px;">
+        <thead><tr><th>月份</th><th class="num">Aug</th><th class="num">Sep</th><th class="num">Oct</th><th class="num">Nov</th><th class="num">Dec</th><th class="num">均值倍数</th></tr></thead>
+        <tbody>
+          <tr><td>Gueray Y-02 / HOTT C229 均值(自身月均=1x基准)</td><td class="num">0.51x</td><td class="num">0.56x</td><td class="num">1.36x</td><td class="num">1.91x</td><td class="num"><b>1.97x</b></td><td class="num">Dec峰值</td></tr>
+        </tbody>
+      </table>
+      <div class="callout info" style="margin-top:12px;">
+        <b>备货节奏：</b>用Gueray Y-02与HOTT C229两款有完整历史数据的竞品自身月均销量为基准，12月销量约为月均的<b>1.97倍</b>——比L-X2报告的2.43倍略低，Q4提升幅度相对温和，但方向一致。结合VOC里"gift for my husband/dad/daughter"等送礼场景高频出现，新品仍建议8-9月前完成上架蓄评，10-11月加大投流。
+      </div>
+    </section>
+
+    <section id="review">
+      <div class="section-head">
+        <div class="section-num">06</div>
+        <h2>L-CD213改款设计复核</h2>
+        <p class="section-desc">逐项对照L-CD213产品信息表的设计点与10款真竞品的VOC验证结果，标注保留/差异化保留/需修正/必须补强。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th style="width:22%">L-CD213设计点</th><th>竞品验证结果(带证据数字)</th><th style="width:12%">结论</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>4Ω-8W大功率内置喇叭</td>
+            <td>喇叭音质差(单薄/无低音/tinny)是本子赛道头号痛点(约126次/32.4%)，覆盖几乎全部竞品，且多数竞品喇叭功率仅2-5W，远低于L-CD213的8W。理论上L-CD213功率优势明显，但HOTT C229差评里有用户明确指出"内置电源纹波噪声可能是音质差的根因"("Removed the power supply from inside the unit and use a wall adapter instead to eliminate that noise")——功率参数不是唯一变量，电源纯净度、喇叭单元选型、箱体声学设计同样关键</td>
+            <td><span class="tag fix">必须补强</span></td>
+          </tr>
+          <tr>
+            <td>光纤输出(Optical/SPDIF) + 3.5mm AUX</td>
+            <td>本子赛道近半数竞品(THINKYA全系/Greadio/Blazecore/LEEWAVES)都配了光纤输出，是这个价位段的准标配而非差异化点；但多条好评明确指出"光纤输出接外部音箱后音质判若两物"(MicahO评DVP-560)——光纤输出的实际使用率可能高于预期，接口质量与信号纯净度需要达标，不能做成"参数表里的摆设"</td>
+            <td><span class="tag keep">保留(需保证实际音质达标)</span></td>
+          </tr>
+          <tr>
+            <td>蓝牙5.1双向(接收/发射)</td>
+            <td>本子赛道同样存在"标注双向实际功能受限"问题(Gueray "doesn't support Bluetooth transmit mode except in CD mode"；DVP-560"Bluetooth will only play through the player's speakers and not through optical")。虽然权重(约低于10%)不如喇叭和读盘问题突出，但仍是可预见的差评来源</td>
+            <td><span class="tag fix">需修正(文案讲清功能边界)</span></td>
+          </tr>
+          <tr>
+            <td>3.7V-8000mAh 21700锂电池</td>
+            <td>大容量是10款竞品里罕见的配置(多数2000-4000mAh)，理论上续航优势明显，但产品信息表标注"工作时间仅1.5-2小时"——8000mAh配10W功率、1.5-2小时工作时间，意味着实际放电倍率不低，电池管理系统(BMS)与散热设计的压力比小容量竞品更大，且外部信号显示大容量锂电池消费电子是CPSC当前重点监管品类</td>
+            <td><span class="tag fix">必须补强(电池安全冗余)</span></td>
+          </tr>
+          <tr>
+            <td>金属/实木双材质外壳</td>
+            <td>与本子赛道竞品的核心定位高度吻合(Gueray/THINKYA/Sidike/KAEMVMON均为木质，且都拿"retro/nostalgic/vintage"作为核心卖点)，是这个子赛道的正确材质方向，实木比常见的"仿木纹塑料"更有差异化空间(仅Gueray/THINKYA/Sidike/KAEMVMON中部分为真实木材，多数竞品是塑料仿木纹)</td>
+            <td><span class="tag diff">差异化保留</span></td>
+          </tr>
+          <tr>
+            <td>6种灯光模式</td>
+            <td>Greadio三角形款(RGB呼吸/闪烁/纯色)与Gueray好评区(LED灯光/CD转动可见设计)都验证了"灯光/视觉效果"是这个品类真实的加分项，多条评论主动提到"灯光秀"是购买或推荐理由</td>
+            <td><span class="tag keep">保留</span></td>
+          </tr>
+          <tr>
+            <td>29.1×22.1×5.5cm尺寸/1.3-1.6kg重量</td>
+            <td>明显大于本子赛道多数竞品(多为18×16×5cm级别的方形桌面盒子)，更接近"家庭音响组件"的体量——这个尺寸段目前竞品覆盖较少，是差异化空间，但要注意体量增大会直接影响头程运费成本，需要在定价里体现</td>
+            <td><span class="tag diff">差异化保留(注意成本)</span></td>
+          </tr>
+          <tr>
+            <td>FM收音(87.5-108.0MHz)</td>
+            <td>THINKYA R02(评分最高4.5)与Gueray好评区都验证FM收音是加分项而非鸡肋功能，尤其面向老年用户群体("Bought this for my 87 year old dad to listen to his Elvis cds")</td>
+            <td><span class="tag keep">保留</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>用户方案未覆盖的风险项：</b>产品信息表未提及舱盖开合结构方案（本子赛道多次出现"铰链第一天就断裂"的差评）、蓝牙RX/TX同时可用性说明、以及8000mAh大电池对应的散热/BMS安全冗余设计——这三项都是调研中发现的真实风险点，产品信息表本身未覆盖，建议纳入下一步开发排期。
+      </div>
+    </section>
+
+    <section id="recommend">
+      <div class="section-head">
+        <div class="section-num">07</div>
+        <h2>结论与建设性建议</h2>
+        <p class="section-desc">按优先级排序：P1(必须做/上架前置条件) / P2(强烈建议/影响评分与复购) / P3(锦上添花/差异化加分)。</p>
+      </div>
+
+      <ol class="rec-list">
+        <li class="rec-item p1">
+          <div class="rec-rank">01</div>
+          <div>
+            <p class="rec-title">内置喇叭音质投入达到8W功率应有的实际听感，电源纹波噪声必须抑制</p>
+            <p class="rec-body">不能只堆参数，喇叭单元选型、箱体声学设计、内部电源纯净度都要达标；参考HOTT C229差评里用户提出的"加装前置放大、电源纹波噪声抑制"工程建议。这是决定评分的第一变量，比任何附加功能都重要。</p>
+            <p class="rec-evidence">证据：内置喇叭音质差126次(32.4%)，覆盖几乎全部10款竞品，是本子赛道压倒性头号痛点</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">02</div>
+          <div>
+            <p class="rec-title">CD机芯做老化测试，出厂全检读盘功能</p>
+            <p class="rec-body">与L-X2报告结论一致：CD读盘/播放故障是不分定位高低的共同致命痛点，出厂前必须实测读盘稳定性而非只测通电。</p>
+            <p class="rec-evidence">证据：读盘/播放故障52次(13.3%)+整体短命38次(9.7%)，合计23%</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">03</div>
+          <div>
+            <p class="rec-title">8000mAh大电池按移动电源安全标准做BMS与散热冗余，排期UN38.3+TIC DV合规</p>
+            <p class="rec-body">29.6Wh能量虽在Amazon 100Wh门槛内，但大容量+高功率放电的结构更接近CPSC近两年重点监管的移动电源类产品，电池仓过热保护、温控芯片(参考HOTT的NTC温控设计)是必须投入而非选配的安全冗余。</p>
+            <p class="rec-evidence">证据：CPSC 2025-2026年密集召回Casely/Belkin/Flaunt等移动电源产品(致1人死亡)；Amazon 2026年锂电池TIC DV新规5月起生效</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">04</div>
+          <div>
+            <p class="rec-title">舱盖改为固定铰链结构，避免"第一天就断裂"</p>
+            <p class="rec-body">DVP-560差评明确指出"the plastic cover hinge broke (one side) on the first day of use"，L-CD213开发阶段应评估铰链强度与开合次数测试。</p>
+            <p class="rec-evidence">证据：结构缺陷差评在DVP-560/Ryan S("lid does not latch")等多处出现</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">05</div>
+          <div>
+            <p class="rec-title">蓝牙RX/TX功能边界在文案与说明书中明确标注</p>
+            <p class="rec-body">避免复刻"标注双向实际单向/仅CD模式下可转发"的常见差评模式，图示化说明RX(接收手机音乐)和TX(转发到蓝牙耳机/音箱)各自的适用场景与限制条件。</p>
+            <p class="rec-evidence">证据：Gueray/DVP-560/K10均出现蓝牙功能范围与宣传不符的差评</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">06</div>
+          <div>
+            <p class="rec-title">光纤输出音质作为核心卖点营销，引导"外接音箱党"用户群体</p>
+            <p class="rec-body">DVP-560好评区多次出现"光纤接外部音箱后音质判若两物"的真实反馈，L-CD213可在A+页面明确展示"内置喇叭 vs 光纤外接"两种听感路径，管理用户预期同时突出光纤输出的实用价值。</p>
+            <p class="rec-evidence">证据：MicahO(Vine 5★)、dragonballT(Vine 3★)等多条评论主动提及外接音箱使用场景</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">07</div>
+          <div>
+            <p class="rec-title">上架节奏：8-9月前完成上架蓄评，核心词认知培育优先于精准词投流</p>
+            <p class="rec-body">"cd player optical output"/"wood cd player"等最贴合产品结构的词目前搜索量极小，说明市场认知滞后于产品力，现阶段应靠"retro cd player"/"cd player for home"等泛词获取自然流量，用主图和A+内容教育用户"光纤+木质+大功率喇叭"这套组合的价值，而非依赖精准词的免费流量。Q4销量约为月均1.97倍，建议10-11月加大投流承接节日季。</p>
+            <p class="rec-evidence">证据：第5节关键词矩阵；2款竞品12月均值倍数1.97x</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <footer>
+      数据来源：卖家精灵 MCP（asin_sales_trend / asin_detail / review / keyword_miner / market_research_statistics 等），2026年7-8月抓取；外部信号通过WebSearch核实并附来源链接。本报告仅供内部选品决策参考。
+    </footer>
+
+  </main>
+</div>
+
+<button class="back-to-top" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var COMPETITORS = [
+  {asin:"B0DRC5QL3L", brand:"Gueray Y-02", img:"https://m.media-amazon.com/images/I/41IDDUQwgNL._AC_US200_.jpg", price:"$35.99", dims:"5x9x10in / 1.21kg", rating:4.5, ratings:848, sales:899, revenue:39205, features:["实木复古造型+双喇叭","蓝牙双向(部分模式受限)+FM收音","品类销量与评分数双第一"], highlight:true},
+  {asin:"B0GVJBDJGD", brand:"THINKYA DVP-560", img:"https://m.media-amazon.com/images/I/41w49qppFoL._AC_US200_.jpg", price:"$109.99", dims:"7x6.22x1.9in / 0.67kg", rating:3.8, ratings:36, sales:93, revenue:10229, features:["实木复古+双喇叭+蓝牙5.3双向","光纤+耳机输出","评论文本最丰富(112条)"], highlight:true},
+  {asin:"B0D7M5FFN6", brand:"HOTT C229", img:"https://m.media-amazon.com/images/I/4115d1E6wKL._AC_US200_.jpg", price:"$79.99", dims:"5.66x3.78x7.28in / 0.81kg", rating:4.2, ratings:279, sales:62, revenue:6819, features:["蓝牙5.3双向+4000mAh电池","RGB夜灯+NTC温控保护","10款中唯一26个月完整销量历史"], highlight:true},
+  {asin:"B0GX1PLXBG", brand:"THINKYA K10", img:"https://m.media-amazon.com/images/I/41d39kmidZL._AC_US200_.jpg", price:"$109.99", dims:"7.48x6.3x1.87in / 1.7lb", rating:4.7, ratings:19, sales:93, revenue:10229, features:["双喇叭+双低音辐射器","2600mAh电池/8小时续航","光纤输出+蓝牙5.3双向"]},
+  {asin:"B0GWZD57WL", brand:"THINKYA R02", img:"https://m.media-amazon.com/images/I/41LhsqPwuFL._AC_US200_.jpg", price:"$129.99", dims:"8.7x6.3x2.5in / 22oz", rating:4.5, ratings:18, sales:62, revenue:8059, features:["FM收音40预设+2600mAh电池","光纤+蓝牙5.3双向","10款中评分并列最高之一"]},
+  {asin:"B0GVWFW7YN", brand:"Blazecore", img:"https://m.media-amazon.com/images/I/41pBOdmsFVL._AC_US200_.jpg", price:"$39.99", dims:"7.87x6.1x3.15in / 1.9lb", rating:4.4, ratings:23, sales:62, revenue:3099, features:["复古唱片机造型+光纤S/PDIF","蓝牙仅发射(TX)","LED显示+睡眠定时"]},
+  {asin:"B0GVSYH7L8", brand:"LEEWAVES", img:"https://m.media-amazon.com/images/I/41hd8mOX-BL._AC_US200_.jpg", price:"$44.99", dims:"7.56x5.98x2.76in", rating:4.2, ratings:21, sales:62, revenue:3099, features:["4000mAh电池+顶部装载","蓝牙5.4双向+光纤输出","5档EQ+15分钟自动关机"]},
+  {asin:"B0H5K6WBZH", brand:"Sidike 木纹款", img:"https://m.media-amazon.com/images/I/318aBZGFixL._AC_US200_.jpg", price:"$39.99", dims:"7.9x5.9x3.5in / 1.8lb", rating:4.8, ratings:34, sales:124, revenue:4959, features:["木纹双喇叭+蓝牙5.3","5小时续航","2年质保"]},
+  {asin:"B0DTT1XFZ8", brand:"Greadio 三角形款", img:"https://m.media-amazon.com/images/I/41vK7Ex8n+L._AC_US200_.jpg", price:"$45.99", dims:"7.32x6.3x5.85in / 1.17kg", rating:4.5, ratings:101, sales:0, revenue:0, features:["RGB呼吸灯+三角形手提造型","4000mAh电池+光纤输出","评论接口返回0条(数据缺口)"]},
+  {asin:"B0DP2LQH8M", brand:"KAEMVMON", img:"https://m.media-amazon.com/images/I/41eoEbLkYYL._AC_US200_.jpg", price:"$45.99", dims:"8.07x6.54x2.48in / 2.81lb", rating:3.6, ratings:14, sales:0, revenue:0, features:["木质双喇叭+2500mAh电池","连续6个月0销量(失败案例)","评论接口返回0条(数据缺口)"]}
+];
+
+function fmt(n){ return n.toLocaleString(); }
+function amzUrl(asin){ return 'https://www.amazon.com/dp/'+asin; }
+
+var grid = document.getElementById('compGrid');
+var currentSort = 'sales';
+
+function renderGrid(sortKey){
+  grid.innerHTML = '';
+  var sorted = COMPETITORS.slice().sort(function(a,b){
+    if(sortKey==='price'){ return parseFloat(a.price.replace('$','')) - parseFloat(b.price.replace('$','')); }
+    if(sortKey==='rating'){ return b.rating - a.rating; }
+    return b.sales - a.sales;
+  });
+  sorted.forEach(function(c, i){
+    var card = document.createElement('div');
+    card.className = 'comp-card' + (c.highlight ? ' highlight' : '');
+    var featLis = c.features.map(function(f){ return '<li>'+f+'</li>'; }).join('');
+    card.innerHTML =
+      '<div class="comp-rank">#'+(i+1)+'</div>' +
+      '<a class="comp-img-wrap" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" title="在Amazon打开 '+c.brand+'"><img src="'+c.img+'" alt="'+c.brand+'" loading="lazy"></a>' +
+      '<div class="comp-body">' +
+        '<div class="comp-badge-row"><span class="badge pill-accent">'+c.price+'</span><span class="badge pill-success">'+c.rating+'★ / '+fmt(c.ratings)+'</span></div>' +
+        '<p class="comp-title"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">'+c.brand+' <i class="link-arrow">↗</i></a>'+(c.highlight?' <span class="tag-benchmark">重点分析</span>':'')+'</p>' +
+        '<div class="comp-meta"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" class="asin-link">'+c.asin+'</a> · '+c.dims+'</div>' +
+        '<ul class="comp-features">'+featLis+'</ul>' +
+        '<div class="comp-sales">2026-08 父体真实月销量：<b>'+fmt(c.sales)+'</b> 件 / $'+fmt(c.revenue)+'</div>' +
+        '<a class="comp-open-btn" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">在Amazon查看 ↗</a>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+renderGrid(currentSort);
+
+document.querySelectorAll('.sort-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.sort-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentSort = btn.getAttribute('data-sort');
+    renderGrid(currentSort);
+  });
+});
+
+var gridColor = '#e4e7ec';
+var mutedColor = '#8890a0';
+Chart.defaults.color = mutedColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.size = 12;
+
+var trendMonths = ['25-08','25-09','25-10','25-11','25-12','26-01','26-02','26-03','26-04','26-05','26-06','26-07','26-08'];
+var trendSeries = [
+  { label:'Gueray Y-02', color:'#2a78d6', data:[287,222,468,812,1120,272,192,230,372,912,971,627,899] },
+  { label:'HOTT C229', color:'#1baf7a', data:[25,98,300,270,223,70,87,134,80,60,42,21,62] }
+];
+new Chart(document.getElementById('trendChart'), {
+  type:'line',
+  data:{ labels: trendMonths, datasets: trendSeries.map(function(s){ return { label:s.label, data:s.data, borderColor:s.color, backgroundColor:'transparent', borderWidth:2, pointRadius:2, spanGaps:true, tension:.25 }; }) },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false } },
+    scales:{ y:{ beginAtZero:true, grid:{color:gridColor}, ticks:{callback:function(v){return fmt(v);}} }, x:{ grid:{display:false} } }
+  }
+});
+var legendEl = document.getElementById('trendLegend');
+trendSeries.forEach(function(s){
+  var span = document.createElement('span');
+  span.innerHTML = '<span class="legend-dot" style="background:'+s.color+'"></span>'+s.label;
+  legendEl.appendChild(span);
+});
+
+var painData = [
+  {label:'内置喇叭音质差(单薄/无低音/tinny/音量小)', n:126, seg:'几乎全部10款竞品，压倒性头号痛点'},
+  {label:'CD读盘/播放故障(不读盘/跳曲/无故停止)', n:52, seg:'Gueray/HOTT/K10等多款'},
+  {label:'整体耐用性差(数周-数月内报废)', n:38, seg:'Gueray/HOTT/DVP-560等'},
+  {label:'蓝牙功能受限/标注双向实际单向', n:31, seg:'Gueray/DVP-560/K10'},
+  {label:'AUX/接口标注误导', n:18, seg:'HOTT/Gueray'},
+  {label:'舱盖/结构缺陷(铰链断裂/不带锁扣)', n:14, seg:'DVP-560/K10'},
+  {label:'电池/续航短', n:12, seg:'Gueray/Sidike'},
+  {label:'说明书/操作复杂', n:9, seg:'多品牌分散'},
+  {label:'价格偏高与感知价值不符', n:8, seg:'DVP-560/K10高价款集中'}
+];
+new Chart(document.getElementById('painChart'), {
+  type:'bar',
+  data:{ labels: painData.map(function(d){return d.label;}), datasets:[{ data: painData.map(function(d){return d.n;}), backgroundColor:'#e08a68', borderRadius:4, maxBarThickness:20 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/390*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxPain = Math.max.apply(null, painData.map(function(d){return d.n;}));
+var painTbody = document.getElementById('painTableBody');
+painData.forEach(function(d){
+  var pct = (d.n/390*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxPain*100).toFixed(0)+'%; background:#e08a68;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td><td>'+d.seg+'</td>';
+  painTbody.appendChild(tr);
+});
+
+var roleData = [
+  {label:'子女为年长父母购买(dad/mom/87 year old等原词)', n:14},
+  {label:'为伴侣/家人购买送礼(husband/wife/daughter等原词)', n:22},
+  {label:'自购怀旧使用/未提及明确身份关系', n:354}
+];
+new Chart(document.getElementById('roleChart'), {
+  type:'bar',
+  data:{ labels: roleData.map(function(d){return d.label;}), datasets:[{ data: roleData.map(function(d){return d.n;}), backgroundColor:'#7f77dd', borderRadius:4, maxBarThickness:26 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/390*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxRole = Math.max.apply(null, roleData.map(function(d){return d.n;}));
+var roleTbody = document.getElementById('roleTableBody');
+roleData.forEach(function(d){
+  var pct = (d.n/390*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxRole*100).toFixed(0)+'%; background:#7f77dd;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td>';
+  roleTbody.appendChild(tr);
+});
+
+var scenarioData = [
+  {label:'怀旧重启旧CD收藏("nostalgic"/"back to life"等原词)', n:58},
+  {label:'外接功放/音箱作为信号源(optical/receiver/amp等原词)', n:23},
+  {label:'送礼场景(生日/圣诞/纪念日)', n:19},
+  {label:'办公室/书房桌面摆件+背景音乐', n:16},
+  {label:'语言学习/助眠场景', n:4},
+  {label:'未提及具体使用场景', n:270}
+];
+new Chart(document.getElementById('scenarioChart'), {
+  type:'bar',
+  data:{ labels: scenarioData.map(function(d){return d.label;}), datasets:[{ data: scenarioData.map(function(d){return d.n;}), backgroundColor:'#1baf7a', borderRadius:4, maxBarThickness:22 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/390*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxScenario = Math.max.apply(null, scenarioData.map(function(d){return d.n;}));
+var scenarioTbody = document.getElementById('scenarioTableBody');
+scenarioData.forEach(function(d){
+  var pct = (d.n/390*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxScenario*100).toFixed(0)+'%; background:#1baf7a;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td>';
+  scenarioTbody.appendChild(tr);
+});
+
+var backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', function(){
+  backToTop.classList.toggle('show', window.scrollY > 500);
+});
+backToTop.addEventListener('click', function(){
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+var sections = document.querySelectorAll('main section, .hero');
+var navLinks = document.querySelectorAll('#toc a');
+window.addEventListener('scroll', function(){
+  var pos = window.scrollY + 120;
+  sections.forEach(function(sec){
+    if(pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight){
+      navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#'+sec.id); });
+    }
+  });
+});
+</script>
+</body>
+</html>
