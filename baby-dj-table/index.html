@@ -216,27 +216,7 @@
   .gate-note{font-size:11.5px; color:var(--ink-3); margin-top:14px; line-height:1.5;}
 </style>
 </head>
-<body class="locked">
-
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-card">
-    <div class="gate-icon">🔒</div>
-    <p class="gate-title">婴儿DJ桌市场报告</p>
-    <p class="gate-sub">请输入密码查看</p>
-    <input type="password" id="gatePassword" class="gate-input" placeholder="密码" autocomplete="off">
-    <button class="gate-btn" id="gateSubmit">解锁</button>
-    <div class="gate-error" id="gateError"></div>
-    <div class="gate-links"><a id="gateToggleChange">更改密码</a></div>
-    <div class="gate-change-box" id="gateChangeBox">
-      <input type="password" id="gateOldPw" class="gate-input" placeholder="当前密码" autocomplete="off">
-      <input type="password" id="gateNewPw1" class="gate-input" placeholder="新密码" autocomplete="off">
-      <input type="password" id="gateNewPw2" class="gate-input" placeholder="确认新密码" autocomplete="off">
-      <button class="gate-btn" id="gateChangeSubmit">保存新密码</button>
-      <div class="gate-error" id="gateChangeError"></div>
-    </div>
-    <p class="gate-note">密码仅在本浏览器保存与校验(localStorage)，属于轻量访问门槛，可阻挡随手点开链接的人，但不是加密级安全防护——如需严格保密，请勿在共享/公共电脑上更改或保存密码。</p>
-  </div>
-</div>
+<body>
 
 <div class="layout">
 
@@ -770,111 +750,6 @@
 </div>
 
 <button class="back-to-top" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
-
-<script>
-(function(){
-  function sha256(ascii){
-    function rightRotate(v,a){ return (v>>>a)|(v<<(32-a)); }
-    var h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
-    var k=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-    var result='';
-    ascii += '\x80';
-    var l = ascii.length/4 + 2;
-    var N = Math.ceil(l/16);
-    var M = new Array(N);
-    for(var i=0;i<N;i++){
-      M[i]=new Array(16);
-      for(var j=0;j<16;j++){
-        M[i][j] = (ascii.charCodeAt(i*64+j*4)<<24) | (ascii.charCodeAt(i*64+j*4+1)<<16) | (ascii.charCodeAt(i*64+j*4+2)<<8) | (ascii.charCodeAt(i*64+j*4+3));
-      }
-    }
-    M[N-1][14] = Math.floor(((ascii.length-1)*8)/Math.pow(2,32));
-    M[N-1][15] = ((ascii.length-1)*8) & 0xffffffff;
-    for(var mi=0; mi<N; mi++){
-      var w = new Array(64);
-      for(var t=0;t<16;t++) w[t]=M[mi][t]|0;
-      for(var t2=16;t2<64;t2++){
-        var s0=rightRotate(w[t2-15],7)^rightRotate(w[t2-15],18)^(w[t2-15]>>>3);
-        var s1=rightRotate(w[t2-2],17)^rightRotate(w[t2-2],19)^(w[t2-2]>>>10);
-        w[t2]=(w[t2-16]+s0+w[t2-7]+s1)|0;
-      }
-      var a=h[0],b=h[1],c=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
-      for(var t3=0;t3<64;t3++){
-        var S1=rightRotate(e,6)^rightRotate(e,11)^rightRotate(e,25);
-        var ch=(e&f)^((~e)&g);
-        var temp1=(hh+S1+ch+k[t3]+w[t3])|0;
-        var S0=rightRotate(a,2)^rightRotate(a,13)^rightRotate(a,22);
-        var maj=(a&b)^(a&c)^(b&c);
-        var temp2=(S0+maj)|0;
-        hh=g; g=f; f=e; e=(d+temp1)|0; d=c; c=b; b=a; a=(temp1+temp2)|0;
-      }
-      h[0]=(h[0]+a)|0; h[1]=(h[1]+b)|0; h[2]=(h[2]+c)|0; h[3]=(h[3]+d)|0;
-      h[4]=(h[4]+e)|0; h[5]=(h[5]+f)|0; h[6]=(h[6]+g)|0; h[7]=(h[7]+hh)|0;
-    }
-    for(var hi=0; hi<8; hi++){ result += ((h[hi]>>>0)+0x100000000).toString(16).substr(1); }
-    return result;
-  }
-
-  var DEFAULT_HASH = sha256('babydj2026');
-  var STORAGE_KEY = 'baby_dj_report_pw_hash';
-
-  function activeHash(){ return localStorage.getItem(STORAGE_KEY) || DEFAULT_HASH; }
-
-  var body = document.body;
-  var overlay = document.getElementById('gateOverlay');
-  var pwInput = document.getElementById('gatePassword');
-  var errEl = document.getElementById('gateError');
-  var toggleChange = document.getElementById('gateToggleChange');
-  var changeBox = document.getElementById('gateChangeBox');
-  var oldPwInput = document.getElementById('gateOldPw');
-  var newPw1 = document.getElementById('gateNewPw1');
-  var newPw2 = document.getElementById('gateNewPw2');
-  var changeErr = document.getElementById('gateChangeError');
-
-  function unlock(){
-    overlay.style.display = 'none';
-    body.classList.remove('locked');
-  }
-
-  function tryUnlock(){
-    var val = pwInput.value;
-    if(sha256(val) === activeHash()){
-      errEl.textContent = '';
-      unlock();
-    } else {
-      errEl.textContent = '密码不正确，请重试';
-      pwInput.classList.remove('shake'); void pwInput.offsetWidth; pwInput.classList.add('shake');
-    }
-  }
-
-  document.getElementById('gateSubmit').addEventListener('click', tryUnlock);
-  pwInput.addEventListener('keydown', function(e){ if(e.key==='Enter') tryUnlock(); });
-
-  toggleChange.addEventListener('click', function(){
-    changeBox.classList.toggle('open');
-    changeErr.textContent = '';
-  });
-
-  document.getElementById('gateChangeSubmit').addEventListener('click', function(){
-    if(sha256(oldPwInput.value) !== activeHash()){
-      changeErr.textContent = '当前密码不正确';
-      return;
-    }
-    if(newPw1.value.length < 4){
-      changeErr.textContent = '新密码至少4位';
-      return;
-    }
-    if(newPw1.value !== newPw2.value){
-      changeErr.textContent = '两次输入的新密码不一致';
-      return;
-    }
-    localStorage.setItem(STORAGE_KEY, sha256(newPw1.value));
-    changeErr.style.color = 'var(--success-dark)';
-    changeErr.textContent = '密码已更新，下次请使用新密码解锁本浏览器';
-    oldPwInput.value = ''; newPw1.value=''; newPw2.value='';
-  });
-})();
-</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
