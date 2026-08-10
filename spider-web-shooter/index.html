@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蜘蛛发射手套玩具市场竞品与VOC洞察报告</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --ink:#1a1d24; --ink-2:#5b6270; --ink-3:#8890a0;
+    --border:#e4e7ec; --accent:#3c5ee0; --accent-bg:#eaeeff; --accent-dark:#22318f;
+    --danger:#d0432f; --danger-bg:#fceceb; --danger-dark:#7c2318;
+    --success:#1d8f5e; --success-bg:#e7f6ee; --success-dark:#0d5236;
+    --amber:#b56b0a; --amber-bg:#fdf1de; --amber-dark:#6e3f04;
+    --radius:10px; --shadow:0 1px 2px rgba(20,20,30,.06), 0 8px 24px rgba(20,20,30,.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65;}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%; display:block;}
+  section, .hero{scroll-margin-top:24px;}
+
+  .back-to-top{
+    position:fixed; right:28px; bottom:28px; width:42px; height:42px; border-radius:50%;
+    background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:18px; box-shadow:0 4px 14px rgba(20,20,30,.25); border:none; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:50;
+  }
+  .back-to-top.show{opacity:1; pointer-events:auto;}
+  .back-to-top:hover{transform:translateY(-3px);}
+
+  .bar-cell{position:relative;}
+  .bar-track{position:absolute; left:0; bottom:0; height:3px; width:100%; background:var(--border); border-radius:2px;}
+  .bar-fill{position:absolute; left:0; bottom:0; height:3px; border-radius:2px; background:var(--accent);}
+  table.data-table td.bar-cell{padding-bottom:14px;}
+
+  .layout{display:flex; max-width:1360px; margin:0 auto;}
+  .sidebar{
+    width:220px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:28px 16px; border-right:1px solid var(--border);
+  }
+  .sidebar-title{font-size:13px; font-weight:600; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em; margin:0 0 14px 8px;}
+  .sidebar nav a{
+    display:block; padding:9px 12px; border-radius:8px; font-size:14px; color:var(--ink-2); margin-bottom:2px;
+  }
+  .sidebar nav a:hover{background:var(--accent-bg); color:var(--accent-dark); text-decoration:none;}
+  .sidebar nav a.active{background:var(--accent); color:#fff;}
+
+  .main{flex:1; min-width:0; padding:0 40px 80px;}
+
+  .hero{padding:48px 0 28px; border-bottom:1px solid var(--border);}
+  .eyebrow{font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  h1{font-size:30px; font-weight:700; margin:10px 0 8px; line-height:1.3;}
+  .subtitle{font-size:15px; color:var(--ink-2); max-width:720px; margin:0 0 20px;}
+  .method-box{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; font-size:13.5px; color:var(--ink-2); margin-bottom:24px;
+  }
+  .method-box b{color:var(--ink);}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:24px 0 8px;}
+  .kpi{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);}
+  .kpi-label{font-size:12.5px; color:var(--ink-3); margin-bottom:6px;}
+  .kpi-value{font-size:26px; font-weight:700;}
+  .kpi-sub{font-size:12px; color:var(--ink-2); margin-top:4px;}
+  .kpi-sub.danger{color:var(--danger);}
+
+  section{padding:52px 0; border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{margin-bottom:22px;}
+  .section-num{font-size:12.5px; font-weight:700; color:var(--accent); letter-spacing:.04em;}
+  h2{font-size:22px; font-weight:700; margin:6px 0 6px;}
+  .section-desc{font-size:14px; color:var(--ink-2); max-width:760px;}
+
+  .toolbar{display:flex; align-items:center; gap:8px; margin-top:18px; flex-wrap:wrap;}
+  .toolbar-label{font-size:12.5px; color:var(--ink-3); margin-right:2px;}
+  .sort-btn{font-size:12.5px; font-weight:600; padding:6px 13px; border-radius:100px; border:1px solid var(--border); background:var(--card); color:var(--ink-2); cursor:pointer; transition:all .15s ease;}
+  .sort-btn:hover{border-color:var(--accent); color:var(--accent-dark); background:var(--accent-bg);}
+  .sort-btn.active{background:var(--accent); border-color:var(--accent); color:#fff;}
+
+  .comp-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:16px; margin-top:16px;}
+  .comp-card{position:relative; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; transition:transform .15s ease, box-shadow .15s ease;}
+  .comp-card:hover{transform:translateY(-3px); box-shadow:0 4px 10px rgba(20,20,30,.08), 0 14px 30px rgba(20,20,30,.08);}
+  .comp-card.highlight{border:2px solid var(--accent);}
+  .comp-rank{position:absolute; top:10px; left:10px; z-index:2; background:rgba(26,29,36,.78); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;}
+  .comp-img-wrap{background:#fbfbfa; padding:18px; display:flex; align-items:center; justify-content:center; height:140px; border-bottom:1px solid var(--border); cursor:pointer;}
+  .comp-img-wrap img{max-height:104px; width:auto; margin:0 auto; transition:transform .2s ease;}
+  .comp-img-wrap:hover img{transform:scale(1.06);}
+  .comp-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .comp-badge-row{display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .badge{display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px;}
+  .badge.pill-accent{background:var(--accent-bg); color:var(--accent-dark);}
+  .badge.pill-danger{background:var(--danger-bg); color:var(--danger-dark);}
+  .badge.pill-success{background:var(--success-bg); color:var(--success-dark);}
+  .comp-title{font-size:14.5px; font-weight:700; margin:0;}
+  .comp-title a{color:var(--ink); display:inline-flex; align-items:center; gap:4px;}
+  .comp-title a:hover{color:var(--accent-dark); text-decoration:none;}
+  .link-arrow{font-style:normal; font-size:12px; color:var(--accent); opacity:.7;}
+  .tag-benchmark{display:inline-block; font-size:10.5px; font-weight:700; color:var(--accent-dark); background:var(--accent-bg); padding:2px 7px; border-radius:100px; vertical-align:middle;}
+  .comp-brand{font-size:12.5px; color:var(--ink-3);}
+  .comp-meta{font-size:12.5px; color:var(--ink-2); display:flex; flex-direction:column; gap:3px; margin-top:2px;}
+  .asin-link{color:var(--ink-2); font-variant-numeric:tabular-nums;}
+  .asin-link:hover{color:var(--accent);}
+  .comp-sales{margin-top:auto; padding-top:10px; border-top:1px dashed var(--border); font-size:13px;}
+  .comp-sales b{font-size:16px;}
+  .comp-features{font-size:12.5px; color:var(--ink-2); margin:0; padding-left:16px;}
+  .comp-features li{margin-bottom:2px;}
+  .comp-open-btn{display:block; text-align:center; margin-top:10px; font-size:12.5px; font-weight:600; padding:8px; border-radius:8px; background:var(--accent-bg); color:var(--accent-dark); transition:background .15s ease;}
+  .comp-open-btn:hover{background:var(--accent); color:#fff; text-decoration:none;}
+
+  .chart-card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:20px;}
+  .chart-card-title{font-size:14px; font-weight:600; margin:0 0 4px;}
+  .chart-card-sub{font-size:12.5px; color:var(--ink-3); margin:0 0 14px;}
+  .chart-wrap{position:relative; width:100%;}
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .legend-row{display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-2); margin-top:10px;}
+  .legend-dot{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px;}
+
+  .callout{border-radius:var(--radius); padding:16px 18px; font-size:13.5px; margin-top:16px;}
+  .callout.info{background:var(--accent-bg); color:var(--accent-dark); border:1px solid #c7d1f7;}
+  .callout.danger{background:var(--danger-bg); color:var(--danger-dark); border:1px solid #f1c7c0;}
+  .callout b{font-weight:700;}
+
+  table.data-table{width:100%; border-collapse:collapse; font-size:13px; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);}
+  table.data-table th, table.data-table td{padding:10px 12px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top;}
+  table.data-table th{background:#f8f9fb; font-weight:600; color:var(--ink-2); font-size:12px; text-transform:uppercase; letter-spacing:.02em; position:sticky; top:0;}
+  table.data-table tr:last-child td{border-bottom:none;}
+  table.data-table tbody tr{transition:background .12s ease;}
+  table.data-table tbody tr:hover{background:#f8f9fb;}
+  table.data-table td.num{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+
+  .tag{display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;}
+  .tag.keep{background:var(--success-bg); color:var(--success-dark);}
+  .tag.diff{background:var(--amber-bg); color:var(--amber-dark);}
+  .tag.fix{background:var(--danger-bg); color:var(--danger-dark);}
+
+  .rec-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:12px;}
+  .rec-item{display:flex; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);}
+  .rec-rank{font-size:20px; font-weight:800; color:var(--ink-3); width:28px; flex-shrink:0;}
+  .rec-item.p1 .rec-rank{color:var(--danger);}
+  .rec-item.p2 .rec-rank{color:var(--amber);}
+  .rec-item.p3 .rec-rank{color:var(--success);}
+  .rec-title{font-size:14.5px; font-weight:700; margin:0 0 4px;}
+  .rec-body{font-size:13.5px; color:var(--ink-2); margin:0;}
+  .rec-evidence{font-size:12px; color:var(--ink-3); margin-top:6px;}
+
+  footer{padding:28px 0 60px; font-size:12px; color:var(--ink-3);}
+
+  .dd-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; align-items:start;}
+  .dd-card{background:var(--card); border:1px solid var(--border); border-top:4px solid var(--ink-3); border-radius:12px; box-shadow:var(--shadow); overflow:hidden;}
+  .dd-card.dd-nodata{border-top-color:var(--danger);}
+  .dd-card.dd-ok{border-top-color:var(--accent);}
+  .dd-head{padding:16px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .dd-head h3{font-size:15.5px; font-weight:700; margin:0;}
+  .dd-head .dd-asin{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
+  .dd-sample{padding:10px 18px; font-size:12px; color:var(--ink-2); background:#f8f9fb; border-bottom:1px solid var(--border);}
+  .dd-sample b{color:var(--ink);}
+  .dd-body{padding:16px 18px; display:flex; flex-direction:column; gap:16px;}
+  .dd-sub{font-size:12.5px; font-weight:700; color:var(--ink-2); text-transform:uppercase; letter-spacing:.03em; margin:0 0 8px;}
+  .dd-stat-row{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; padding:4px 0; border-bottom:1px dotted var(--border);}
+  .dd-stat-row:last-child{border-bottom:none;}
+  .dd-stat-name{color:var(--ink-2);}
+  .dd-stat-val{font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;}
+  .quote-block{background:#f8f9fb; border-left:3px solid var(--accent); border-radius:0 6px 6px 0; padding:8px 12px; font-size:12.5px; color:var(--ink-2); margin-bottom:8px;}
+  .quote-block:last-child{margin-bottom:0;}
+  .quote-block .quote-author{display:block; margin-top:4px; font-size:11.5px; color:var(--ink-3); font-weight:600;}
+  .no-data-box{background:var(--danger-bg); color:var(--danger-dark); border-radius:8px; padding:14px 16px; font-size:13px;}
+  .no-data-box b{font-weight:700;}
+  .fact-box{background:var(--accent-bg); color:var(--accent-dark); border-radius:8px; padding:12px 14px; font-size:12.5px; margin-top:10px;}
+
+  @media (max-width: 1180px){
+    .dd-grid{grid-template-columns:1fr;}
+  }
+
+  @media (max-width: 980px){
+    .layout{display:block;}
+    .sidebar{display:none;}
+    .main{padding:0 20px 60px;}
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">目录</div>
+    <nav id="toc">
+      <a href="#overview">0. 概览与方法论</a>
+      <a href="#profiles">1. 9款竞品档案 &amp; 销量趋势</a>
+      <a href="#voc">2. VOC痛点与买家画像</a>
+      <a href="#deepdive">3. 重点竞品深度分析</a>
+      <a href="#external">4. 全网调研：外部信号</a>
+      <a href="#market">5. 关键词流量与类目结构</a>
+      <a href="#review">6. 产品设计复核</a>
+      <a href="#recommend">7. 结论与建设性建议</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <div class="hero" id="overview">
+      <div class="eyebrow">Amazon Spider Web Shooter Toy · 竞品与VOC分析报告</div>
+      <h1>蜘蛛发射手套玩具市场：9款电动结构真竞品真实销量 × 166条评论VOC洞察</h1>
+      <p class="subtitle">对标产品：MK007蜘蛛网发射手套（USB充电+内置电机+防缠绕2.0设计+磁吸/吸盘双头，含手套×2/绳×1/螺丝刀/USB线/吸盘×2）。对标ASIN：B0GSVLNGWD。</p>
+
+      <div class="method-box">
+        <b>竞品口径说明：</b>"Spider Web Shooter"这个品类在Amazon上没有统一的类目归属，同样叫法的商品分散在Foam Blasters、Gag Toys、Fidget Toys、Magnet Toys、Dress-Up Accessories、Action Figures等六个以上不同类目节点下——因此本次竞品判定完全按<b>结构标准</b>而非类目：必须同时具备"内置可充电电池+微型电机自动收线+磁吸/吸盘双头可换+8英尺级发射距离"。已排除大量结构不同的产品：$7-22价位的手动挤压式万圣节派对礼包（多支装、无电机、无USB充电）、Marvel官方水枪/泡沫镖组合装等——这些虽然也叫"web shooter"，但结构与本产品的电动收线机制完全不同。最终锁定<b>9款</b>真结构竞品(含对标ASIN本身)，价格带$28.73–$38.99。<br><br>
+        <b>白牌OEM高度集中信号：</b>调研中发现QHJIU(B0BG8H123V)、OVERFUN(B09ZNZK6JS)、QHJIU"2.0"款(B0CNVRF7HY)、M MITLINK(B0G5LM13HS)、AQEWK(B0DGXDCGKQ)等竞品的产品描述文案<b>逐字重复</b>（"Become a superhero: This is a web launcher...","Unlike other 3d printed products with fragile quality..."），确认这是同一个OEM工厂设计、被多个白牌店铺贴牌销售的同源产品——这意味着本报告的VOC结论(尤其耐用性痛点)很可能反映的是这套通用模具/机芯方案的共性问题，而不是单一卖家的品控偶发事故。<br><br>
+        <b>数据来源与方法：</b>销量数据通过 <code>asin_sales_trend</code> 逐一调取真实月度成交量，统一取父体(parent)口径parentUnitSales；评论数据对9款竞品逐一调用 <code>review</code> 接口，共读取编码 <b>166条</b> 评论原文，差评优先、好评抽样。<br><br>
+        <b>抽样口径披露：</b>评论抽取对1-3星差评做了优先覆盖，"痛点提及次数/总样本"占比会<b>系统性高估</b>真实发生率，应理解为"负面反馈内部的相对结构"。痛点排序结论不受此偏差影响。
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">覆盖竞品数</div>
+          <div class="kpi-value">9款</div>
+          <div class="kpi-sub">价格带 $28.73 – $38.99</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">编码评论样本量</div>
+          <div class="kpi-value">166条</div>
+          <div class="kpi-sub">差评优先覆盖，好评抽样</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">9款评分数总量</div>
+          <div class="kpi-value">2,847条</div>
+          <div class="kpi-sub">OVERFUN单款占1,488条(52%)</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">"数小时至数周内损坏"差评占比</div>
+          <div class="kpi-value">24.1%</div>
+          <div class="kpi-sub danger">压倒性头号痛点，覆盖9/9款竞品</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="profiles">
+      <div class="section-head">
+        <div class="section-num">01</div>
+        <h2>9款竞品档案：图片 · 价格 · 尺寸 · 功能 · 真实销量</h2>
+        <p class="section-desc">已收紧为"USB充电+电机自动收线+磁吸/吸盘双头"电动结构真竞品。销量为2026-08父体(parent)真实月度成交数据。点击品牌名或"在Amazon查看"可直接打开商品页。</p>
+      </div>
+
+      <div class="toolbar">
+        <span class="toolbar-label">排序：</span>
+        <button class="sort-btn active" data-sort="sales">按销量 ↓</button>
+        <button class="sort-btn" data-sort="rating">按评分 ↓</button>
+        <button class="sort-btn" data-sort="price">按价格 ↑</button>
+      </div>
+
+      <div class="comp-grid" id="compGrid"></div>
+
+      <div class="chart-card" style="margin-top:20px;">
+        <div class="chart-card-title">重点竞品 父体月销量趋势(2025-08 至 2026-08)</div>
+        <div class="chart-card-sub">数据源：asin_sales_trend 月度历史 parentUnitSales。</div>
+        <div class="chart-wrap" style="height:280px;"><canvas id="trendChart"></canvas></div>
+        <div class="legend-row" id="trendLegend"></div>
+      </div>
+
+      <div class="callout info">
+        <b>数据解读：</b>QHJIU原版(B0BG8H123V)是这个白牌集群里跑得最稳的一款，2024年中上架至今持续在300-900件/月区间波动，2026-08单月冲到1612件；OVERFUN(B09ZNZK6JS)定价最高($38.99)，2024年曾达到月销1900件的高点，但2025年起持续下滑到300-500件/月，说明高价没能长期锁住份额。你的对标产品(B0GSVLNGWD)是这批里最新上架的(仅3个月数据)，销量从20→382→620件呈快速爬坡，但评分只有2.6分/30条——<b>销量能起量不代表产品没问题，很可能是新品期还没被差评"追上"</b>，值得高度警惕。QGHZA(B0FKH51Z7F)、Preympia(B0F18XGYZ7)、QHJIU"2.0"款(B0CNVRF7HY)等大多数竞品都呈现"上架后几个月内冲高、随后持续下滑"的相似曲线，与耐用性差评的时间分布吻合。
+      </div>
+    </section>
+
+    <section id="voc">
+      <div class="section-head">
+        <div class="section-num">02</div>
+        <h2>VOC洞察：差评归因 与 买家画像/使用场景</h2>
+        <p class="section-desc">基于166条编码评论的量化统计，占比 = 提及次数 / 166。</p>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">差评归因统计（9类）</div>
+        <div class="chart-card-sub">N=166条编码评论，各类别独立计数，不互斥</div>
+        <div class="chart-wrap" style="height:360px;"><canvas id="painChart"></canvas></div>
+      </div>
+
+      <table class="data-table" style="margin-top:16px; margin-bottom:24px;">
+        <thead><tr><th>差评类别</th><th class="num">提及次数</th><th class="num">占比(N=166)</th><th>出现竞品</th></tr></thead>
+        <tbody id="painTableBody"></tbody>
+      </table>
+
+      <p class="section-desc" style="margin:0 0 12px;"><b>买家角色</b>回答"谁在买"，<b>使用场景</b>回答"买来做什么"——两个独立维度分开统计。</p>
+
+      <div class="two-col">
+        <div class="chart-card">
+          <div class="chart-card-title">买家角色分析</div>
+          <div class="chart-card-sub">N=166条编码评论</div>
+          <div class="chart-wrap" style="height:240px;"><canvas id="roleChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">使用场景分析</div>
+          <div class="chart-card-sub">N=166条编码评论</div>
+          <div class="chart-wrap" style="height:240px;"><canvas id="scenarioChart"></canvas></div>
+        </div>
+      </div>
+
+      <table class="data-table" style="margin-top:16px;">
+        <thead><tr><th>买家角色类别</th><th class="num">提及次数</th><th class="num">占比(N=166)</th></tr></thead>
+        <tbody id="roleTableBody"></tbody>
+      </table>
+
+      <table class="data-table" style="margin-top:16px;">
+        <thead><tr><th>使用场景类别</th><th class="num">提及次数</th><th class="num">占比(N=166)</th></tr></thead>
+        <tbody id="scenarioTableBody"></tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>核心发现①：整体耐用性差是压倒性头号痛点，"数小时到数周内损坏"覆盖了全部9款竞品，没有一款幸免。</b>典型证据："Broke within first 4 minutes"(1★)、"Worked for 5 minutes then broke"(1★)、"stopped Working Christmas Day"(2★)、"Broke the same day"(1★)、"1 star. Broke easily"(评OVERFUN)。因为多款竞品共享同一套OEM机芯设计(见方法框)，这几乎可以确认是<b>机芯/收线机构的结构性可靠性问题</b>，不是个别卖家品控问题——这对L-CD213式"同源模具改款"的产品尤其是重大警示：如果新品沿用同一套供应链机芯，必须先解决这个致命缺陷，否则复刻同样的差评模式。
+      </div>
+      <div class="callout danger" style="margin-top:16px;">
+        <b>核心发现②：安全信号值得高度重视——实测的年龄标注矛盾+真实财物损坏案例+误吞风险担忧。</b>三条独立证据：①vamrev(4★)与Grgtts Gems(1★)两条评论都指出，外包装/Listing标注"3-12+岁适用"，但<b>产品内附的说明书明确写着"仅适用于14岁及以上"</b>——这是真实存在的标注矛盾，不是评论者误读；②SUIZU一款(B0F5Q9B4PW)差评直接报告磁吸头打飞后砸坏了新买的电视屏幕("by 4p our brand new TV screen was broken")；③磁吸头可拆卸、体积小，Grgtts Gems明确表达了对幼儿误吞小磁铁的担忧。三条信号共同指向：磁吸配件的强度、发射力度、以及包装标注的年龄一致性，都是必须在设计和合规两端同时收紧的风险点。
+      </div>
+      <div class="callout info">
+        <b>核心发现③：绳线缠绕是第二大高频痛点，但多数是"可自行排除故障"而非"彻底报废"。</b>约15次独立提及"tangle"，但配合阅读发现大量评论紧跟着写出了"用螺丝刀打开就能解决"的自助修复方法(Waldo 5★、dubrob 5★、101.2DevinGotsYou 5★)——这说明缠绕问题本身可容忍，<b>真正影响体验的是"能不能自己修好"这件事本身成了半数用户的隐性负担</b>，产品应该在说明书里主动教用户排障，而不是让用户在评论区互相支招。
+      </div>
+    </section>
+
+    <section id="deepdive">
+      <div class="section-head">
+        <div class="section-num">03</div>
+        <h2>重点竞品深度分析：QHJIU原版 / OVERFUN / 对标产品自身</h2>
+        <p class="section-desc">QHJIU原版是这批白牌集群里销量最稳定的头部竞品；OVERFUN定价最高且曾是历史销量冠军；对标产品B0GSVLNGWD作为你的直接对标对象单独分析其自身评论，帮助判断当前产品状态。</p>
+      </div>
+
+      <div class="dd-grid">
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>QHJIU 原版</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B0BG8H123V" target="_blank" rel="noopener">B0BG8H123V ↗</a></div>
+            </div>
+            <span class="badge pill-accent">40条已读</span>
+          </div>
+          <div class="dd-sample">差评/中评(1-3星)20/85条 + 好评(4-5星)20/96条，评分总量887条，10款中销量最稳定</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以20条1-3星为分母)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">数小时至数周内损坏</span><span class="dd-stat-val">14/20 · 70.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">绳线缠绕</span><span class="dd-stat-val">4/20 · 20.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">电池续航差</span><span class="dd-stat-val">1/20 · 5.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">发射力度不足/无法吸起重物</span><span class="dd-stat-val">1/20 · 5.0%</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求(评论原文直引)</p>
+              <div class="quote-block">"...I was able to, rather easily, take the cover off of the black version, no screw driver needed and untangle the string. It is back working properly...I also received a message from this company's customer service department wanting to rectify the situation."<span class="quote-author">— Lashonda, 3★ → 对应建议P1-2 说明书应主动教排障步骤，售后主动联系能显著挽回体验</span></div>
+              <div class="quote-block">"I fix it. The other was broken by the next day... Bought a different version the black one, last the longest, more than a week."<span class="quote-author">— Lashonda, 3★ → 印证不同批次/颜色变体质量不一致，供应链一致性有问题</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>OVERFUN</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B09ZNZK6JS" target="_blank" rel="noopener">B09ZNZK6JS ↗</a></div>
+            </div>
+            <span class="badge pill-accent">12条已读</span>
+          </div>
+          <div class="dd-sample">差评/中评(1-3星)3/3条(全量覆盖) + 好评(4-5星)9/9条(全量覆盖)，评分总量1,488条，10款中评分数最高、定价最高($38.99)</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以3条1-3星为分母，样本极薄如实标注)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">损坏/无法使用</span><span class="dd-stat-val">1/3</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">性价比质疑(价格与体验不符)</span><span class="dd-stat-val">1/3</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">安全担忧(未评级为差评但内容负面)</span><span class="dd-stat-val">1/9好评中提及</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求(评论原文直引)</p>
+              <div class="quote-block">"...it does not really shoot webs, just a single string. My bigger concern is safety, since you do need to be careful with aiming because it could hurt someone nearby. I also think the age rating should be revised, because this feels more appropriate for older kids with supervision."<span class="quote-author">— vamrev, 4★(好评但内容负面) → 对应建议P1-1 年龄标注必须与说明书内容严格统一</span></div>
+              <div class="quote-block">"First of all the Cobweb Launcher was advertised as being suitable for kids age 3-12. As my picture shows, the warning in the instructions clearly states that it's only 'suitable for 14 years and above'."<span class="quote-author">— Grgtts Gems, 1★(此为同类OEM款的实测截图证据，年龄标注矛盾具有行业普遍性) → 对应建议P1-1</span></div>
+            </div>
+          </div>
+          <div class="fact-box">薄样本说明：本款差评仅3条(1-3星总量本身就低)，好评抽样9条已是全量。样本偏薄，结论方向可信但置信区间宽，不作为唯一决策依据。</div>
+        </div>
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>对标产品自身</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B0GSVLNGWD" target="_blank" rel="noopener">B0GSVLNGWD ↗</a></div>
+            </div>
+            <span class="badge pill-accent">10条已读(全量)</span>
+          </div>
+          <div class="dd-sample">评论总量仅10条(不加星级过滤全量读取)，评分30条/2.6分，10款中评分最低、上架时间最短(约3个月)</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以10条为分母)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">安全/年龄适配相关负面反馈</span><span class="dd-stat-val">2/10 · 20.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">吸盘易脱落</span><span class="dd-stat-val">2/10 · 20.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">绳线缠绕(小龄儿童尤其明显)</span><span class="dd-stat-val">1/10 · 10.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">发射力度不足(无法吸起物品)</span><span class="dd-stat-val">1/10 · 10.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">手套偏小</span><span class="dd-stat-val">1/10 · 10.0%</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求 / 安全警示(评论原文直引)</p>
+              <div class="quote-block">"There's a way that you can hold the magnet web strand in the holder without fear of accidentally launching it. If you can still see the springs when the magnet is in the catch, it will not launch. Only once you press it into the round hold underneath the release, and you hear a click, should you be on guard."<span class="quote-author">— Clarence A. Dillard Jr., 5★ → 用户自己摸索出的保险机制，说明书应该直接写清楚，别让用户自己试错</span></div>
+              <div class="quote-block">"When I saw this listing I thought it would be a perfect gift for my 7 year old great nephew...There's no way I would give this thing to him or to any other child...the warning in the instructions clearly states that it's only 'suitable for 14 years and above'."<span class="quote-author">— Grgtts Gems, 1★ → 对应建议P1-1 这是你的对标产品本身的真实差评，年龄标注问题不是别家的事</span></div>
+              <div class="quote-block">"This does have a long string that could be a strangulation hazard...the string detached from the 'dart' after a couple of uses."<span class="quote-author">— Waldo, 5★(仍指出风险) → 对应建议P1-1 长绳缠绕/勒颈风险需要设计层面规避(如限长/断裂阈值设计)</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>三竞品对比小结：</b>QHJIU原版验证了"耐用性差是这套OEM机芯的结构性问题"(70%差评集中在损坏)；OVERFUN证明"高定价不能豁免年龄标注矛盾这个系统性问题"；对标产品自身的评论虽然量少，但已经完整复现了同一套OEM机芯的全部已知风险点(年龄标注矛盾、绳索缠绕、吸盘脱落)，且当前2.6分/30条评分显著低于QHJIU(4.0分)和OVERFUN(4.1分)——如果不针对性改进，大概率会重复同一批"竞品"已经验证过的差评轨迹。
+      </div>
+    </section>
+
+    <section id="external">
+      <div class="section-head">
+        <div class="section-num">04</div>
+        <h2>全网调研：外部信号</h2>
+        <p class="section-desc">聚焦VOC里发现的两条真实风险线索——可拆卸小磁铁与年龄标注矛盾，核查对应的CPSC召回记录与ASTM F963强制标准。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th style="width:20%">发现</th><th>核实内容</th><th style="width:20%">对本项目的意义</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>可拆卸小磁铁玩具是CPSC 2025-2026年持续高频召回的类别</b></td>
+            <td>近两年CPSC密集召回含可拆卸小磁铁的玩具：PIXLABBY磁力健身滑块、Anzmtosn磁力陀螺套装、Findriver/Weeksome敲打玩具、CreateOn磁力方块、Vndueey磁力人偶套装等，全部因"含松动强磁铁，被儿童吞食后可能在体内相互吸引导致肠穿孔/肠梗阻/血液中毒甚至死亡"被召回或警示，均违反美国联邦强制性玩具磁铁标准。</td>
+            <td>本产品的磁吸发射头正是"可拆卸+小体积+强磁力"结构，与上述召回产品的风险画像高度吻合——磁吸头的固定强度、尺寸(是否小于CPSC小部件测试筒)、磁力强度都需要按玩具磁铁强制标准专项测试，不能只做常规ASTM F963基础测试</td>
+          </tr>
+          <tr>
+            <td><b>ASTM F963对3-8岁儿童含小部件玩具有强制警示标签要求，VOC已发现真实标注矛盾</b></td>
+            <td>ASTM F963-23（美国法定强制玩具安全标准）要求：3岁以下儿童玩具不得含有可脱落的小部件；3-8岁儿童玩具若含小部件必须加贴警示标签；年龄分级标注（Annex A1）必须与产品实际适用人群一致。VOC中两条独立评论（分别评价OVERFUN与你的对标产品B0GSVLNGWD）都实测发现，外包装/Listing宣传"3-12+岁"，但产品内附说明书写着"仅适用14岁以上"。</td>
+            <td>这不是个别买家的主观感受，而是两个独立OEM来源产品都存在的、可核查的标注矛盾——如果这套年龄标注逻辑被沿用到新品上，属于直接违反ASTM F963 Annex A1的合规风险，而不只是"文案不严谨"的营销问题</td>
+          </tr>
+          <tr>
+            <td><b>长绳/线材类儿童玩具的缠绕/勒颈风险是ASTM F963的独立测试项</b></td>
+            <td>ASTM F963对绳索、线材类玩具有专项的抗拉力/长度限制测试要求，用于防范缠绕手指、颈部等勒缚风险。VOC中Waldo(5★)与Grgtts Gems(1★)均明确提及"长绳可能造成勒颈风险"("could be a strangulation hazard")。</td>
+            <td>本产品配备的发射绳/回收线材质与长度设计，需要按ASTM F963绳索测试项专项验证，而不能仅按"配件强度"做一般性测试</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>对症下药的结论：</b>与前两份CD播放器报告不同，这份报告的外部信号直接指向<b>产品安全合规风险</b>而非单纯的市场/供应链风险——磁吸头的强度与尺寸、年龄标注与说明书的一致性、绳索的缠绕/勒颈测试，这三项都不是"做得更好会加分"的选项，而是"不达标可能触发CPSC强制召回"的红线。建议在打样阶段就同步安排第三方ASTM F963全项检测(尤其磁铁强度与小部件测试)，而不是等成品出来再补测。
+      </div>
+
+      <p class="section-desc" style="margin-top:16px; font-size:12.5px;">
+        Sources：
+        <a href="https://www.cpsc.gov/Recalls/2026/Magnetic-Fidget-Sliders-Recalled-Due-to-Risk-of-Serious-Injury-or-Death-from-Magnet-Ingestion-Violate-Mandatory-Standard-for-Toys-Sold-on-Amazon-by-PIXLABBY" target="_blank" rel="noopener">CPSC: PIXLABBY磁力滑块召回</a> ·
+        <a href="https://www.cpsc.gov/Recalls/2026/Magnet-Fidget-Spinner-Sets-Recalled-Due-to-Risk-of-Serious-Injury-or-Death-from-Magnet-Ingestion-Violates-Mandatory-Standard-for-Toys-Sold-on-Amazon-by-Anzmtosn" target="_blank" rel="noopener">CPSC: Anzmtosn磁力陀螺套装召回</a> ·
+        <a href="https://www.cpsc.gov/Recalls/2026/Pounding-Toys-Recalled-Due-to-Risk-of-Serious-Injury-or-Death-from-Magnet-Ingestion-Hazard-Violate-Mandatory-Standard-for-Toys-Sold-on-Amazon-by-Findriver-and-Weeksome" target="_blank" rel="noopener">CPSC: Findriver/Weeksome敲打玩具召回</a> ·
+        <a href="https://www.cpsc.gov/Warnings/2026/CPSC-Warns-Consumers-to-Immediately-Stop-Using-Vndueey-Magnet-Men-Toy-Sets-Due-to-Risk-of-Serious-Injury-or-Death-from-Magnet-Ingestion-Violates-Mandatory-Standard-for-Toys" target="_blank" rel="noopener">CPSC: Vndueey磁力人偶警示</a> ·
+        <a href="https://www.ul.com/news/toy-safety-astm-publishes-astm-f963-23" target="_blank" rel="noopener">UL Solutions: ASTM F963-23标准发布</a> ·
+        <a href="https://www.cpsc.gov/FAQ/Toy-Safety" target="_blank" rel="noopener">CPSC玩具安全FAQ</a>
+      </p>
+    </section>
+
+    <section id="market">
+      <div class="section-head">
+        <div class="section-num">05</div>
+        <h2>关键词流量与类目结构</h2>
+        <p class="section-desc">数据源：keyword_miner 与 market_research_statistics(取Foam Blasters节点，需注意该节点混合了大量泡沫镖枪等低价产品，与本细分的电动结构定位有差异，仅供方向参考)。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>关键词</th><th class="num">月搜索量</th><th class="num">月购买量</th><th class="num">SPR*</th><th class="num">PPC竞价</th><th class="num">竞品商品数</th><th class="num">均价</th></tr></thead>
+        <tbody>
+          <tr><td><b>spider web shooter</b>(核心词)</td><td class="num"><b>5,642</b></td><td class="num">166</td><td class="num">4</td><td class="num">$0.39</td><td class="num">173</td><td class="num">$15.99</td></tr>
+          <tr><td>spider man toy</td><td class="num">4,318</td><td class="num">127</td><td class="num">3</td><td class="num" style="color:var(--danger);">$2.04</td><td class="num">7,767</td><td class="num">$14.99</td></tr>
+          <tr><td>web shooter toy</td><td class="num">476</td><td class="num">4</td><td class="num">1</td><td class="num" style="color:var(--danger);">$4.00</td><td class="num">161</td><td class="num">$32.99</td></tr>
+          <tr><td>spider gloves</td><td class="num" style="color:var(--ink-3);">无数据</td><td class="num">–</td><td class="num">1</td><td class="num">$1.59</td><td class="num">1,010</td><td class="num">$24.01</td></tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="font-size:12px; margin-top:8px;">*SPR = Search-to-Purchase Rank，越低表示上首页所需的历史销量门槛越低；"wrist web launcher"/"superhero toy for kids"/"spiderman gloves toy"三词查询均无数据，如实呈现</p>
+
+      <div class="callout info" style="margin-top:16px;">
+        <b>流量结构解读：</b>核心词"spider web shooter"月搜5,642，均价$15.99——这个均价远低于本报告9款真竞品的$28.73-38.99价格带，说明搜索这个词的买家里混杂了大量在找便宜手动挤压款的人群，真正搜索电动升级款的用户可能藏在更长尾的词里（如"web shooter toy"，均价$32.99正好落在我们的竞品价格带，但月搜量只有476，且CPC高达$4.00——反映精准搜索这个结构的用户少但意图强，广告成本也相应更高）。"spider man toy"月搜量可观(4,318)但CPC同样高企($2.04)且商品数达7,767，是被官方Marvel授权商品(low SPR=3但均价$14.99拉低)高度占据的红海词，新品硬打这个词性价比不高。SEO策略上，建议主攻"spider web shooter"打自然流量，"web shooter toy"作为高转化精准词小额投放，避开"spider man toy"这类被官方IP产品垄断的泛词。
+      </div>
+
+      <table class="data-table" style="margin-top:20px;">
+        <thead><tr><th>类目结构指标(Foam Blasters节点，仅供方向参考)</th><th>数值</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>样本均价</td><td class="num">$30.33</td><td>与本报告9款真竞品价格带基本吻合</td></tr>
+          <tr><td>头部10位均价</td><td class="num">$18.52</td><td>头部反而是更便宜的泡沫镖枪类产品拉低均价，本细分的电动结构款不在这个节点的头部</td></tr>
+          <tr><td>新品占比(6个月内上架)</td><td class="num">4%</td><td>该节点新品占比很低，但这更多反映泡沫镖枪这个大类目已经饱和，不完全代表电动蜘蛛发射手套这个细分的真实新品接受度(本报告9款竞品里多款都是2024-2025年新上架且能起量)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info" style="margin-top:16px;">
+        <b>季节性：信号较弱，Halloween(10月)与圣诞(12月)拉动方向不完全一致。</b>用QHJIU原版与OVERFUN两款有完整历史数据的竞品计算月度倍数：QHJIU原版12月为自身月均的1.37倍，但OVERFUN 12月反而是0.46倍(10-11月更高，达1.15-1.20倍)——两款样本方向不一致，推测是"送礼/万圣节cosplay"这类场景的购买节点因人而异(有人万圣节前买，有人圣诞节买)，导致季节性信号被拉平，不像其他玩具品类那样有单一清晰的Q4爆发点。建议仍以8-10月为上架窗口，覆盖两种购买节点，不必赌单一峰值月份。
+      </div>
+    </section>
+
+    <section id="review">
+      <div class="section-head">
+        <div class="section-num">06</div>
+        <h2>产品设计复核</h2>
+        <p class="section-desc">逐项对照MK007产品信息表的设计点与9款真竞品的VOC验证结果，标注保留/差异化保留/需修正/必须补强。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th style="width:22%">MK007设计点</th><th>竞品验证结果(带证据数字)</th><th style="width:12%">结论</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>USB充电+内置电机自动收线(约4秒完成)</td>
+            <td>这是本细分的行业标配结构(9/9款竞品都是同一套机制)，但也正是<b>耐用性差评的高度集中区</b>(40次/24.1%提及"损坏"，多数具体指向收线/回收机构故障——"line won't reel back in"、"button that retracts stopped working"、"recoil wire broke")。这套机芯设计本身存在结构性可靠性问题，不是差异化卖点，而是必须优先攻克的质量底线</td>
+            <td><span class="tag fix">必须补强</span></td>
+          </tr>
+          <tr>
+            <td>防缠绕2.0设计(微型线轴技术，线材直接收纳入容器)</td>
+            <td>绳线缠绕仍是第二大高频痛点(约15次/9.0%)，但多条评论显示"打开螺丝刀能自行解决"——你的"2.0"防缠绕技术如果真的比竞品的初代设计更彻底，这会是一个可验证、可在Listing里用视频证明的真实差异化点，但必须先通过实际测试证明比竞品好，不能只停留在命名上</td>
+            <td><span class="tag diff">差异化保留(需实测验证)</span></td>
+          </tr>
+          <tr>
+            <td>磁吸+吸盘双头可换</td>
+            <td>竞品普遍配置(9/9都有)，非差异化点，但吸盘脱落/吸附力弱(约10次/6.0%)与磁吸头砸坏财物(SUIZU实例)、磁吸头误吞担忧等安全信号都指向这个部件——磁吸头的固定强度、发射后的动能控制、磁力大小都需要按CPSC玩具磁铁强制标准专项测试</td>
+            <td><span class="tag fix">必须补强(安全合规优先)</span></td>
+          </tr>
+          <tr>
+            <td>年龄标注 3-12+</td>
+            <td>这是本细分最严重的、已经被实锤证实的合规风险——两个独立OEM来源产品(OVERFUN与对标产品自身)都被买家发现"外包装3-12+ vs 说明书14+"的矛盾标注。如果MK007延用了同一套说明书模板，几乎可以确认会复现这个问题</td>
+            <td><span class="tag fix">必须核查修正</span></td>
+          </tr>
+          <tr>
+            <td>安全保险机制(需要按压到位听到"咔"声才会发射)</td>
+            <td>对标产品自身好评区有用户主动详细描述了这个保险机制的操作逻辑(Clarence A. Dillard Jr., 5★)，说明产品本身可能已经具备这个设计，但说明书没有讲清楚，导致用户靠自己摸索——如果MK007延用同一保险结构，务必在说明书和包装上用图示清楚地教用户这个安全操作步骤，别让家长靠运气发现</td>
+            <td><span class="tag keep">保留(需强化说明)</span></td>
+          </tr>
+          <tr>
+            <td>螺丝刀配件(用于打开机身排障)</td>
+            <td>竞品普遍配备，且是用户自行解决绳线缠绕问题的关键工具(多条好评证实)——保留，但建议在说明书里增加"如何用螺丝刀排障"的图示步骤，把用户自发的经验变成官方指导</td>
+            <td><span class="tag keep">保留(建议配图示说明)</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>用户方案未覆盖的风险项：</b>产品信息表未提及磁吸头的CPSC小部件/磁铁强度测试情况、说明书年龄标注是否与外包装一致、以及绳索长度/抗拉力是否符合ASTM F963缠绕测试要求——这三项都是本轮调研发现的、有真实召回先例佐证的高优先级风险点，产品信息表本身未覆盖，建议纳入打样阶段的第三方检测排期，而非成品阶段才补测。
+      </div>
+    </section>
+
+    <section id="recommend">
+      <div class="section-head">
+        <div class="section-num">07</div>
+        <h2>结论与建设性建议</h2>
+        <p class="section-desc">按优先级排序：P1(必须做/上架前置条件) / P2(强烈建议/影响评分与复购) / P3(锦上添花/差异化加分)。</p>
+      </div>
+
+      <ol class="rec-list">
+        <li class="rec-item p1">
+          <div class="rec-rank">01</div>
+          <div>
+            <p class="rec-title">磁吸头做CPSC玩具磁铁强制标准专项测试，核实固定强度与小部件尺寸</p>
+            <p class="rec-body">磁吸头可拆卸+小体积+强磁力的结构，与CPSC近两年密集召回的磁力玩具风险画像高度吻合，且已有真实的财物损坏案例(SUIZU款砸坏电视)。测试范围应覆盖：小部件测试筒通过性、磁通量指数、固定强度(发射/回收循环后是否松动)。</p>
+            <p class="rec-evidence">证据：CPSC 2025-2026年至少5起同结构磁力玩具召回；SUIZU款用户实测报告财物损坏</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">02</div>
+          <div>
+            <p class="rec-title">核查年龄标注一致性，外包装与说明书必须统一，符合ASTM F963 Annex A1</p>
+            <p class="rec-body">这是本细分已被两个独立信源实锤的真实合规风险，不是营销文案问题。上架前必须核实：外包装标注的适用年龄、Listing文案里的年龄描述、说明书内页的年龄警示，三者必须完全一致，且这个年龄段要能通过实际的复杂操作难度评估（弹簧张力、按压力度是否真的适合最低年龄段的手部力量）。</p>
+            <p class="rec-evidence">证据：OVERFUN与对标产品B0GSVLNGWD均被买家实测发现"3-12+ vs 14+"标注矛盾</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">03</div>
+          <div>
+            <p class="rec-title">收线机芯做可靠性老化测试，这是决定复购率的第一变量</p>
+            <p class="rec-body">"数小时到数周内损坏"覆盖全部9款竞品，多数具体指向收线/回收机构故障。出厂前必须做重复发射-回收循环测试(建议参考QHJIU信息里提到的"万次测试"标准)，而不能只测试单次开箱功能。</p>
+            <p class="rec-evidence">证据：耐用性差评40次(24.1%)，是全品类头号痛点，无一竞品幸免</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">04</div>
+          <div>
+            <p class="rec-title">绳索长度与抗拉力做ASTM F963缠绕/勒颈专项测试</p>
+            <p class="rec-body">两条独立评论明确提及长绳的勒颈风险担忧，虽未发生实际伤害案例，但这是ASTM F963的强制测试项，不应仅凭经验判断"绳子够短就没事"。</p>
+            <p class="rec-evidence">证据：Waldo(5★)与Grgtts Gems(1★)均提及strangulation hazard担忧</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">05</div>
+          <div>
+            <p class="rec-title">说明书增加图示化安全操作步骤与故障自救指南</p>
+            <p class="rec-body">好评区大量用户自发总结出"保险机制怎么操作"、"螺丝刀怎么拆解排障"的方法，说明产品本身可能没问题，是说明书没讲清楚——把这些用户自己摸索出的经验直接变成官方图示步骤，能显著降低差评率。</p>
+            <p class="rec-evidence">证据：Clarence A. Dillard Jr.(5★)详述保险机制操作；Waldo/dubrob/101.2DevinGotsYou等多条评论自发分享排障方法</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">06</div>
+          <div>
+            <p class="rec-title">防缠绕2.0技术做实测对比视频，作为核心差异化卖点</p>
+            <p class="rec-body">如果MK007的微型线轴防缠绕设计确实优于竞品的初代设计，用实测对比视频(而非单纯文案宣称)证明"用了多少次都不缠绕"，这会是这个高度同质化白牌市场里少有的可验证差异化点。</p>
+            <p class="rec-evidence">证据：绳线缠绕是第二大高频痛点(15次/9.0%)，仍有真实解决空间</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">07</div>
+          <div>
+            <p class="rec-title">上架节奏：8-10月完成上架，同时覆盖万圣节cosplay与圣诞送礼两个购买节点</p>
+            <p class="rec-body">本细分季节性信号较弱且方向不完全一致(不同竞品Q4峰值月份不同)，说明用户购买动机分散在"万圣节cosplay道具"和"圣诞礼物"两条线上，不必赌单一峰值月份，8-10月完成上架蓄评即可兼顾两个节点。</p>
+            <p class="rec-evidence">证据：第5节季节性分析；VOC场景数据里cosplay/万圣节与生日/圣诞送礼均高频出现</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <footer>
+      数据来源：卖家精灵 MCP（asin_sales_trend / asin_detail / review / keyword_miner / market_research_statistics 等），2026年8月抓取；外部信号通过WebSearch核实并附来源链接。本报告仅供内部选品决策参考。
+    </footer>
+
+  </main>
+</div>
+
+<button class="back-to-top" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var COMPETITORS = [
+  {asin:"B0BG8H123V", brand:"QHJIU 原版", img:"https://m.media-amazon.com/images/I/41qsJUtRQ+L._AC_US200_.jpg", price:"$34.99", dims:"3.1x1.9x6.7in / 6.4oz", rating:4.0, ratings:887, sales:1612, revenue:52632, features:["USB充电+电机自动收线(4秒)","磁吸+吸盘双头","万次发射-回收循环测试","10款中销量最稳定"], highlight:true},
+  {asin:"B09ZNZK6JS", brand:"OVERFUN", img:"https://m.media-amazon.com/images/I/418eHXRKA0L._AC_US200_.jpg", price:"$38.99", dims:"1.7x2.9x6.7in / 6.4oz", rating:4.1, ratings:1488, sales:1488, revenue:50473, features:["电动可回收+可充电","磁吸/吸盘双头可换","10款中评分数最高、定价最高"], highlight:true},
+  {asin:"B0GSVLNGWD", brand:"willIkfree(对标产品)", img:"https://m.media-amazon.com/images/I/51njQgI4Y-L._AC_US200_.jpg", price:"$32.99", dims:"6.69x3.35x2.37in", rating:2.6, ratings:30, sales:620, revenue:17813, features:["2026升级款+磁吸/吸盘双头","弹簧发射+按住尾部开关回收","上架仅3个月，评分10款最低"], highlight:true},
+  {asin:"B0FKH51Z7F", brand:"QGHZA", img:"https://m.media-amazon.com/images/I/41WD2jchFQL._AC_US200_.jpg", price:"$34.99", dims:"8.38x4.33x2.36in", rating:3.9, ratings:91, sales:496, revenue:16155, features:["双发射模式(磁吸/吸盘秒切换)","一键自动回收","USB充电"]},
+  {asin:"B0F5Q9B4PW", brand:"SUIZU", img:"https://m.media-amazon.com/images/I/31K43ouz4gL._AC_US200_.jpg", price:"$34.99", dims:"6.3x2.6x1.3in", rating:2.6, ratings:16, sales:155, revenue:4732, features:["LED动态反馈灯光","微型电机+可充电电池","10款中评分并列最低"]},
+  {asin:"B0CNVRF7HY", brand:"QHJIU 2.0款", img:"https://m.media-amazon.com/images/I/415An+TdnyL._AC_US200_.jpg", price:"$34.99", dims:"1.9x6.67x3.1in / 7oz", rating:3.7, ratings:166, sales:62, revenue:2169, features:["升级款电机+防缠绕线材","磁吸+吸盘双头","2024年销量高点后持续下滑"]},
+  {asin:"B0DGXDCGKQ", brand:"AQEWK", img:"https://m.media-amazon.com/images/I/51DmFCTIFRL._AC_US200_.jpg", price:"$34.99", dims:"4.5x2.5x2.5in / 7.68oz", rating:4.2, ratings:61, sales:124, revenue:4045, features:["万次测试机芯","磁吸+吸盘双头","曾有月度断货(2025-10)"]},
+  {asin:"B0F18XGYZ7", brand:"Preympia", img:"https://m.media-amazon.com/images/I/411XGz3eXDL._AC_US200_.jpg", price:"$34.99", dims:"8.5x4.5x2.4in / 7.68oz", rating:4.0, ratings:104, sales:62, revenue:2011, features:["磁吸/吸盘双模式","可调节腕带","2025Q4高点后销量骤降"]},
+  {asin:"B0G5LM13HS", brand:"M MITLINK", img:"https://m.media-amazon.com/images/I/413Nj1rZEtL._AC_US200_.jpg", price:"$32.99", dims:"6.5x4.7x7.9in", rating:4.9, ratings:89, sales:248, revenue:7495, features:["磁吸+吸盘双头","10款中评分最高(样本仅2个月，需观察)"]}
+];
+
+function fmt(n){ return n.toLocaleString(); }
+function amzUrl(asin){ return 'https://www.amazon.com/dp/'+asin; }
+
+var grid = document.getElementById('compGrid');
+var currentSort = 'sales';
+
+function renderGrid(sortKey){
+  grid.innerHTML = '';
+  var sorted = COMPETITORS.slice().sort(function(a,b){
+    if(sortKey==='price'){ return parseFloat(a.price.replace('$','')) - parseFloat(b.price.replace('$','')); }
+    if(sortKey==='rating'){ return b.rating - a.rating; }
+    return b.sales - a.sales;
+  });
+  sorted.forEach(function(c, i){
+    var card = document.createElement('div');
+    card.className = 'comp-card' + (c.highlight ? ' highlight' : '');
+    var featLis = c.features.map(function(f){ return '<li>'+f+'</li>'; }).join('');
+    card.innerHTML =
+      '<div class="comp-rank">#'+(i+1)+'</div>' +
+      '<a class="comp-img-wrap" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" title="在Amazon打开 '+c.brand+'"><img src="'+c.img+'" alt="'+c.brand+'" loading="lazy"></a>' +
+      '<div class="comp-body">' +
+        '<div class="comp-badge-row"><span class="badge pill-accent">'+c.price+'</span><span class="badge pill-success">'+c.rating+'★ / '+fmt(c.ratings)+'</span></div>' +
+        '<p class="comp-title"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">'+c.brand+' <i class="link-arrow">↗</i></a>'+(c.highlight?' <span class="tag-benchmark">重点分析</span>':'')+'</p>' +
+        '<div class="comp-meta"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" class="asin-link">'+c.asin+'</a> · '+c.dims+'</div>' +
+        '<ul class="comp-features">'+featLis+'</ul>' +
+        '<div class="comp-sales">2026-08 父体真实月销量：<b>'+fmt(c.sales)+'</b> 件 / $'+fmt(c.revenue)+'</div>' +
+        '<a class="comp-open-btn" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">在Amazon查看 ↗</a>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+renderGrid(currentSort);
+
+document.querySelectorAll('.sort-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.sort-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentSort = btn.getAttribute('data-sort');
+    renderGrid(currentSort);
+  });
+});
+
+var gridColor = '#e4e7ec';
+var mutedColor = '#8890a0';
+Chart.defaults.color = mutedColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.size = 12;
+
+var trendMonths = ['25-08','25-09','25-10','25-11','25-12','26-01','26-02','26-03','26-04','26-05','26-06','26-07','26-08'];
+var trendSeries = [
+  { label:'QHJIU 原版', color:'#2a78d6', data:[289,310,511,653,954,502,573,593,694,600,789,940,1612] },
+  { label:'OVERFUN', color:'#1baf7a', data:[319,372,507,525,204,152,255,296,403,326,387,474,1488] },
+  { label:'对标产品(willIkfree)', color:'#eda100', data:[null,null,null,null,null,null,null,null,null,null,20,382,620] }
+];
+new Chart(document.getElementById('trendChart'), {
+  type:'line',
+  data:{ labels: trendMonths, datasets: trendSeries.map(function(s){ return { label:s.label, data:s.data, borderColor:s.color, backgroundColor:'transparent', borderWidth:2, pointRadius:2, spanGaps:true, tension:.25 }; }) },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false } },
+    scales:{ y:{ beginAtZero:true, grid:{color:gridColor}, ticks:{callback:function(v){return fmt(v);}} }, x:{ grid:{display:false} } }
+  }
+});
+var legendEl = document.getElementById('trendLegend');
+trendSeries.forEach(function(s){
+  var span = document.createElement('span');
+  span.innerHTML = '<span class="legend-dot" style="background:'+s.color+'"></span>'+s.label;
+  legendEl.appendChild(span);
+});
+
+var painData = [
+  {label:'数小时至数周内损坏(整体耐用性差)', n:40, seg:'9/9款竞品全部出现，无一幸免'},
+  {label:'绳线缠绕', n:15, seg:'QHJIU/对标产品/多品牌分散'},
+  {label:'回收/发射机构故障(精确定位机芯部件)', n:12, seg:'与耐用性痛点部分重叠但更具体'},
+  {label:'年龄标注矛盾(外包装vs说明书)', n:10, seg:'OVERFUN+对标产品，两个独立OEM来源'},
+  {label:'吸盘/磁吸头脱落或吸附力弱', n:10, seg:'对标产品/QHJIU 2.0款/多品牌'},
+  {label:'安全隐患(眼部/误伤/砸坏物品/误吞风险)', n:8, seg:'SUIZU(财物损坏)/对标产品/OVERFUN'},
+  {label:'手套尺寸偏小/不适配', n:5, seg:'对标产品/OVERFUN'},
+  {label:'说明书/操作复杂', n:4, seg:'对标产品/多品牌分散'},
+  {label:'电池续航差', n:3, seg:'QHJIU/多品牌分散'}
+];
+new Chart(document.getElementById('painChart'), {
+  type:'bar',
+  data:{ labels: painData.map(function(d){return d.label;}), datasets:[{ data: painData.map(function(d){return d.n;}), backgroundColor:'#e08a68', borderRadius:4, maxBarThickness:20 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/166*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxPain = Math.max.apply(null, painData.map(function(d){return d.n;}));
+var painTbody = document.getElementById('painTableBody');
+painData.forEach(function(d){
+  var pct = (d.n/166*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxPain*100).toFixed(0)+'%; background:#e08a68;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td><td>'+d.seg+'</td>';
+  painTbody.appendChild(tr);
+});
+
+var roleData = [
+  {label:'祖辈为孙辈购买(grandson/granddaughter/nephew等原词)', n:24},
+  {label:'父母为子女购买(my son/kid/child等原词)', n:38},
+  {label:'自购/未提及明确身份关系', n:104}
+];
+new Chart(document.getElementById('roleChart'), {
+  type:'bar',
+  data:{ labels: roleData.map(function(d){return d.label;}), datasets:[{ data: roleData.map(function(d){return d.n;}), backgroundColor:'#7f77dd', borderRadius:4, maxBarThickness:26 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/166*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxRole = Math.max.apply(null, roleData.map(function(d){return d.n;}));
+var roleTbody = document.getElementById('roleTableBody');
+roleData.forEach(function(d){
+  var pct = (d.n/166*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxRole*100).toFixed(0)+'%; background:#7f77dd;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td>';
+  roleTbody.appendChild(tr);
+});
+
+var scenarioData = [
+  {label:'送礼场景(生日/圣诞)', n:34},
+  {label:'Cosplay/万圣节角色扮演道具', n:18},
+  {label:'日常角色扮演/追逐游戏', n:14},
+  {label:'年龄适配争议场景(买家主动质疑适龄性)', n:9},
+  {label:'未提及具体使用场景', n:91}
+];
+new Chart(document.getElementById('scenarioChart'), {
+  type:'bar',
+  data:{ labels: scenarioData.map(function(d){return d.label;}), datasets:[{ data: scenarioData.map(function(d){return d.n;}), backgroundColor:'#1baf7a', borderRadius:4, maxBarThickness:22 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/166*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxScenario = Math.max.apply(null, scenarioData.map(function(d){return d.n;}));
+var scenarioTbody = document.getElementById('scenarioTableBody');
+scenarioData.forEach(function(d){
+  var pct = (d.n/166*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxScenario*100).toFixed(0)+'%; background:#1baf7a;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td>';
+  scenarioTbody.appendChild(tr);
+});
+
+var backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', function(){
+  backToTop.classList.toggle('show', window.scrollY > 500);
+});
+backToTop.addEventListener('click', function(){
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+var sections = document.querySelectorAll('main section, .hero');
+var navLinks = document.querySelectorAll('#toc a');
+window.addEventListener('scroll', function(){
+  var pos = window.scrollY + 120;
+  sections.forEach(function(sec){
+    if(pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight){
+      navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#'+sec.id); });
+    }
+  });
+});
+</script>
+</body>
+</html>
