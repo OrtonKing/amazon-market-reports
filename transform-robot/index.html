@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>磁吸变形机器人玩具市场竞品与VOC洞察报告</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --ink:#1a1d24; --ink-2:#5b6270; --ink-3:#8890a0;
+    --border:#e4e7ec; --accent:#3c5ee0; --accent-bg:#eaeeff; --accent-dark:#22318f;
+    --danger:#d0432f; --danger-bg:#fceceb; --danger-dark:#7c2318;
+    --success:#1d8f5e; --success-bg:#e7f6ee; --success-dark:#0d5236;
+    --amber:#b56b0a; --amber-bg:#fdf1de; --amber-dark:#6e3f04;
+    --radius:10px; --shadow:0 1px 2px rgba(20,20,30,.06), 0 8px 24px rgba(20,20,30,.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65;}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%; display:block;}
+  section, .hero{scroll-margin-top:24px;}
+
+  .back-to-top{
+    position:fixed; right:28px; bottom:28px; width:42px; height:42px; border-radius:50%;
+    background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:18px; box-shadow:0 4px 14px rgba(20,20,30,.25); border:none; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:50;
+  }
+  .back-to-top.show{opacity:1; pointer-events:auto;}
+  .back-to-top:hover{transform:translateY(-3px);}
+
+  .bar-cell{position:relative;}
+  .bar-track{position:absolute; left:0; bottom:0; height:3px; width:100%; background:var(--border); border-radius:2px;}
+  .bar-fill{position:absolute; left:0; bottom:0; height:3px; border-radius:2px; background:var(--accent);}
+  table.data-table td.bar-cell{padding-bottom:14px;}
+
+  .layout{display:flex; max-width:1360px; margin:0 auto;}
+  .sidebar{
+    width:220px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:28px 16px; border-right:1px solid var(--border);
+  }
+  .sidebar-title{font-size:13px; font-weight:600; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em; margin:0 0 14px 8px;}
+  .sidebar nav a{
+    display:block; padding:9px 12px; border-radius:8px; font-size:14px; color:var(--ink-2); margin-bottom:2px;
+  }
+  .sidebar nav a:hover{background:var(--accent-bg); color:var(--accent-dark); text-decoration:none;}
+  .sidebar nav a.active{background:var(--accent); color:#fff;}
+
+  .main{flex:1; min-width:0; padding:0 40px 80px;}
+
+  .hero{padding:48px 0 28px; border-bottom:1px solid var(--border);}
+  .eyebrow{font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  h1{font-size:30px; font-weight:700; margin:10px 0 8px; line-height:1.3;}
+  .subtitle{font-size:15px; color:var(--ink-2); max-width:720px; margin:0 0 20px;}
+  .method-box{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; font-size:13.5px; color:var(--ink-2); margin-bottom:24px;
+  }
+  .method-box b{color:var(--ink);}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:24px 0 8px;}
+  .kpi{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);}
+  .kpi-label{font-size:12.5px; color:var(--ink-3); margin-bottom:6px;}
+  .kpi-value{font-size:26px; font-weight:700;}
+  .kpi-sub{font-size:12px; color:var(--ink-2); margin-top:4px;}
+  .kpi-sub.danger{color:var(--danger);}
+
+  section{padding:52px 0; border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{margin-bottom:22px;}
+  .section-num{font-size:12.5px; font-weight:700; color:var(--accent); letter-spacing:.04em;}
+  h2{font-size:22px; font-weight:700; margin:6px 0 6px;}
+  .section-desc{font-size:14px; color:var(--ink-2); max-width:760px;}
+
+  .toolbar{display:flex; align-items:center; gap:8px; margin-top:18px; flex-wrap:wrap;}
+  .toolbar-label{font-size:12.5px; color:var(--ink-3); margin-right:2px;}
+  .sort-btn{font-size:12.5px; font-weight:600; padding:6px 13px; border-radius:100px; border:1px solid var(--border); background:var(--card); color:var(--ink-2); cursor:pointer; transition:all .15s ease;}
+  .sort-btn:hover{border-color:var(--accent); color:var(--accent-dark); background:var(--accent-bg);}
+  .sort-btn.active{background:var(--accent); border-color:var(--accent); color:#fff;}
+
+  .comp-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:16px; margin-top:16px;}
+  .comp-card{position:relative; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; transition:transform .15s ease, box-shadow .15s ease;}
+  .comp-card:hover{transform:translateY(-3px); box-shadow:0 4px 10px rgba(20,20,30,.08), 0 14px 30px rgba(20,20,30,.08);}
+  .comp-card.highlight{border:2px solid var(--accent);}
+  .comp-rank{position:absolute; top:10px; left:10px; z-index:2; background:rgba(26,29,36,.78); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;}
+  .comp-img-wrap{background:#fbfbfa; padding:18px; display:flex; align-items:center; justify-content:center; height:140px; border-bottom:1px solid var(--border); cursor:pointer;}
+  .comp-img-wrap img{max-height:104px; width:auto; margin:0 auto; transition:transform .2s ease;}
+  .comp-img-wrap:hover img{transform:scale(1.06);}
+  .comp-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .comp-badge-row{display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .badge{display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px;}
+  .badge.pill-accent{background:var(--accent-bg); color:var(--accent-dark);}
+  .badge.pill-danger{background:var(--danger-bg); color:var(--danger-dark);}
+  .badge.pill-success{background:var(--success-bg); color:var(--success-dark);}
+  .comp-title{font-size:14.5px; font-weight:700; margin:0;}
+  .comp-title a{color:var(--ink); display:inline-flex; align-items:center; gap:4px;}
+  .comp-title a:hover{color:var(--accent-dark); text-decoration:none;}
+  .link-arrow{font-style:normal; font-size:12px; color:var(--accent); opacity:.7;}
+  .tag-benchmark{display:inline-block; font-size:10.5px; font-weight:700; color:var(--accent-dark); background:var(--accent-bg); padding:2px 7px; border-radius:100px; vertical-align:middle;}
+  .comp-brand{font-size:12.5px; color:var(--ink-3);}
+  .comp-meta{font-size:12.5px; color:var(--ink-2); display:flex; flex-direction:column; gap:3px; margin-top:2px;}
+  .asin-link{color:var(--ink-2); font-variant-numeric:tabular-nums;}
+  .asin-link:hover{color:var(--accent);}
+  .comp-sales{margin-top:auto; padding-top:10px; border-top:1px dashed var(--border); font-size:13px;}
+  .comp-sales b{font-size:16px;}
+  .comp-features{font-size:12.5px; color:var(--ink-2); margin:0; padding-left:16px;}
+  .comp-features li{margin-bottom:2px;}
+  .comp-open-btn{display:block; text-align:center; margin-top:10px; font-size:12.5px; font-weight:600; padding:8px; border-radius:8px; background:var(--accent-bg); color:var(--accent-dark); transition:background .15s ease;}
+  .comp-open-btn:hover{background:var(--accent); color:#fff; text-decoration:none;}
+
+  .chart-card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:20px;}
+  .chart-card-title{font-size:14px; font-weight:600; margin:0 0 4px;}
+  .chart-card-sub{font-size:12.5px; color:var(--ink-3); margin:0 0 14px;}
+  .chart-wrap{position:relative; width:100%;}
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .legend-row{display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-2); margin-top:10px;}
+  .legend-dot{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px;}
+
+  .callout{border-radius:var(--radius); padding:16px 18px; font-size:13.5px; margin-top:16px;}
+  .callout.info{background:var(--accent-bg); color:var(--accent-dark); border:1px solid #c7d1f7;}
+  .callout.danger{background:var(--danger-bg); color:var(--danger-dark); border:1px solid #f1c7c0;}
+  .callout b{font-weight:700;}
+
+  table.data-table{width:100%; border-collapse:collapse; font-size:13px; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);}
+  table.data-table th, table.data-table td{padding:10px 12px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top;}
+  table.data-table th{background:#f8f9fb; font-weight:600; color:var(--ink-2); font-size:12px; text-transform:uppercase; letter-spacing:.02em; position:sticky; top:0;}
+  table.data-table tr:last-child td{border-bottom:none;}
+  table.data-table tbody tr{transition:background .12s ease;}
+  table.data-table tbody tr:hover{background:#f8f9fb;}
+  table.data-table td.num{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+
+  .tag{display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;}
+  .tag.keep{background:var(--success-bg); color:var(--success-dark);}
+  .tag.diff{background:var(--amber-bg); color:var(--amber-dark);}
+  .tag.fix{background:var(--danger-bg); color:var(--danger-dark);}
+
+  .rec-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:12px;}
+  .rec-item{display:flex; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);}
+  .rec-rank{font-size:20px; font-weight:800; color:var(--ink-3); width:28px; flex-shrink:0;}
+  .rec-item.p1 .rec-rank{color:var(--danger);}
+  .rec-item.p2 .rec-rank{color:var(--amber);}
+  .rec-item.p3 .rec-rank{color:var(--success);}
+  .rec-title{font-size:14.5px; font-weight:700; margin:0 0 4px;}
+  .rec-body{font-size:13.5px; color:var(--ink-2); margin:0;}
+  .rec-evidence{font-size:12px; color:var(--ink-3); margin-top:6px;}
+
+  footer{padding:28px 0 60px; font-size:12px; color:var(--ink-3);}
+
+  .dd-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; align-items:start;}
+  .dd-card{background:var(--card); border:1px solid var(--border); border-top:4px solid var(--ink-3); border-radius:12px; box-shadow:var(--shadow); overflow:hidden;}
+  .dd-card.dd-nodata{border-top-color:var(--danger);}
+  .dd-card.dd-ok{border-top-color:var(--accent);}
+  .dd-head{padding:16px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .dd-head h3{font-size:15.5px; font-weight:700; margin:0;}
+  .dd-head .dd-asin{font-size:11.5px; color:var(--ink-3); margin-top:2px;}
+  .dd-sample{padding:10px 18px; font-size:12px; color:var(--ink-2); background:#f8f9fb; border-bottom:1px solid var(--border);}
+  .dd-sample b{color:var(--ink);}
+  .dd-body{padding:16px 18px; display:flex; flex-direction:column; gap:16px;}
+  .dd-sub{font-size:12.5px; font-weight:700; color:var(--ink-2); text-transform:uppercase; letter-spacing:.03em; margin:0 0 8px;}
+  .dd-stat-row{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; padding:4px 0; border-bottom:1px dotted var(--border);}
+  .dd-stat-row:last-child{border-bottom:none;}
+  .dd-stat-name{color:var(--ink-2);}
+  .dd-stat-val{font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;}
+  .quote-block{background:#f8f9fb; border-left:3px solid var(--accent); border-radius:0 6px 6px 0; padding:8px 12px; font-size:12.5px; color:var(--ink-2); margin-bottom:8px;}
+  .quote-block:last-child{margin-bottom:0;}
+  .quote-block .quote-author{display:block; margin-top:4px; font-size:11.5px; color:var(--ink-3); font-weight:600;}
+  .no-data-box{background:var(--danger-bg); color:var(--danger-dark); border-radius:8px; padding:14px 16px; font-size:13px;}
+  .no-data-box b{font-weight:700;}
+  .fact-box{background:var(--accent-bg); color:var(--accent-dark); border-radius:8px; padding:12px 14px; font-size:12.5px; margin-top:10px;}
+
+  @media (max-width: 1180px){
+    .dd-grid{grid-template-columns:1fr;}
+  }
+
+  @media (max-width: 980px){
+    .layout{display:block;}
+    .sidebar{display:none;}
+    .main{padding:0 20px 60px;}
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">目录</div>
+    <nav id="toc">
+      <a href="#overview">0. 概览与方法论</a>
+      <a href="#profiles">1. 9款竞品档案 &amp; 销量趋势</a>
+      <a href="#voc">2. VOC痛点与买家画像</a>
+      <a href="#deepdive">3. 重点竞品深度分析</a>
+      <a href="#external">4. 全网调研：外部信号</a>
+      <a href="#market">5. 关键词流量与类目结构</a>
+      <a href="#review">6. 产品设计复核</a>
+      <a href="#recommend">7. 结论与建设性建议</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <div class="hero" id="overview">
+      <div class="eyebrow">Amazon Magnetic Transform Robot Toy · 竞品与VOC分析报告</div>
+      <h1>磁吸变形机器人玩具市场：9款真结构竞品真实销量 × 112条评论VOC洞察</h1>
+      <p class="subtitle">对标产品：5-in-1磁吸变形机器人玩具，9种造型组合(工程车/勘测车/洒水车/运输车/高空作业车/飞行特工车/双车联动变形/装甲臂/重型装甲车)，强磁吸设计免工具拼装，ABS材质打磨无尖角，机器人形态11x9x2.8英寸，适合3-6岁男孩生日礼物。对标ASIN：B0F632JPYL(NewBandMo)。</p>
+
+      <div class="method-box">
+        <b>竞品口径说明：</b>竞品判定标准是"<b>磁吸免工具多件组合变形机器人</b>"这一具体结构，而非笼统的"变形玩具"或"机器人玩具"关键词。已排除两类貌似相关但结构不同的产品：①单件碰撞变形款(小体积、单车碰撞触发变形为1只恐龙/1个小机体，无法多件组合成大机器人)；②螺丝刀拆装款(如QUERCITRON"Take Apart Vehicle"系列，核心拆装机制是螺丝刀拧螺丝而非磁吸免工具，与对标产品"强磁吸设计免工具拼装"的核心卖点结构不同，予以剔除)。最终锁定<b>9款</b>真结构竞品(含对标ASIN本身)：均为"多件独立小车/机体可磁吸拼装成一个大机器人"结构，价格带$23.96–$35.99。<br><br>
+        <b>数据来源与方法：</b>销量数据通过 <code>asin_sales_trend</code> 逐一调取真实月度成交量，统一取父体(parent)口径parentUnitSales。评论数据对9款竞品逐一调用 <code>review</code> 接口，差评(1-3星)优先全量/尽量覆盖，好评(4-5星)抽样，共读取编码 <b>112条</b> 评论原文。<br><br>
+        <b>抽样口径披露：</b>多数竞品评分基数偏小(6-279条不等)，差评样本天然稀薄，部分竞品差评仅1-3条可读——这类薄样本已在深度分析部分如实标注，结论方向可信但置信区间宽，不作为唯一决策依据。占比统计以112条编码总量为分母，痛点类目彼此独立不互斥。
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">覆盖竞品数</div>
+          <div class="kpi-value">9款</div>
+          <div class="kpi-sub">价格带 $23.96 – $35.99</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">编码评论样本量</div>
+          <div class="kpi-value">112条</div>
+          <div class="kpi-sub">差评尽量全覆盖，好评抽样</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">9款评分数总量</div>
+          <div class="kpi-value">978条</div>
+          <div class="kpi-sub">Fuzzy Pixie(279条)与对标产品(161条)领先</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">"磁力弱/散架/断裂"结构可靠性问题合计占比</div>
+          <div class="kpi-value">18.8%</div>
+          <div class="kpi-sub danger">遥遥领先的头号痛点，覆盖对标产品自身在内的7/9款</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="profiles">
+      <div class="section-head">
+        <div class="section-num">01</div>
+        <h2>9款竞品档案：图片 · 价格 · 尺寸 · 功能 · 真实销量</h2>
+        <p class="section-desc">已收紧为"磁吸免工具多件拼装变形机器人"真结构竞品。销量为2026-08父体(parent)真实月度成交数据。点击品牌名或"在Amazon查看"可直接打开商品页。</p>
+      </div>
+
+      <div class="toolbar">
+        <span class="toolbar-label">排序：</span>
+        <button class="sort-btn active" data-sort="sales">按销量 ↓</button>
+        <button class="sort-btn" data-sort="rating">按评分 ↓</button>
+        <button class="sort-btn" data-sort="price">按价格 ↑</button>
+      </div>
+
+      <div class="comp-grid" id="compGrid"></div>
+
+      <div class="chart-card" style="margin-top:20px;">
+        <div class="chart-card-title">重点竞品 父体月销量趋势(2025-08 至 2026-08)</div>
+        <div class="chart-card-sub">数据源：asin_sales_trend 月度历史 parentUnitSales。</div>
+        <div class="chart-wrap" style="height:280px;"><canvas id="trendChart"></canvas></div>
+        <div class="legend-row" id="trendLegend"></div>
+      </div>
+
+      <div class="callout info">
+        <b>数据解读：</b>iPlay iLearn的6-in-1恐龙变形款(B0FCFLLHH7)是这批竞品里近3个月跑得最快的一款，2025-11单月冲到2628件后虽回落，2026-08仍稳定在620件/月，是当前实际销量最高的竞品(高于对标产品自身的341件)。对标产品(NewBandMo B0F632JPYL)呈现典型"上架初期快速起量"曲线，2025-11到2025-12两月从396飙升到1749件(4.4倍)，随后回落到年后的250-480件区间波动，2026-08为341件。MIEBELY的2Pcs款(B0DCVKQ6Y2)是数据最完整的一款(可追溯到2024-10)，2024年12月单月冲到6604件的全场最高点，但此后持续下滑到目前100-150件/月的低位——说明这个细分同样存在"新品红利快速衰减"的规律，首发窗口的流量红利不会一直持续。
+      </div>
+    </section>
+
+    <section id="voc">
+      <div class="section-head">
+        <div class="section-num">02</div>
+        <h2>VOC洞察：差评归因 与 买家画像/使用场景</h2>
+        <p class="section-desc">基于112条编码评论的量化统计，占比 = 提及次数 / 112。</p>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">差评归因统计（7类）</div>
+        <div class="chart-card-sub">N=112条编码评论，各类别独立计数，不互斥</div>
+        <div class="chart-wrap" style="height:340px;"><canvas id="painChart"></canvas></div>
+      </div>
+
+      <table class="data-table" style="margin-top:16px; margin-bottom:24px;">
+        <thead><tr><th>差评类别</th><th class="num">提及次数</th><th class="num">占比(N=112)</th><th>出现竞品</th></tr></thead>
+        <tbody id="painTableBody"></tbody>
+      </table>
+
+      <p class="section-desc" style="margin:0 0 12px;"><b>买家角色</b>回答"谁在买"，<b>使用场景</b>回答"买来做什么"——两个独立维度分开统计，仅统计评论原文里出现明确身份/场景用词的条目。</p>
+
+      <div class="two-col">
+        <div class="chart-card">
+          <div class="chart-card-title">买家角色分析</div>
+          <div class="chart-card-sub">N=112条编码评论</div>
+          <div class="chart-wrap" style="height:220px;"><canvas id="roleChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">使用场景分析</div>
+          <div class="chart-card-sub">N=112条编码评论</div>
+          <div class="chart-wrap" style="height:220px;"><canvas id="scenarioChart"></canvas></div>
+        </div>
+      </div>
+
+      <table class="data-table" style="margin-top:16px;">
+        <thead><tr><th>买家角色类别</th><th class="num">提及次数</th><th class="num">占比(N=112)</th></tr></thead>
+        <tbody id="roleTableBody"></tbody>
+      </table>
+
+      <table class="data-table" style="margin-top:16px;">
+        <thead><tr><th>使用场景类别</th><th class="num">提及次数</th><th class="num">占比(N=112)</th></tr></thead>
+        <tbody id="scenarioTableBody"></tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>核心发现①：磁吸力不足导致组装后散架，是这个品类压倒性的第一大类结构性问题，对标产品自身也未能幸免。</b>典型证据：对标产品B0F632JPYL自己的差评里，Hector(2★)明确写"the magnets are just too weak to hold the assembled toy together for any kind of play"；Samantha Leuang(3★)"magnets just aren't strong enough to hold everything together well"；B Dodson(3★)"needs stronger magnets...once that happens all bets are off with it holding together"。iPlay iLearn的6-in-1恐龙款(B0FCFLLHH7)差评里同样反复出现"doesn't stay together"、"magnets are pretty weak"。这不是单一竞品的品控偶发问题，而是这套"多件磁吸拼装成大机器人"结构方案本身普遍存在的可靠性短板——磁吸力与拼装稳定性之间的平衡，是这个品类还没被真正解决的技术命题。
+      </div>
+      <div class="callout danger" style="margin-top:16px;">
+        <b>核心发现②：整体做工粗糙/断裂掉件，与磁力问题叠加，合计占比接近两成。</b>iPlay iLearn 6-in-1恐龙款(B0FCFLLHH7)差评集中反映"cheap"、"thin plastic"、"tail piece broke off"(仅玩1小时后)、"missing connector"(生产瑕疵导致缺件无法组装完整机器人)；MIEBELY 2Pcs款(B0DCVKQ6Y2)也有"arm broke off 2 different toys"的记录。做工问题与磁力问题经常同时出现在同一款竞品身上，说明这类$24-36价位的白牌代工产品，在"低成本+大体积组合玩具"这个组合下，材料厚度与磁铁规格都容易被同步压缩成本。
+      </div>
+      <div class="callout info">
+        <b>核心发现③：说明书缺失或不清晰是第三大高频问题，多款竞品(包括对标产品自身)完全不附组装说明书。</b>对标产品B0F632JPYL的多条评论(Rich 3★、Hector 2★)明确指出"there are no instructions included with this toy"，用户只能靠盒子上的图片摸索；iPlay iLearn的5-in-1拉回款(B0GVF3C6N2)差评"Daniel Bashaw"(1★)也写"horrible instructions"。这与前两份CD播放器/蜘蛛发射手套报告发现的规律一致：**说明书是白牌代工品类里被系统性忽视的低成本高回报改进点**——把"如何拼装"画成图示步骤，几乎零边际成本，但能直接减少"组装失败→差评"这条最短路径上的流失。
+      </div>
+    </section>
+
+    <section id="deepdive">
+      <div class="section-head">
+        <div class="section-num">03</div>
+        <h2>重点竞品深度分析：对标产品自身 / iPlay iLearn恐龙款(当前销量冠军) / Fuzzy Pixie(长青老牌)</h2>
+        <p class="section-desc">对标产品B0F632JPYL单独分析当前评论状态；iPlay iLearn 6-in-1恐龙款(B0FCFLLHH7)是当前实际销量最高的竞品；Fuzzy Pixie(B09C1V1X3P)是这个品类里上架时间最长(自2021年)、至今仍在售的长青款，可作为"这个结构能否长期存活"的参照样本。</p>
+      </div>
+
+      <div class="dd-grid">
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>对标产品自身</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B0F632JPYL" target="_blank" rel="noopener">B0F632JPYL ↗</a></div>
+            </div>
+            <span class="badge pill-accent">21条已读</span>
+          </div>
+          <div class="dd-sample">差评/中评(1-3星)6/6条(全量) + 好评(4-5星)15/42条(抽样)，评分总量161条，4.4分</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以6条1-3星为分母)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">磁吸力不足/组装后散架</span><span class="dd-stat-val">4/6 · 66.7%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">说明书缺失</span><span class="dd-stat-val">2/6 · 33.3%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">"不是真变形金刚"期望落差</span><span class="dd-stat-val">1/6 · 16.7%</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求(评论原文直引)</p>
+              <div class="quote-block">"The arms and legs attach with a few small prongs &amp; a small magnet which in my opinion needs to be stronger...my advice would just be to keep in mind your kiddos playing style. If they're super rough on their toys this one probably isn't for them."<span class="quote-author">— B Dodson, 3★(Vine) → 对应建议P1-1 磁力强度需要按"儿童实际粗暴玩耍强度"而非静态展示强度去设计</span></div>
+              <div class="quote-block">"I do not know if it was intended, but there are no instructions included with this toy...Kids are more in tune with these types of toys, but I don't really know about this one. I was at a loss understanding it."<span class="quote-author">— Rich, 3★(Vine) → 对应建议P2-1 组装图示说明书是低成本高回报的改进项</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>iPlay iLearn 6-in-1恐龙款</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B0FCFLLHH7" target="_blank" rel="noopener">B0FCFLLHH7 ↗</a></div>
+            </div>
+            <span class="badge pill-accent">21条已读</span>
+          </div>
+          <div class="dd-sample">差评/中评(1-3星)10/10条(全量) + 好评(4-5星)11/30条(抽样)，评分总量168条，4.3分，9款中2026-08实际销量最高(620件)</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以10条1-3星为分母)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">整体做工粗糙/易断裂</span><span class="dd-stat-val">6/10 · 60.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">磁吸力不足/组装后散架</span><span class="dd-stat-val">4/10 · 40.0%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">零件缺失(连接件缺失)</span><span class="dd-stat-val">1/10 · 10.0%</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求(评论原文直引)</p>
+              <div class="quote-block">"My son loves this toy but it's very frustrating for him and me because it keeps falling apart and I keep having to assemble it...individually the pieces are great and magnetic part is fun for the kids as well. wish the robot stayed together better."<span class="quote-author">— MG25, 3★ → 说明单个部件品质本身认可度不低，问题精确定位在磁吸接口这一个环节</span></div>
+              <div class="quote-block">"Was a great product but not machined well. My right leg is missing the connector that attaches to the other dino part so I can't make the full robot."<span class="quote-author">— Joe, 2★ → 对应建议P2-2 出厂前需增加连接件齐套性质检，缺件直接导致核心卖点(变形组合)无法实现</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dd-card dd-ok">
+          <div class="dd-head">
+            <div>
+              <h3>Fuzzy Pixie(长青老牌)</h3>
+              <div class="dd-asin"><a href="https://www.amazon.com/dp/B09C1V1X3P" target="_blank" rel="noopener">B09C1V1X3P ↗</a></div>
+            </div>
+            <span class="badge pill-accent">6条已读</span>
+          </div>
+          <div class="dd-sample">差评/中评(1-3星)6/6条(全量) + 好评(4-5星)0条(该星级过滤返回0条，如实披露) ，评分总量279条，9款中最高，2021年上架至今仍在售</div>
+          <div class="dd-body">
+            <div>
+              <p class="dd-sub">痛点分析(以6条为分母)</p>
+              <div class="dd-stat-row"><span class="dd-stat-name">整体做工粗糙/低质感</span><span class="dd-stat-val">1/6 · 16.7%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">说明书/组装困难</span><span class="dd-stat-val">2/6 · 33.3%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">材料偏硬擦手</span><span class="dd-stat-val">1/6 · 16.7%</span></div>
+              <div class="dd-stat-row"><span class="dd-stat-name">造型设计引发不适("吓人")</span><span class="dd-stat-val">1/6 · 16.7%</span></div>
+            </div>
+            <div>
+              <p class="dd-sub">未被洞察需求(评论原文直引)</p>
+              <div class="quote-block">"The plastic material is to hard. Every time it can make my boy hands hurt when he transform it. Don't recommend."<span class="quote-author">— Yolanda, 3★ → 对应建议P2-3 3-6岁儿童手部力量弱，磁吸+卡扣的操作阻力需要按最小年龄段手部力量校准，而非"能拼上就行"</span></div>
+              <div class="quote-block">"Scary Toy"<span class="quote-author">— Rachael, 3★(无展开文字，仅标题) → 老品能持续畅销5年说明结构本身有生命力，但造型细节仍有个体差异化改进空间</span></div>
+            </div>
+          </div>
+          <div class="fact-box">长青款启示：Fuzzy Pixie上架已5年(2021至今)，评分基数279条是9款中最高，价格也从$29.99逐步下调到$23.99——一款结构过硬、长期迭代降价的产品即使不追热点也能持续产生现金流，这对"磁吸拼装机器人"这个结构本身的市场生命力是正面验证，问题在于把磁力可靠性这个共性短板做扎实。</div>
+        </div>
+
+      </div>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>三竞品对比小结：</b>对标产品自身、当前销量冠军iPlay 6-in-1恐龙款、5年长青款Fuzzy Pixie，三款覆盖不同发展阶段(新品/上升期/成熟期)的竞品，无一例外都在"磁吸力不足"或"整体做工"上留下差评证据——这证明磁力可靠性不是"个别新品还没磨合好"的暂时问题，而是贯穿这个品类整个生命周期的结构性短板。任何一款想要突围的新品，如果能在磁吸接口的机械强度和材料厚度上做出可验证的实测提升，这会是比"造型多几种"更有决定性价值的差异化点。
+      </div>
+    </section>
+
+    <section id="external">
+      <div class="section-head">
+        <div class="section-num">04</div>
+        <h2>全网调研：外部信号</h2>
+        <p class="section-desc">聚焦VOC里发现的核心风险线索——嵌入式小磁铁玩具的强制安全标准，核查对应的CPSC召回记录与ASTM F963/16 CFR 1262强制标准要求。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th style="width:20%">发现</th><th>核实内容</th><th style="width:20%">对本项目的意义</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>含嵌入式小磁铁的玩具是CPSC 2025-2026年持续高频召回的类别，且明确覆盖Amazon在售白牌产品</b></td>
+            <td>2022年CPSC发布16 CFR 1262《磁铁安全强制标准》，要求玩具中"能装入小部件测试筒"的小磁铁磁通量指数(flux index)必须≤50，超过此值的磁铁被定义为"危险磁铁"。近两年CPSC密集执行该标准：Vndueey磁力人偶套装(内含多枚超标准强磁铁，误吞风险)、Findriver/Weeksome敲打玩具、Huaker磁力球棒套装(小球+3岁以下适用违反禁小球令)、TOP MAGNETS磁力人偶套装，均为Amazon在售白牌产品，因误吞风险被召回或警示。</td>
+            <td>对标产品与9款竞品全部依赖"嵌入式磁吸接口"实现多件组合，虽然磁铁通常内嵌在ABS塑料机体内部而非独立小部件，但VOC已实测反映"磁吸力弱导致部件易脱落"——一旦磁铁本身或包裹磁铁的小零件在使用中脱落，就会直接触发16 CFR 1262的小部件+磁通量指数测试要求，这是设计阶段必须提前规避的合规红线，而不是上架后才发现的问题</td>
+          </tr>
+          <tr>
+            <td><b>ASTM F963对"危险磁铁"有明确的量化测试方法(flux index≤50)，适用于14岁以下儿童玩具</b></td>
+            <td>ASTM F963-11将"危险磁铁"定义为磁通量指数大于50且尺寸符合小部件测试筒的磁性物体；该标准同时定义"危险磁性组件"(内含危险磁铁的玩具部件)。ASTM F963已被CPSC采纳为强制性玩具安全标准，适用于14岁以下儿童玩具，测试方法有明确的实验室量化流程。</td>
+            <td>本产品是3-6岁儿童玩具，磁吸接口的磁通量指数必须实测≤50或确保磁铁不会因VOC反映的"接口松动"而脱落成为可触及的小部件——这是打样阶段就应排期的第三方检测项，而非仅凭"磁铁包裹在塑料里应该没问题"的经验判断</td>
+          </tr>
+          <tr>
+            <td><b>该品类部分竞品含电池仓(灯光/音效功能)，电池仓盖缺失/松动是VOC已实测的真实生产瑕疵</b></td>
+            <td>MIEBELY 3-in-1灯光音效款(B0FNL9ZGS4)的真实差评报告"Missing battery cover. Unable to use light and sound"；2026年CPSC还在持续召回因电池仓设计缺陷导致儿童可接触纽扣电池的建筑玩具(如Cubimana系列，因Shein渠道违反强制标准被召回)。</td>
+            <td>如果对标产品或改款计划加入灯光/音效功能，电池仓盖的锁扣强度与儿童不可拆卸设计需要按当前CPSC对电池仓的强制要求专项验证，不能沿用普通玩具仓盖标准</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>对症下药的结论：</b>这份报告的外部信号与蜘蛛发射手套报告的性质相似——VOC里反复出现的"磁力弱导致脱落"不只是体验问题，而是与16 CFR 1262磁铁强制安全标准直接相关的合规风险信号。建议在打样阶段同步安排磁通量指数第三方检测，并在磁吸接口的机械设计上做"脱落即报废"而非"脱落后仍可继续使用"的失效模式设计，确保即使磁铁性能衰减，也不会产生可被儿童取出误吞的独立小部件。
+      </div>
+
+      <p class="section-desc" style="margin-top:16px; font-size:12.5px;">
+        Sources：
+        <a href="https://www.cpsc.gov/s3fs-public/2022-08-17-Final-Rule-Safety-Standards-for-Magnets.pdf" target="_blank" rel="noopener">CPSC: 16 CFR 1262磁铁安全强制标准最终规则</a> ·
+        <a href="https://www.cpsc.gov/Recalls/2026/Vndueey-Magnetic-Men-Toy-Sets-Recalled-Due-to-Risk-of-Serious-Injury-or-Death-from-Magnet-Ingestion-Violates-Mandatory-Standard-for-Toys" target="_blank" rel="noopener">CPSC: Vndueey磁力人偶套装召回</a> ·
+        <a href="https://www.cpsc.gov/Recalls/2026/Pounding-Toys-Recalled-Due-to-Risk-of-Serious-Injury-or-Death-from-Magnet-Ingestion-Hazard-Violate-Mandatory-Standard-for-Toys-Sold-on-Amazon-by-Findriver-and-Weeksome" target="_blank" rel="noopener">CPSC: Findriver/Weeksome敲打玩具召回</a> ·
+        <a href="https://cpsc.gov/Recalls/2026/Huaker-Magnetic-Balls-and-Rods-Sets-Recalled-Due-to-Risk-of-Serious-Injury-or-Death-from-Choking-Violates-the-Small-Ball-Ban" target="_blank" rel="noopener">CPSC: Huaker磁力球棒套装召回</a> ·
+        <a href="https://www.cpsc.gov/Recalls/2026/Cubimana-Building-Toy-Sets-Recalled-Due-to-Risk-of-Serious-Injury-or-Death-from-Battery-Ingestion-Violates-Mandatory-Standard-for-Toys-Sold-on-Shein-by-Vatos-Toys" target="_blank" rel="noopener">CPSC: Cubimana建筑玩具电池误吞召回</a> ·
+        <a href="https://www.compliancegate.com/magnet-regulations-united-states/" target="_blank" rel="noopener">ComplianceGate: 美国磁铁安全法规概览</a>
+      </p>
+    </section>
+
+    <section id="market">
+      <div class="section-head">
+        <div class="section-num">05</div>
+        <h2>关键词流量与类目结构</h2>
+        <p class="section-desc">数据源：keyword_miner 与 market_research_statistics(取Toys &amp; Games:Building Toys:Magnetic Building节点，nodeId 23462539011)。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>关键词</th><th class="num">月搜索量</th><th class="num">月购买量</th><th class="num">SPR*</th><th class="num">PPC竞价</th><th class="num">竞品商品数</th><th class="num">均价</th></tr></thead>
+        <tbody>
+          <tr><td><b>magnetic building toys</b></td><td class="num"><b>1,196</b></td><td class="num">85</td><td class="num">2</td><td class="num">$2.85</td><td class="num">5,885</td><td class="num">$20.99</td></tr>
+          <tr><td>transformer toys</td><td class="num">73,853</td><td class="num">1,374</td><td class="num">32</td><td class="num">$0.94</td><td class="num">3,982</td><td class="num">$27.90</td></tr>
+          <tr><td>magnetic robot toy</td><td class="num" style="color:var(--ink-3);">无数据</td><td class="num">–</td><td class="num">1</td><td class="num" style="color:var(--danger);">$1.23</td><td class="num">651</td><td class="num">$29.99</td></tr>
+          <tr><td>robot toys for boys</td><td class="num" style="color:var(--ink-3);">无数据</td><td class="num">–</td><td class="num">1</td><td class="num">$2.10</td><td class="num">4,279</td><td class="num">$21.99</td></tr>
+          <tr><td>transforming toys for boys</td><td class="num" style="color:var(--ink-3);">无数据</td><td class="num">–</td><td class="num">1</td><td class="num">$1.83</td><td class="num">3,548</td><td class="num">$22.38</td></tr>
+          <tr><td>construction toys for boys</td><td class="num" style="color:var(--ink-3);">无数据</td><td class="num">–</td><td class="num">1</td><td class="num">$1.29</td><td class="num">39,090</td><td class="num">$25.99</td></tr>
+          <tr><td>take apart robot toy</td><td class="num" style="color:var(--ink-3);">无数据</td><td class="num">–</td><td class="num">1</td><td class="num">$1.00</td><td class="num">1,687</td><td class="num">$27.79</td></tr>
+        </tbody>
+      </table>
+      <p class="section-desc" style="font-size:12px; margin-top:8px;">*SPR = Search-to-Purchase Rank，越低表示上首页所需的历史销量门槛越低；"5 in 1 transform robot"/"magnetic transform robot toy"/"transform robot toys for boys"等精确描述对标产品结构的长尾词，逐一查询均无搜索量数据，如实呈现</p>
+
+      <div class="callout info" style="margin-top:16px;">
+        <b>流量结构解读：与L-CD213报告发现的规律高度一致——"认知滞后于产品力"。</b>精确描述这个品类结构的长尾词("magnetic transform robot toy"、"5 in 1 transform robot"等)几乎全部查无搜索量数据，说明买家还没有形成用这类精确词搜索的习惯。真正有数据的是两类词：一类是泛类目词"magnetic building toys"(月搜1,196，SPR仅2，titleDensity=0，说明这个具体词的SEO埋词空间很大)；另一类是超级泛词"transformer toys"(月搜73,853，均价$27.9正好落在竞品价格带，但SPR=32门槛不低，且这个词大概率被"变形金刚"官方IP产品大量稀释流量，新品硬打这个词转化效率存疑)。结合类目结构数据(见下)，SEO策略应以"magnetic building toys"等泛类目词打自然流量+"5 in 1"、"transform"等描述词埋进标题/五点，静待买家搜索习惯随这个品类成熟而逐步细化。
+      </div>
+
+      <table class="data-table" style="margin-top:20px;">
+        <thead><tr><th>类目结构指标(Magnetic Building节点)</th><th>数值</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td>样本商品数/品牌数</td><td class="num">100 / 51</td><td>品牌高度分散，非单一巨头垄断格局</td></tr>
+          <tr><td>样本均价</td><td class="num">$28.02</td><td>与本报告9款真竞品价格带高度吻合</td></tr>
+          <tr><td>样本平均评分</td><td class="num">4.7</td><td>高于本报告9款竞品均分(约4.4)，说明节点内混有大量非"变形机器人"结构的高分磁力积木产品(如MAGNA-TILES)，拉高了整体均分</td></tr>
+          <tr><td>新品占比(近期上架)</td><td class="num">18%</td><td>新品占比不低，说明这个节点对新玩家有一定接受度</td></tr>
+          <tr><td>新品均销量</td><td class="num">1,887件/月</td><td>新品均销量可观，验证节点整体不是"老品垄断到新品进不来"的死局</td></tr>
+          <tr><td>评分生存线</td><td class="num">4.3以上占99.5%</td><td><b>评分4.3以下的商品在这个节点几乎不存在(样本中0款低于4.0，仅0.46%落在4.0-4.3区间)</b>——意味着上架后一旦因磁力/做工问题被差评拉到4.3以下，几乎会直接失去这个节点内的销量竞争力，评分管理是生死线而非加分项</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:16px;">
+        <b>评分生存线与VOC头号痛点直接呼应：</b>本节点90.76%的商品评分在4.5以上，评分低于4.3的商品几乎没有市场存在感——而第2节VOC发现的头号痛点"磁力弱导致散架"正是最容易把新品评分拖到4.3以下的问题类型。这意味着磁吸接口的可靠性投入，在这个类目里不是"锦上添花的品质升级"，而是"能不能在这个类目活下来"的准入门槛。
+      </div>
+
+      <div class="callout info" style="margin-top:16px;">
+        <b>季节性：Q4(11-12月)是明确无误的旺季，多款竞品、多个自然年数据交叉验证。</b>用有完整历史数据的多款竞品分别以自身月均值为基准计算：对标产品B0F632JPYL 2025-11为均值2.27倍、12月为3.77倍；iPlay 6-in-1恐龙款(B0FCFLLHH7) 11月3.14倍、12月2.30倍；MIEBELY 2Pcs款(B0DCVKQ6Y2)历史更长，2024年12月达到自身月均的6.54倍；Fuzzy Pixie(B09C1V1X3P)与QUERCITRON(B091F3BNW2)两款都有横跨2024/2025两个自然年的数据，均在12月出现2.5-6倍的峰值，**连续两年的模式重复出现，确认这不是偶发波动而是稳定的圣诞礼物季规律**。建议FBA备货与Listing优化最晚在9月底前完成，为11月流量爬坡预留时间。
+      </div>
+    </section>
+
+    <section id="review">
+      <div class="section-head">
+        <div class="section-num">06</div>
+        <h2>产品设计复核</h2>
+        <p class="section-desc">逐项对照用户提供的产品设计点与9款真竞品的VOC验证结果，标注保留/差异化保留/需修正/必须补强。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th style="width:22%">设计点</th><th>竞品验证结果(带证据数字)</th><th style="width:12%">结论</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>强磁吸设计免工具拼装(9种造型/9in1组合)</td>
+            <td>这是本细分的核心行业标配结构，但也正是<b>头号差评集中区</b>——磁吸力不足导致散架(11次/9.8%)覆盖对标产品自身、iPlay两款、MIEBELY两款，是遥遥领先的第一大类问题。9种造型的组合丰富度本身不是差异化点(9/9款竞品都是"多件拼装成大机器人"结构)，磁吸接口的机械可靠性才是</td>
+            <td><span class="tag fix">必须补强</span></td>
+          </tr>
+          <tr>
+            <td>ABS材质打磨无尖角</td>
+            <td>竞品普遍宣称的安全基线(9/9款), 但VOC中出现材料"偏硬擦手"的真实反馈(Fuzzy Pixie, Yolanda 3★"the plastic material is to hard...can make my boy hands hurt")——"无尖角"解决的是划伤风险，没有解决"塑料太硬、卡扣拼装阻力大、儿童手部力量不够"这个更常见的日常摩擦问题</td>
+            <td><span class="tag diff">保留(建议同步做材料软化测试)</span></td>
+          </tr>
+          <tr>
+            <td>适合3-6岁男孩生日礼物</td>
+            <td>VOC角色分析显示购买人群中祖辈购买占比不低(约12.5%明确提及grandson/grandkids)，说明实际决策人常常不是父母而是（外）祖父母——这部分买家群体对"组装是否需要说明书"的容忍度更低，与说明书缺失痛点(8.0%)形成叠加风险</td>
+            <td><span class="tag keep">保留(需强化说明书图示)</span></td>
+          </tr>
+          <tr>
+            <td>产品信息未提及是否附组装说明书</td>
+            <td>对标产品自身差评已实测证实"there are no instructions included with this toy"，多款竞品(GVF3C6N2)同样被差评点名"horrible instructions"——这是本品类除磁力问题外的第二高频痛点(9次/8.0%)，且是几乎零边际成本就能改善的项目</td>
+            <td><span class="tag fix">必须补强</span></td>
+          </tr>
+          <tr>
+            <td>产品信息未提及连接件/齐套性质检标准</td>
+            <td>iPlay 6-in-1恐龙款差评实测出现"missing connector"导致无法完成完整组合(Joe, 2★)——多件组合类玩具的核心卖点依赖"每一个连接点都齐全"，任何一个连接件缺失都会让核心卖点(变形组合)直接失效，这类瑕疵对复购/差评的杀伤力远高于单纯的外观瑕疵</td>
+            <td><span class="tag fix">必须补强</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>产品信息未覆盖的风险项：</b>用户提供的产品设计点未提及磁吸接口的磁通量指数(flux index)实测数据、连接件出厂齐套性质检标准、以及说明书是否随包裹附带——这三项都是本轮调研发现的、有真实VOC差评与CPSC强制标准双重佐证的高优先级项，建议纳入打样阶段的检测与QC排期，而非成品阶段才补测。
+      </div>
+    </section>
+
+    <section id="recommend">
+      <div class="section-head">
+        <div class="section-num">07</div>
+        <h2>结论与建设性建议</h2>
+        <p class="section-desc">按优先级排序：P1(必须做/上架前置条件) / P2(强烈建议/影响评分与复购) / P3(锦上添花/差异化加分)。</p>
+      </div>
+
+      <ol class="rec-list">
+        <li class="rec-item p1">
+          <div class="rec-rank">01</div>
+          <div>
+            <p class="rec-title">磁吸接口做机械可靠性强化设计，并实测磁通量指数(flux index≤50)</p>
+            <p class="rec-body">"磁力弱导致组装后散架"是这个品类遥遥领先的头号问题(11次/9.8%)，且直接对应16 CFR 1262磁铁强制安全标准的测试要求。建议在打样阶段用"儿童实际粗暴玩耍强度"(而非静态展示强度)做重复拼装-脱落循环测试，并确保磁铁不会因接口松动而脱落成为可触及的独立小部件。</p>
+            <p class="rec-evidence">证据：磁力弱问题覆盖对标产品自身在内的4/9款竞品共11次提及；CPSC 2025-2026年至少4起同结构磁力玩具召回</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">02</div>
+          <div>
+            <p class="rec-title">出厂前增加连接件/零部件齐套性质检，杜绝"缺件导致核心卖点失效"</p>
+            <p class="rec-body">多件磁吸组合类玩具的核心卖点依赖"每个连接点都齐全"，任何一个连接件缺失都会让"9种造型变形组合"这个核心卖点直接无法实现，比单纯外观瑕疵的杀伤力更大。</p>
+            <p class="rec-evidence">证据：iPlay 6-in-1恐龙款差评实测"missing connector"(Joe, 2★)</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">03</div>
+          <div>
+            <p class="rec-title">随包裹附带图示化组装说明书</p>
+            <p class="rec-body">对标产品自身与至少一款竞品都被差评实锤"完全没有说明书"，这是本品类第二高频痛点(9次/8.0%)，且是几乎零边际成本就能改善的项目——尤其考虑到约12.5%的购买者是（外）祖父母，对"无说明书靠猜"的容忍度更低。</p>
+            <p class="rec-evidence">证据：对标产品差评"there are no instructions included"(Rich 3★/Hector 2★)；竞品差评"horrible instructions"(Daniel Bashaw 1★)</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">04</div>
+          <div>
+            <p class="rec-title">材料厚度/卡扣拼装阻力按3岁最低年龄段手部力量校准</p>
+            <p class="rec-body">VOC反映"塑料太硬、拼装费手"的真实体验（Fuzzy Pixie, Yolanda 3★），"ABS打磨无尖角"解决的是划伤风险而非日常操作阻力，两者是不同维度的安全/体验指标，不能互相替代。</p>
+            <p class="rec-evidence">证据："the plastic material is to hard...can make my boy hands hurt"(Yolanda, 3★)</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">05</div>
+          <div>
+            <p class="rec-title">上架节奏：9月底前完成上架蓄评，抢占11-12月旺季</p>
+            <p class="rec-body">Q4旺季信号在这个品类里极为清晰且经过多款竞品、跨自然年数据交叉验证(11月2.3-3.1倍、12月2.3-6.5倍不等)，是比蜘蛛发射手套报告更明确的单峰Q4驱动型品类，不需要像该报告那样兼顾多个分散节点。</p>
+            <p class="rec-evidence">证据：第5节季节性分析，5款竞品交叉验证，其中2款有跨自然年重复数据</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">06</div>
+          <div>
+            <p class="rec-title">用"磁力可靠性实测对比视频"做差异化卖点</p>
+            <p class="rec-body">既然磁力可靠性是全品类公认的共性短板，一旦通过实测验证做出真实提升，用视频展示"重复拼装-摔打测试后依然不散架"，会是这个高度同质化市场里少有的可验证差异化点，比单纯堆砌造型数量更有说服力。</p>
+            <p class="rec-evidence">证据：磁力弱+整体做工问题合计占比18.8%，是这个品类还没被真正解决的共性痛点</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <footer>
+      数据来源：卖家精灵 MCP（asin_sales_trend / asin_detail / review / keyword_miner / market_research_statistics 等），2026年8月抓取；外部信号通过WebSearch核实并附来源链接。本报告仅供内部选品决策参考。
+    </footer>
+
+  </main>
+</div>
+
+<button class="back-to-top" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var COMPETITORS = [
+  {asin:"B0F632JPYL", brand:"NewBandMo(对标产品)", img:"https://m.media-amazon.com/images/I/51YgCBPWeZL._AC_US200_.jpg", price:"$35.99", dims:"11x9x3in", rating:4.4, ratings:161, sales:341, revenue:12095, features:["9种造型9in1组合","强磁吸免工具拼装","2025-11/12快速起量后回落"], highlight:true},
+  {asin:"B0FCFLLHH7", brand:"iPlay iLearn 6-in-1恐龙款", img:"https://m.media-amazon.com/images/I/51KBdxhGlML._AC_US200_.jpg", price:"$25.78", dims:"2x2x3in(包装尺寸)", rating:4.3, ratings:168, sales:620, revenue:18253, features:["6辆车拼3只恐龙或1个大机器人","无需电池纯磁吸","9款中2026-08实际销量最高"], highlight:true},
+  {asin:"B0GVF3C6N2", brand:"iPlay iLearn 5-in-1拉回款", img:"https://m.media-amazon.com/images/I/5196ff+BCmL._AC_US200_.jpg", price:"$23.96", dims:"7.09x3.54x9.84in", rating:4.5, ratings:22, sales:155, revenue:4566, features:["4辆车+1挖掘机磁吸组合","内置回力马达免电池","2026-06新上架，样本薄"]},
+  {asin:"B0FNL9ZGS4", brand:"MIEBELY 3-in-1灯光音效款", img:"https://m.media-amazon.com/images/I/51wSOzdRZOL._AC_US200_.jpg", price:"$35.99", dims:"7x5x12.96in", rating:4.4, ratings:62, sales:155, revenue:5578, features:["1个主体3种造型(机甲/飞船/发射器)","2节AAA电池驱动灯光音效","Listing宣称已过ASTM F963磁力测试"]},
+  {asin:"B0DCVKQ6Y2", brand:"MIEBELY 2Pcs款", img:"https://m.media-amazon.com/images/I/51V+DkjGP-L._AC_US200_.jpg", price:"$27.99", dims:"7.87x11.8x3.94in", rating:4.4, ratings:75, sales:124, revenue:3471, features:["2件套磁吸组合成大猩猩机器人","数据最完整(可溯2024-10)","2024-12曾达全场最高单月6604件"]},
+  {asin:"B0F9L9CQ8Q", brand:"VEAIS 6-in-1恐龙款", img:"https://m.media-amazon.com/images/I/51FCuVPsN6L._AC_US200_.jpg", price:"$27.99", dims:"8.3x5.3x9.8in", rating:4.4, ratings:49, sales:93, revenue:2603, features:["6辆车拼3只恐龙或大机器人","三色套装分色识别","宣称符合ASTM/CPSIA标准"]},
+  {asin:"B09C1V1X3P", brand:"Fuzzy Pixie 5pcs款", img:"https://m.media-amazon.com/images/I/51M08bRZbEL._AC_US200_.jpg", price:"$23.99", dims:"8.5x3x13.5in", rating:4.4, ratings:279, sales:62, revenue:1487, features:["5辆车拼5只恐龙或大机器人","2021年上架至今仍在售","9款中评分数最高，长青款"]},
+  {asin:"B0H25BYVWD", brand:"iPlay iLearn 带翼款", img:"https://m.media-amazon.com/images/I/5112cSnAAjL._AC_US200_.jpg", price:"$26.97", dims:"9.5x7x12in", rating:4.8, ratings:6, sales:155, revenue:4648, features:["5辆救援车拼装+可拆卸翅膀","炮台+长剑武装配件","2026-07新上架，样本极薄"]},
+  {asin:"B091F3BNW2", brand:"QUERCITRON 5-in-1款", img:"https://m.media-amazon.com/images/I/51S2A8CRJLL._AC_US200_.jpg", price:"$35.99", dims:"11.22x7.91x7in", rating:4.6, ratings:156, sales:62, revenue:2231, features:["5辆车+6个可互换部件","收纳分类盒","2021年上架，与Fuzzy Pixie同期长青款"]}
+];
+
+function fmt(n){ return n.toLocaleString(); }
+function amzUrl(asin){ return 'https://www.amazon.com/dp/'+asin; }
+
+var grid = document.getElementById('compGrid');
+var currentSort = 'sales';
+
+function renderGrid(sortKey){
+  grid.innerHTML = '';
+  var sorted = COMPETITORS.slice().sort(function(a,b){
+    if(sortKey==='price'){ return parseFloat(a.price.replace('$','')) - parseFloat(b.price.replace('$','')); }
+    if(sortKey==='rating'){ return b.rating - a.rating; }
+    return b.sales - a.sales;
+  });
+  sorted.forEach(function(c, i){
+    var card = document.createElement('div');
+    card.className = 'comp-card' + (c.highlight ? ' highlight' : '');
+    var featLis = c.features.map(function(f){ return '<li>'+f+'</li>'; }).join('');
+    card.innerHTML =
+      '<div class="comp-rank">#'+(i+1)+'</div>' +
+      '<a class="comp-img-wrap" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" title="在Amazon打开 '+c.brand+'"><img src="'+c.img+'" alt="'+c.brand+'" loading="lazy"></a>' +
+      '<div class="comp-body">' +
+        '<div class="comp-badge-row"><span class="badge pill-accent">'+c.price+'</span><span class="badge pill-success">'+c.rating+'★ / '+fmt(c.ratings)+'</span></div>' +
+        '<p class="comp-title"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">'+c.brand+' <i class="link-arrow">↗</i></a>'+(c.highlight?' <span class="tag-benchmark">重点分析</span>':'')+'</p>' +
+        '<div class="comp-meta"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" class="asin-link">'+c.asin+'</a> · '+c.dims+'</div>' +
+        '<ul class="comp-features">'+featLis+'</ul>' +
+        '<div class="comp-sales">2026-08 父体真实月销量：<b>'+fmt(c.sales)+'</b> 件 / $'+fmt(c.revenue)+'</div>' +
+        '<a class="comp-open-btn" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">在Amazon查看 ↗</a>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+renderGrid(currentSort);
+
+document.querySelectorAll('.sort-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.sort-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentSort = btn.getAttribute('data-sort');
+    renderGrid(currentSort);
+  });
+});
+
+var gridColor = '#e4e7ec';
+var mutedColor = '#8890a0';
+Chart.defaults.color = mutedColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.size = 12;
+
+var trendMonths = ['25-08','25-09','25-10','25-11','25-12','26-01','26-02','26-03','26-04','26-05','26-06','26-07','26-08'];
+var trendSeries = [
+  { label:'对标产品(NewBandMo)', color:'#eda100', data:[316,355,396,1053,1749,243,248,341,345,390,478,379,341] },
+  { label:'iPlay iLearn 6-in-1恐龙款', color:'#2a78d6', data:[44,520,968,2628,1926,567,706,741,553,465,546,592,620] },
+  { label:'MIEBELY 2Pcs款', color:'#1baf7a', data:[147,133,142,355,828,174,131,113,104,109,111,104,124] }
+];
+new Chart(document.getElementById('trendChart'), {
+  type:'line',
+  data:{ labels: trendMonths, datasets: trendSeries.map(function(s){ return { label:s.label, data:s.data, borderColor:s.color, backgroundColor:'transparent', borderWidth:2, pointRadius:2, spanGaps:true, tension:.25 }; }) },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false } },
+    scales:{ y:{ beginAtZero:true, grid:{color:gridColor}, ticks:{callback:function(v){return fmt(v);}} }, x:{ grid:{display:false} } }
+  }
+});
+var legendEl = document.getElementById('trendLegend');
+trendSeries.forEach(function(s){
+  var span = document.createElement('span');
+  span.innerHTML = '<span class="legend-dot" style="background:'+s.color+'"></span>'+s.label;
+  legendEl.appendChild(span);
+});
+
+var painData = [
+  {label:'磁吸力不足/组装后散架', n:11, seg:'对标产品/iPlay两款/MIEBELY两款'},
+  {label:'整体做工粗糙/断裂掉件', n:10, seg:'iPlay 6-in-1恐龙款为主，MIEBELY/VEAIS/QUERCITRON分散'},
+  {label:'说明书缺失或不清晰导致组装困难', n:9, seg:'对标产品/iPlay/Fuzzy Pixie'},
+  {label:'零件缺失/生产瑕疵(连接件/电池仓盖)', n:2, seg:'iPlay 6-in-1恐龙款/MIEBELY 3-in-1款'},
+  {label:'与预期不符(非"真变形金刚"/功能弱于宣传)', n:2, seg:'对标产品/iPlay拉回款'},
+  {label:'材料偏硬/擦手', n:1, seg:'Fuzzy Pixie'},
+  {label:'造型设计引发不适(如"吓人")', n:1, seg:'Fuzzy Pixie'}
+];
+new Chart(document.getElementById('painChart'), {
+  type:'bar',
+  data:{ labels: painData.map(function(d){return d.label;}), datasets:[{ data: painData.map(function(d){return d.n;}), backgroundColor:'#e08a68', borderRadius:4, maxBarThickness:20 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/112*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxPain = Math.max.apply(null, painData.map(function(d){return d.n;}));
+var painTbody = document.getElementById('painTableBody');
+painData.forEach(function(d){
+  var pct = (d.n/112*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxPain*100).toFixed(0)+'%; background:#e08a68;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td><td>'+d.seg+'</td>';
+  painTbody.appendChild(tr);
+});
+
+var roleData = [
+  {label:'祖辈为孙辈购买(grandson/grandkids/great-grandson等原词)', n:14},
+  {label:'父母为子女购买(my son/daughter/kid/child等原词)', n:10},
+  {label:'叔伯姑姨为侄辈购买(nephew/niece)', n:3},
+  {label:'自购/未提及明确身份关系', n:85}
+];
+new Chart(document.getElementById('roleChart'), {
+  type:'bar',
+  data:{ labels: roleData.map(function(d){return d.label;}), datasets:[{ data: roleData.map(function(d){return d.n;}), backgroundColor:'#7f77dd', borderRadius:4, maxBarThickness:26 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/112*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxRole = Math.max.apply(null, roleData.map(function(d){return d.n;}));
+var roleTbody = document.getElementById('roleTableBody');
+roleData.forEach(function(d){
+  var pct = (d.n/112*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxRole*100).toFixed(0)+'%; background:#7f77dd;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td>';
+  roleTbody.appendChild(tr);
+});
+
+var scenarioData = [
+  {label:'明确提及生日/圣诞等节庆送礼', n:9},
+  {label:'具体描述家庭互动玩耍过程(祖孙/亲子共玩细节)', n:23},
+  {label:'未提及具体使用场景', n:80}
+];
+new Chart(document.getElementById('scenarioChart'), {
+  type:'bar',
+  data:{ labels: scenarioData.map(function(d){return d.label;}), datasets:[{ data: scenarioData.map(function(d){return d.n;}), backgroundColor:'#1baf7a', borderRadius:4, maxBarThickness:22 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/112*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxScenario = Math.max.apply(null, scenarioData.map(function(d){return d.n;}));
+var scenarioTbody = document.getElementById('scenarioTableBody');
+scenarioData.forEach(function(d){
+  var pct = (d.n/112*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxScenario*100).toFixed(0)+'%; background:#1baf7a;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td>';
+  scenarioTbody.appendChild(tr);
+});
+
+var backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', function(){
+  backToTop.classList.toggle('show', window.scrollY > 500);
+});
+backToTop.addEventListener('click', function(){
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+var sections = document.querySelectorAll('main section, .hero');
+var navLinks = document.querySelectorAll('#toc a');
+window.addEventListener('scroll', function(){
+  var pos = window.scrollY + 120;
+  sections.forEach(function(sec){
+    if(pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight){
+      navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#'+sec.id); });
+    }
+  });
+});
+</script>
+</body>
+</html>
