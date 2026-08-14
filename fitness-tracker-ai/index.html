@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fitness Tracker市场AI功能竞品对比与进入决策报告</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --ink:#1a1d24; --ink-2:#5b6270; --ink-3:#8890a0;
+    --border:#e4e7ec; --accent:#3c5ee0; --accent-bg:#eaeeff; --accent-dark:#22318f;
+    --danger:#d0432f; --danger-bg:#fceceb; --danger-dark:#7c2318;
+    --success:#1d8f5e; --success-bg:#e7f6ee; --success-dark:#0d5236;
+    --amber:#b56b0a; --amber-bg:#fdf1de; --amber-dark:#6e3f04;
+    --ai:#7f4bd8; --ai-bg:#f2ecfd; --ai-dark:#4a2585;
+    --radius:10px; --shadow:0 1px 2px rgba(20,20,30,.06), 0 8px 24px rgba(20,20,30,.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65;}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%; display:block;}
+  section, .hero{scroll-margin-top:24px;}
+
+  .back-to-top{
+    position:fixed; right:28px; bottom:28px; width:42px; height:42px; border-radius:50%;
+    background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:18px; box-shadow:0 4px 14px rgba(20,20,30,.25); border:none; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:50;
+  }
+  .back-to-top.show{opacity:1; pointer-events:auto;}
+  .back-to-top:hover{transform:translateY(-3px);}
+
+  .bar-cell{position:relative;}
+  .bar-track{position:absolute; left:0; bottom:0; height:3px; width:100%; background:var(--border); border-radius:2px;}
+  .bar-fill{position:absolute; left:0; bottom:0; height:3px; border-radius:2px; background:var(--accent);}
+  table.data-table td.bar-cell{padding-bottom:14px;}
+
+  .layout{display:flex; max-width:1360px; margin:0 auto;}
+  .sidebar{
+    width:230px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:28px 16px; border-right:1px solid var(--border);
+  }
+  .sidebar-title{font-size:13px; font-weight:600; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em; margin:0 0 14px 8px;}
+  .sidebar nav a{
+    display:block; padding:9px 12px; border-radius:8px; font-size:13.5px; color:var(--ink-2); margin-bottom:2px;
+  }
+  .sidebar nav a:hover{background:var(--accent-bg); color:var(--accent-dark); text-decoration:none;}
+  .sidebar nav a.active{background:var(--accent); color:#fff;}
+
+  .main{flex:1; min-width:0; padding:0 40px 80px;}
+
+  .hero{padding:48px 0 28px; border-bottom:1px solid var(--border);}
+  .eyebrow{font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  h1{font-size:30px; font-weight:700; margin:10px 0 8px; line-height:1.3;}
+  .subtitle{font-size:15px; color:var(--ink-2); max-width:760px; margin:0 0 20px;}
+  .method-box{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; font-size:13.5px; color:var(--ink-2); margin-bottom:24px;
+  }
+  .method-box b{color:var(--ink);}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:24px 0 8px;}
+  .kpi{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);}
+  .kpi.ai-kpi{border-top:3px solid var(--ai);}
+  .kpi-label{font-size:12.5px; color:var(--ink-3); margin-bottom:6px;}
+  .kpi-value{font-size:26px; font-weight:700;}
+  .kpi-sub{font-size:12px; color:var(--ink-2); margin-top:4px;}
+  .kpi-sub.danger{color:var(--danger);}
+  .kpi-sub.success{color:var(--success);}
+
+  section{padding:52px 0; border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{margin-bottom:22px;}
+  .section-num{font-size:12.5px; font-weight:700; color:var(--accent); letter-spacing:.04em;}
+  h2{font-size:22px; font-weight:700; margin:6px 0 6px;}
+  h3.sub-head{font-size:16px; font-weight:700; margin:28px 0 10px;}
+  .section-desc{font-size:14px; color:var(--ink-2); max-width:800px;}
+
+  .comp-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(255px,1fr)); gap:16px; margin-top:16px;}
+  .comp-card{position:relative; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; transition:transform .15s ease, box-shadow .15s ease;}
+  .comp-card:hover{transform:translateY(-3px); box-shadow:0 4px 10px rgba(20,20,30,.08), 0 14px 30px rgba(20,20,30,.08);}
+  .comp-card.is-ai{border-top:3px solid var(--ai);}
+  .comp-card.is-noai{border-top:3px solid var(--ink-3);}
+  .comp-img-wrap{background:#fbfbfa; padding:18px; display:flex; align-items:center; justify-content:center; height:140px; border-bottom:1px solid var(--border); cursor:pointer;}
+  .comp-img-wrap img{max-height:104px; width:auto; margin:0 auto; transition:transform .2s ease;}
+  .comp-img-wrap:hover img{transform:scale(1.06);}
+  .comp-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .comp-badge-row{display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .badge{display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px;}
+  .badge.pill-accent{background:var(--accent-bg); color:var(--accent-dark);}
+  .badge.pill-danger{background:var(--danger-bg); color:var(--danger-dark);}
+  .badge.pill-success{background:var(--success-bg); color:var(--success-dark);}
+  .badge.pill-ai{background:var(--ai-bg); color:var(--ai-dark);}
+  .comp-title{font-size:14.5px; font-weight:700; margin:0;}
+  .comp-title a{color:var(--ink);}
+  .comp-title a:hover{color:var(--accent-dark); text-decoration:none;}
+  .link-arrow{font-style:normal; font-size:12px; color:var(--accent); opacity:.7;}
+  .comp-meta{font-size:12.5px; color:var(--ink-2); display:flex; flex-direction:column; gap:3px; margin-top:2px;}
+  .asin-link{color:var(--ink-2); font-variant-numeric:tabular-nums;}
+  .asin-link:hover{color:var(--accent);}
+  .comp-sales{margin-top:auto; padding-top:10px; border-top:1px dashed var(--border); font-size:13px;}
+  .comp-sales b{font-size:16px;}
+  .comp-ai-feat{font-size:12px; color:var(--ai-dark); background:var(--ai-bg); border-radius:6px; padding:7px 9px; line-height:1.5;}
+  .comp-ai-feat.none{color:var(--ink-3); background:#f3f4f6;}
+  .comp-open-btn{display:block; text-align:center; margin-top:10px; font-size:12.5px; font-weight:600; padding:8px; border-radius:8px; background:var(--accent-bg); color:var(--accent-dark); transition:background .15s ease;}
+  .comp-open-btn:hover{background:var(--accent); color:#fff; text-decoration:none;}
+
+  .chart-card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:20px;}
+  .chart-card-title{font-size:14px; font-weight:600; margin:0 0 4px;}
+  .chart-card-sub{font-size:12.5px; color:var(--ink-3); margin:0 0 14px;}
+  .chart-wrap{position:relative; width:100%;}
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .legend-row{display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-2); margin-top:10px;}
+  .legend-dot{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px;}
+
+  .callout{border-radius:var(--radius); padding:16px 18px; font-size:13.5px; margin-top:16px;}
+  .callout.info{background:var(--accent-bg); color:var(--accent-dark); border:1px solid #c7d1f7;}
+  .callout.danger{background:var(--danger-bg); color:var(--danger-dark); border:1px solid #f1c7c0;}
+  .callout.ai{background:var(--ai-bg); color:var(--ai-dark); border:1px solid #d9c8f5;}
+  .callout.success{background:var(--success-bg); color:var(--success-dark); border:1px solid #b9e3cd;}
+  .callout b{font-weight:700;}
+
+  table.data-table{width:100%; border-collapse:collapse; font-size:13px; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);}
+  table.data-table th, table.data-table td{padding:10px 12px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top;}
+  table.data-table th{background:#f8f9fb; font-weight:600; color:var(--ink-2); font-size:12px; text-transform:uppercase; letter-spacing:.02em;}
+  table.data-table tr:last-child td{border-bottom:none;}
+  table.data-table tbody tr{transition:background .12s ease;}
+  table.data-table tbody tr:hover{background:#f8f9fb;}
+  table.data-table td.num{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+  table.data-table tr.group-ai td:first-child{border-left:3px solid var(--ai);}
+  table.data-table tr.group-noai td:first-child{border-left:3px solid var(--ink-3);}
+  table.data-table tr.total-row{background:#f8f9fb; font-weight:700;}
+  table.data-table tr.total-row td{border-top:2px solid var(--border);}
+  .table-scroll{overflow-x:auto; border-radius:var(--radius);}
+
+  .tag{display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;}
+  .tag.keep{background:var(--success-bg); color:var(--success-dark);}
+  .tag.diff{background:var(--amber-bg); color:var(--amber-dark);}
+  .tag.fix{background:var(--danger-bg); color:var(--danger-dark);}
+  .tag.aitag{background:var(--ai-bg); color:var(--ai-dark);}
+
+  .rec-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:12px;}
+  .rec-item{display:flex; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);}
+  .rec-rank{font-size:20px; font-weight:800; color:var(--ink-3); width:28px; flex-shrink:0;}
+  .rec-item.p1 .rec-rank{color:var(--danger);}
+  .rec-item.p2 .rec-rank{color:var(--amber);}
+  .rec-item.p3 .rec-rank{color:var(--success);}
+  .rec-title{font-size:14.5px; font-weight:700; margin:0 0 4px;}
+  .rec-body{font-size:13.5px; color:var(--ink-2); margin:0;}
+  .rec-evidence{font-size:12px; color:var(--ink-3); margin-top:6px;}
+
+  footer{padding:28px 0 60px; font-size:12px; color:var(--ink-3);}
+
+  .vs-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px;}
+  .vs-card{background:var(--card); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); overflow:hidden;}
+  .vs-card.ai-side{border-top:4px solid var(--ai);}
+  .vs-card.noai-side{border-top:4px solid var(--ink-3);}
+  .vs-head{padding:14px 18px; border-bottom:1px solid var(--border);}
+  .vs-head h3{font-size:15.5px; font-weight:700; margin:0;}
+  .vs-head .vs-sub{font-size:12px; color:var(--ink-3); margin-top:3px;}
+  .vs-body{padding:14px 18px;}
+  .dd-stat-row{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; padding:5px 0; border-bottom:1px dotted var(--border);}
+  .dd-stat-row:last-child{border-bottom:none;}
+  .dd-stat-name{color:var(--ink-2);}
+  .dd-stat-val{font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;}
+  .quote-block{background:#f8f9fb; border-left:3px solid var(--accent); border-radius:0 6px 6px 0; padding:8px 12px; font-size:12.5px; color:var(--ink-2); margin-bottom:8px;}
+  .quote-block.ai-quote{border-left-color:var(--ai);}
+  .quote-block:last-child{margin-bottom:0;}
+  .quote-block .quote-author{display:block; margin-top:4px; font-size:11.5px; color:var(--ink-3); font-weight:600;}
+  .fact-box{background:var(--accent-bg); color:var(--accent-dark); border-radius:8px; padding:12px 14px; font-size:12.5px; margin-top:10px;}
+
+  .timeline{list-style:none; margin:20px 0 0; padding:0 0 0 20px; border-left:2px solid var(--border);}
+  .timeline li{position:relative; padding:0 0 22px 22px; font-size:13.5px; color:var(--ink-2);}
+  .timeline li::before{content:''; position:absolute; left:-29px; top:5px; width:12px; height:12px; border-radius:50%; background:var(--card); border:3px solid var(--accent);}
+  .timeline li.warn::before{border-color:var(--danger);}
+  .timeline li.good::before{border-color:var(--success);}
+  .timeline .tl-date{display:block; font-size:12px; font-weight:700; color:var(--ink); margin-bottom:2px;}
+
+  @media (max-width: 1180px){
+    .vs-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width: 980px){
+    .layout{display:block;}
+    .sidebar{display:none;}
+    .main{padding:0 20px 60px;}
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">目录</div>
+    <nav id="toc">
+      <a href="#overview">0. 概览与方法论</a>
+      <a href="#profiles">1. 11款竞品分组档案</a>
+      <a href="#aifeatures">2. AI功能全盘点</a>
+      <a href="#market">3. 市场对比：销量/客单价/趋势</a>
+      <a href="#voc">4. VOC痛点分组对比</a>
+      <a href="#keyword">5. 关键词流量与类目结构</a>
+      <a href="#external">6. 外部信号：FDA监管</a>
+      <a href="#decision">7. 开发AI产品的决策要点</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <div class="hero" id="overview">
+      <div class="eyebrow">Amazon Fitness Tracker · AI功能竞品对比与市场进入决策报告</div>
+      <h1>Fitness Tracker市场：带AI与不带AI的11款竞品分段对比 × 90条评论VOC洞察</h1>
+      <p class="subtitle">本报告不是单品改款验证，而是<b>市场进入决策支持</b>：把这个市场的竞品按"是否带AI功能"拆成两组，分别做功能盘点、市场表现对比（销量/客单价/趋势）和痛点分析，回答"AI竞品多不多、有哪些AI功能、AI产品趋势与客单价如何、开发AI产品要注意什么"。</p>
+
+      <div class="method-box">
+        <b>竞品口径说明：</b>主类目节点为 <code>Sports &amp; Outdoors:Exercise &amp; Fitness:Fitness Technology:Activity &amp; Fitness Trackers</code>（nodeId 5393958011，共1,997款在售），并纳入 <code>Electronics:Wearable Technology:Rings</code> 的智能戒指形态（同属"24/7健康数据采集穿戴"结构）。竞品判定按<b>结构一致 + AI功能有无</b>双重标准分组，共收录 <b>11款</b>（AI组6款 / 非AI组5款）。<br><br>
+        <b>AI组判定标准（关键，避免误判）：</b>不以标题是否含"AI"为准——因为<b>市场份额最大的两款真AI产品（WHOOP、Fitbit Charge 6）标题里都不写AI</b>，而多款$20-30白牌反而把"AI"写进标题。判定改为逐款读取 <code>features</code> 五点原文，确认其是否宣称"基于个人数据生成个性化建议/教练/报告"这一类超出静态阈值提醒的能力。据此，节点内标题含"AI"的产品仅28款（占1,997款的1.4%），但真正具备AI能力宣称的产品会略多于这个数——两个口径都在报告里如实呈现。<br><br>
+        <b>数据来源与方法：</b>销量通过 <code>asin_sales_trend</code> 逐款调取真实月度成交量，统一取父体(parent)口径 parentUnitSales，最长回溯27个月；评论通过 <code>review</code> 接口按1-3星差评优先抓取，共读取编码 <b>90条</b>（AI组50条 / 非AI组40条）。<br><br>
+        <b>抽样口径披露：</b>①差评优先抽样，占比是<b>负面反馈的内部结构，不是真实发生率</b>；②AI组与非AI组分别编码、分别计算分母，不混算；③LIVIKEY全站可读差评仅10条（total=10，已全量读取），该款样本偏薄已在正文标注；④头部大流量竞品（Fitbit Charge 6差评1,781条、Fitbit Inspire 3差评2,131条）本次各只读取20条，覆盖率低，结论方向可信但置信区间宽。
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi ai-kpi">
+          <div class="kpi-label">节点内标题含"AI"的产品</div>
+          <div class="kpi-value">28款</div>
+          <div class="kpi-sub">占1,997款在售的 <b>1.4%</b>，AI仍是极少数派</div>
+        </div>
+        <div class="kpi ai-kpi">
+          <div class="kpi-label">AI组 vs 非AI组 客单价</div>
+          <div class="kpi-value">2.76×</div>
+          <div class="kpi-sub success">$178.93 vs $64.73（加权ASP）</div>
+        </div>
+        <div class="kpi ai-kpi">
+          <div class="kpi-label">AI组 vs 非AI组 月收入</div>
+          <div class="kpi-value">2.95×</div>
+          <div class="kpi-sub success">$7.73M vs $2.62M（销量仅高6.8%）</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">"ai fitness tracker"搜索量</div>
+          <div class="kpi-value">无数据</div>
+          <div class="kpi-sub danger">买家不搜AI，AI不是流量入口</div>
+        </div>
+      </div>
+
+      <div class="callout ai">
+        <b>一句话结论：</b>AI在这个市场<b>不是流量词，而是定价权</b>。买家从不搜索"AI fitness tracker"（该词及"ai health tracker"查询均无搜索量数据），但带AI的产品能把客单价拉到非AI组的2.76倍、收入拉到2.95倍。真正的门槛不在"能不能做AI"，而在<b>三件事</b>：基础传感器精度（AI建立在数据之上，数据不准则AI必然翻车）、订阅制的用户接受度（差评里反感极强，且非AI产品同样中招）、以及健康声称的FDA合规边界（WHOOP 2025年因此吃过警告信并被集体诉讼）。
+      </div>
+    </div>
+
+    <section id="profiles">
+      <div class="section-head">
+        <div class="section-num">01</div>
+        <h2>11款竞品分组档案：AI组 6款 / 非AI组 5款</h2>
+        <p class="section-desc">紫色顶边为AI组，灰色顶边为非AI组。销量为2026-08父体(parent)真实月度成交数据。每张卡片底部标注该款的AI功能具体内容（或明确标注"无AI功能宣称"）。</p>
+      </div>
+
+      <h3 class="sub-head" style="color:var(--ai-dark);">■ AI组（6款，$29.74–$379）</h3>
+      <div class="comp-grid" id="aiGrid"></div>
+
+      <h3 class="sub-head" style="color:var(--ink-2);">■ 非AI组（5款，$19.99–$87.74）</h3>
+      <div class="comp-grid" id="noaiGrid"></div>
+
+      <div class="callout info">
+        <b>分组时发现的关键结构性事实：</b>AI能力与价格<b>并非严格正相关</b>，市场同时存在两条完全不同的AI路线。一条是"<b>平台级真AI + 订阅制</b>"（WHOOP $239含12个月会员、Fitbit Charge 6靠Google Health Premium订阅解锁Gemini教练），AI跑在云端、需要持续付费；另一条是"<b>硬件内置AI + 买断制</b>"（RingConn $199、CUDIS $379均明确宣传"No Subscription"），把无订阅当成对抗WHOOP的核心卖点。第三条则是"<b>白牌贴标AI</b>"（BAREZ $29.74的"AI Sleep Insights"、Allxin $89.99的"AI Health Report"），本质是把既有算法分析重新包装成AI词汇。这三条路线的技术投入、成本结构和风险完全不同，不能混为一谈。
+      </div>
+    </section>
+
+    <section id="aifeatures">
+      <div class="section-head">
+        <div class="section-num">02</div>
+        <h2>AI功能全盘点：市面上到底有哪些AI功能</h2>
+        <p class="section-desc">以下全部来自各竞品Listing五点(features)原文，逐条摘录后归类，不做推测补充。</p>
+      </div>
+
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th style="width:16%">AI功能类型</th><th style="width:22%">具体实现（Listing原文佐证）</th><th style="width:16%">代表产品</th><th style="width:12%">商业模式</th><th>技术门槛评估</th></tr></thead>
+        <tbody>
+          <tr class="group-ai">
+            <td><b>多指标AI教练</b><br><span class="tag aitag">最核心</span></td>
+            <td>"Personalized by WHOOP AI - WHOOP AI analyzes 140+ metrics to give you specific guidance, from optimal Sleep targets to ideal Strain goals. Your coaching adapts as your body changes"</td>
+            <td>WHOOP 5.0 ($239)</td>
+            <td>订阅制<br>(12个月会员)</td>
+            <td><b>高</b>：需要长期个体基线建模 + 大规模训练数据，WHOOP自建全职运动科学实验室支撑</td>
+          </tr>
+          <tr class="group-ai">
+            <td><b>大模型驱动的健康教练</b></td>
+            <td>"With a premium membership, get personalized coaching that's built with Gemini and adapts to your life (Google Health Premium subscription sold separately)"</td>
+            <td>Fitbit Charge 6 ($119.95)</td>
+            <td>订阅制<br>(Premium另付)</td>
+            <td><b>极高</b>：直接挂载自家大模型(Gemini)，非平台方无法复制</td>
+          </tr>
+          <tr class="group-ai">
+            <td><b>生物年龄/衰老速度</b></td>
+            <td>WHOOP: "Healthspan measures your WHOOP Age and Pace of Aging"；CUDIS: "Discover your true biological health status by tracking your biological age"</td>
+            <td>WHOOP、CUDIS 002 ($379)</td>
+            <td>两种都有</td>
+            <td><b>中高</b>：算法可复现，但"生物年龄"是<b>健康声称高风险区</b>，见第6节FDA分析</td>
+          </tr>
+          <tr class="group-ai">
+            <td><b>内置AI助手/个性化报告</b></td>
+            <td>"[AI-Powered Health Insights] integrates AI with multi-sensor data...Its built-in AI assistant delivers your personalized report and guidance"</td>
+            <td>RingConn Gen 2 Air ($199)</td>
+            <td><b>买断制</b><br>(明确无订阅)</td>
+            <td><b>中</b>：这是最值得对标的路线——把AI做成一次性购买的增值点而非订阅钩子</td>
+          </tr>
+          <tr class="group-ai">
+            <td><b>AI睡眠洞察</b></td>
+            <td>"the free Runmefit app provides AI-powered sleep insights, sleep stages, sleep score...no monthly subscription fees"</td>
+            <td>BAREZ ($29.74)</td>
+            <td>买断制</td>
+            <td><b>低</b>：睡眠分期算法早已是行业通用能力，"AI"更多是营销词汇</td>
+          </tr>
+          <tr class="group-ai">
+            <td><b>AI健康报告合成</b></td>
+            <td>"Our AI Health Report synthesizes your sleep, recovery, and activity into personalized, actionable insights based on your own physical condition every day—for free, forever"</td>
+            <td>Allxin ($89.99)、MIDDOW ($69.99)、AutrefoisElf ($78.95)</td>
+            <td>买断制</td>
+            <td><b>低</b>：白牌集群的通用话术，基本是规则引擎+模板化文案</td>
+          </tr>
+          <tr>
+            <td><b>AI语音控制</b><br><span class="tag diff">非健康AI</span></td>
+            <td>"1.85" HD Smart Watch with Calls/Messages/AI Voice Control"</td>
+            <td>CASCHO ($19.99–27.06)</td>
+            <td>买断制</td>
+            <td><b>低</b>：属于交互层语音助手，<b>与健康分析无关</b>，容易在竞品统计里被误计入"AI健康产品"</td>
+          </tr>
+          <tr>
+            <td><b>整机AI（智能手表形态）</b></td>
+            <td>"Samsung Galaxy Watch 8 | AI Smartwatch w/ Wear OS 6"（Galaxy AI）</td>
+            <td>Samsung Galaxy Watch 8 / Ultra ($199–349)</td>
+            <td>随机附带</td>
+            <td><b>极高</b>：手机厂商生态级能力，不在白牌可竞争范围</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>核心发现①：AI功能存在明显的"两级分化"，中间几乎是空白。</b>要么是WHOOP/Fitbit这种投入运动科学实验室和自研大模型的<b>平台级真AI</b>（$119–239，订阅制），要么是白牌把常规算法改名叫AI的<b>贴标级AI</b>（$29–90，买断制）。真正处在中间地带的只有 <b>RingConn Gen 2 Air</b> 一款——$199价位、内置AI助手、但明确承诺无订阅费。这个中间地带既是机会（差异化空间大）也是陷阱（要用白牌的成本结构做出接近平台级的体验）。
+      </div>
+      <div class="callout ai">
+        <b>核心发现②："No Subscription"（无订阅）已经成为对抗AI头部品牌的标准武器。</b>RingConn、CUDIS、BAREZ、Allxin、BIEMHA、prxxhri等多款产品把"No Subscription Fee / No Subscription Required"直接写进标题或五点首句。这说明市场已经形成一个清晰认知：<b>AI订阅是头部品牌的收入模型，也是它们最大的软肋</b>。任何新进入者的默认定位应该是"AI能力 + 买断制"，而不是复制订阅模型——后者在VOC里被反复攻击（见第4节）。
+      </div>
+    </section>
+
+    <section id="market">
+      <div class="section-head">
+        <div class="section-num">03</div>
+        <h2>市场对比：销量 · 客单价 · 收入 · 趋势</h2>
+        <p class="section-desc">全部为2026-08父体真实月度数据，分组汇总并计算加权平均客单价(ASP)。</p>
+      </div>
+
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>分组 / 产品</th><th class="num">售价</th><th class="num">月销量(件)</th><th class="num">月收入(USD)</th><th class="num">评分</th><th>销量趋势</th></tr></thead>
+        <tbody>
+          <tr class="group-ai"><td><b>AI组</b> · WHOOP 5.0/MG</td><td class="num">$239.00</td><td class="num">12,989</td><td class="num">$3,104,371</td><td class="num">4.4</td><td style="color:var(--success);">↑ 上升 +83%（2025-05的7,097→现在）</td></tr>
+          <tr class="group-ai"><td><b>AI组</b> · Fitbit Charge 6</td><td class="num">$126.87</td><td class="num">18,693</td><td class="num">$2,371,581</td><td class="num">4.0</td><td style="color:var(--danger);">↓ 下降 −22%（2024-06的24,013→现在）</td></tr>
+          <tr class="group-ai"><td><b>AI组</b> · RingConn Gen 2 Air</td><td class="num">$199.00</td><td class="num">11,222</td><td class="num">$2,233,178</td><td class="num">4.3</td><td style="color:var(--success);">↑↑ 爆发（2025-03仅92件→现在11,222）</td></tr>
+          <tr class="group-ai"><td><b>AI组</b> · Allxin 智能手环</td><td class="num">$89.99</td><td class="num">88</td><td class="num">$7,919</td><td class="num">4.2</td><td>新品，样本极薄</td></tr>
+          <tr class="group-ai"><td><b>AI组</b> · BAREZ 手环</td><td class="num">$29.74</td><td class="num">179</td><td class="num">$5,323</td><td class="num">4.0</td><td>新品，样本极薄</td></tr>
+          <tr class="group-ai"><td><b>AI组</b> · CUDIS 002 Ring</td><td class="num">$379.00</td><td class="num">11</td><td class="num">$4,169</td><td class="num">4.7</td><td>新品，仅4条评分</td></tr>
+          <tr class="total-row"><td>AI组 合计 / 加权ASP</td><td class="num">$178.93</td><td class="num">43,182</td><td class="num">$7,726,541</td><td class="num">—</td><td>—</td></tr>
+
+          <tr class="group-noai"><td><b>非AI组</b> · Fitbit Inspire 3</td><td class="num">$87.74</td><td class="num">21,576</td><td class="num">$1,893,078</td><td class="num">4.2</td><td style="color:var(--amber);">→ 微降 −13%（类目销量第一）</td></tr>
+          <tr class="group-noai"><td><b>非AI组</b> · XIAOMI Mi Band 10</td><td class="num">$50.20</td><td class="num">3,844</td><td class="num">$192,969</td><td class="num">4.4</td><td style="color:var(--success);">↑ 上升（2025-07的198→现在3,844）</td></tr>
+          <tr class="group-noai"><td><b>非AI组</b> · BIEMHA 智能戒指</td><td class="num">$59.99</td><td class="num">4,543</td><td class="num">$272,535</td><td class="num">4.9</td><td style="color:var(--success);">↑ 上升 +154%</td></tr>
+          <tr class="group-noai"><td><b>非AI组</b> · Moremore 手环</td><td class="num">$29.99</td><td class="num">4,958</td><td class="num">$148,690</td><td class="num">4.0</td><td style="color:var(--success);">↑ 上升 +51%（新品期）</td></tr>
+          <tr class="group-noai"><td><b>非AI组</b> · LIVIKEY 手环</td><td class="num">$19.99</td><td class="num">5,518</td><td class="num">$110,305</td><td class="num">4.0</td><td style="color:var(--danger);">↓ 下降 −49%（2025-04高点10,813→现在）</td></tr>
+          <tr class="total-row"><td>非AI组 合计 / 加权ASP</td><td class="num">$64.73</td><td class="num">40,439</td><td class="num">$2,617,577</td><td class="num">—</td><td>—</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="two-col" style="margin-top:20px;">
+        <div class="chart-card">
+          <div class="chart-card-title">AI组 vs 非AI组：销量 / 收入 / 客单价对比</div>
+          <div class="chart-card-sub">2026-08 父体真实数据，分组汇总</div>
+          <div class="chart-wrap" style="height:260px;"><canvas id="groupChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">头部产品月销量趋势（13个月）</div>
+          <div class="chart-card-sub">数据源：asin_sales_trend parentUnitSales</div>
+          <div class="chart-wrap" style="height:260px;"><canvas id="trendChart"></canvas></div>
+          <div class="legend-row" id="trendLegend"></div>
+        </div>
+      </div>
+
+      <div class="callout success">
+        <b>核心发现③：AI组用几乎相同的销量，做出接近3倍的收入。</b>AI组月销43,182件 vs 非AI组40,439件（仅高6.8%），但月收入$7.73M vs $2.62M（<b>2.95倍</b>），加权客单价$178.93 vs $64.73（<b>2.76倍</b>）。品牌集中度数据进一步印证：<b>WHOOP靠1款产品拿下13.2%销量却贡献32.8%收入</b>，而白牌prxxhri($14.99)+LIVIKEY($19.99)合计吃掉31.8%销量却只换来5.5%收入。这是这份报告里最重要的一组数字——<b>在这个市场里卷低价，等于用三分之一的收入去换同样的销量和同样的运营成本</b>。
+      </div>
+
+      <div class="callout info">
+        <b>趋势判读：AI组内部并不齐涨，关键变量是"渠道信任"而非"AI本身"。</b>AI组里WHOOP(+83%)和RingConn(92→11,222件的爆发)在涨，但Fitbit Charge 6反而跌了22%——它同样有Gemini AI教练。差异不在AI能力，而在Fitbit正经历Google Health App强制迁移导致的老用户流失（VOC里大量"since Google took the fitbit app, its not the same"类差评，见第4节）。同时非AI组也不是全跌：XIAOMI和BIEMHA都在涨，跌的是$19.99的LIVIKEY(−49%)。<b>真正的分水岭是"$50以下纯低价白牌在萎缩"，而不是"没有AI就不行"。</b>
+      </div>
+    </section>
+
+    <section id="voc">
+      <div class="section-head">
+        <div class="section-num">04</div>
+        <h2>VOC痛点分组对比：AI组 vs 非AI组</h2>
+        <p class="section-desc">AI组50条（WHOOP 20 + RingConn 20 + Fitbit Charge 6 20，其中Charge 6按AI组计因其Gemini教练）、非AI组40条（Fitbit Inspire 3 20 + XIAOMI 20 + LIVIKEY 10全量）。两组分别计算分母，不混算。</p>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">痛点分组对比（占各组编码样本比例）</div>
+        <div class="chart-card-sub">AI组 N=50 / 非AI组 N=40，各类别独立计数不互斥</div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="painChart"></canvas></div>
+      </div>
+
+      <div class="vs-grid">
+        <div class="vs-card ai-side">
+          <div class="vs-head">
+            <h3>AI组痛点（N=50）</h3>
+            <div class="vs-sub">WHOOP / RingConn / Fitbit Charge 6</div>
+          </div>
+          <div class="vs-body">
+            <div class="dd-stat-row"><span class="dd-stat-name">电池衰减（8-12个月后撑不住）</span><span class="dd-stat-val">14 · 28.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">数据准确性差（步数/睡眠/心率）</span><span class="dd-stat-val">11 · 22.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">订阅费/持续付费反感</span><span class="dd-stat-val">6 · 12.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">Amazon渠道购买不享保修</span><span class="dd-stat-val">5 · 10.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">App生态迁移导致功能倒退</span><span class="dd-stat-val">5 · 10.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">硬件/表带断裂脱落</span><span class="dd-stat-val">5 · 10.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">客服无法解决问题（含AI客服）</span><span class="dd-stat-val">5 · 10.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name"><b>AI功能本身不及预期</b></span><span class="dd-stat-val" style="color:var(--ai);">2 · 4.0%</span></div>
+            <div style="margin-top:14px;">
+              <div class="quote-block ai-quote">"It's not what I expected! I'm not impressed with the AI feedback either…the band also feels cheap!"<span class="quote-author">— Nicole Rhonda Knowles, 1★ 评WHOOP → 唯一一条直接针对AI输出质量的差评</span></div>
+              <div class="quote-block ai-quote">"The customer support is essentially an AI that responds via email and then eventually redirects you back to Amazon…I finally got a real person to respond who redirected me back to Amazon for refund"<span class="quote-author">— Sarah, 1★ 评WHOOP → <b>AI用错地方：把AI放在客服端反而成了差评放大器</b></span></div>
+              <div class="quote-block ai-quote">"Its good but there are better options in market with cheaper price and no annual subscription"<span class="quote-author">— Eddie, 2★ 评WHOOP → 订阅制是头部品牌被攻击的固定靶心</span></div>
+              <div class="quote-block ai-quote">"Almost exactly one year after I bought this, the battery no longer keeps charge. Waste of money."<span class="quote-author">— JVM, 1★ 评RingConn → 智能戒指电池衰减是压倒性头号痛点，20条差评里14条指向电池</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vs-card noai-side">
+          <div class="vs-head">
+            <h3>非AI组痛点（N=40）</h3>
+            <div class="vs-sub">Fitbit Inspire 3 / XIAOMI / LIVIKEY</div>
+          </div>
+          <div class="vs-body">
+            <div class="dd-stat-row"><span class="dd-stat-name">基础传感器不准（步数/睡眠/心率）</span><span class="dd-stat-val">16 · 40.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">充电失效/电池早衰</span><span class="dd-stat-val">9 · 22.5%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name"><b>本地化缺陷（只有公制无英制）</b></span><span class="dd-stat-val" style="color:var(--danger);">8 · 20.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">连接/配对失败</span><span class="dd-stat-val">6 · 15.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">整机寿命短（1年内报废）</span><span class="dd-stat-val">6 · 15.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">App生态迁移导致功能倒退</span><span class="dd-stat-val">3 · 7.5%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">订阅墙反感</span><span class="dd-stat-val">2 · 5.0%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">Amazon渠道购买不享保修</span><span class="dd-stat-val">2 · 5.0%</span></div>
+            <div style="margin-top:14px;">
+              <div class="quote-block">"The step counter is wayyy off…I did a test and counted the number of steps from my bedroom to my kitchen, which is 32, and the tracker counted 63. When I drove to the store, it counted about 16 steps while I was driving."<span class="quote-author">— Lisa Finger, 1★ 评LIVIKEY($19.99) → 低价段计步器基本不可信</span></div>
+              <div class="quote-block">"last night it claims that I slept for 3 minutes. I went to bed at 10:30pm and woke up at 5:30am but somehow it said I slept for 3 total minutes."<span class="quote-author">— Reviewer, 2★ 评Fitbit Inspire 3($87.74) → <b>准确性问题不是低价段专利，$88的一线品牌同样翻车</b></span></div>
+              <div class="quote-block">"This version does not give the USA as a choice for where the smart band is located. All measures are in metrics."<span class="quote-author">— Jeff Fike, 3★ 评XIAOMI → 20条差评里8条抱怨只有公制，纯本地化失误</span></div>
+              <div class="quote-block">"you shouldn't have to pay any money for anyone to read your sleep and step counter. You have to subscribe to use it."<span class="quote-author">— Spyder, 1★ 评Fitbit Inspire 3 → <b>订阅反感在非AI产品上同样存在，不是AI专属问题</b></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>核心发现④：AI组和非AI组的头号痛点完全不同，但都指向同一个底层前提——传感器精度。</b>非AI组头号痛点是"基础传感器不准"(40.0%)，AI组头号痛点是"电池衰减"(28.0%)、数据准确性退居第二(22.0%)。但注意：<b>AI组的准确性问题一条都不少</b>——WHOOP用户实测"a 3.6 mile walk it accounts 2,000 steps"、"sleep times being off by hours"。这意味着<b>AI并不能修复不准的传感器，反而会把不准的数据放大成"看起来很专业的错误建议"</b>。任何计划做AI产品的人，必须先解决"数据本身对不对"，否则AI只是给垃圾数据套了一层可信外壳，差评会更狠。
+      </div>
+      <div class="callout ai">
+        <b>核心发现⑤：AI功能本身几乎不产生差评（50条里仅2条，4.0%），说明AI不是风险点——但也说明AI没被用户真正感知。</b>与其说用户在批评AI，不如说<b>用户根本没怎么谈论AI</b>。50条AI组差评里，压倒性内容是电池、准确度、订阅、保修这些"传统硬件问题"。这与第5节"买家不搜AI关键词"完全吻合，两条独立证据指向同一个结论：<b>AI目前在这个市场是"卖点包装"而非"购买理由"</b>。它能支撑更高定价（第3节已证明），但支撑不了"只要有AI就能卖出去"。
+      </div>
+      <div class="callout info">
+        <b>核心发现⑥：两个跨组共性痛点，是新进入者的直接机会窗口。</b>①<b>Amazon渠道买的产品不享保修</b>——RingConn("no warranty since I purchased through Amazon")和Fitbit("I was told that Amazon is an unauthorized retailer")两个不同价位段的品牌都被同一问题击中，合计7条差评。如果新品能明确承诺"Amazon购买同样享受完整保修"，这是零成本、可直接写进Listing的差异化点。②<b>XIAOMI的"只有公制无英制"造成8条差评(20%)</b>——这是一个纯粹的本地化疏忽，对中国供应链背景的卖家是极其廉价的低垂果实：把英制单位、美国时区、Apple Health同步做扎实，就能吃掉一部分XIAOMI流失的用户。
+      </div>
+    </section>
+
+    <section id="keyword">
+      <div class="section-head">
+        <div class="section-num">05</div>
+        <h2>关键词流量与类目结构</h2>
+        <p class="section-desc">数据源：keyword_miner、market_research_statistics、market_price_distribution、market_rating_distribution、market_brand_concentration。</p>
+      </div>
+
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>关键词</th><th class="num">月搜索量</th><th class="num">月购买量</th><th class="num">SPR*</th><th class="num">PPC竞价</th><th class="num">商品数</th><th class="num">词均价</th></tr></thead>
+        <tbody>
+          <tr><td><b>smart ring</b>（智能戒指）</td><td class="num" style="color:var(--success);"><b>233,314</b></td><td class="num">70</td><td class="num">3</td><td class="num">$3.02</td><td class="num">28,989</td><td class="num">$59.97</td></tr>
+          <tr><td><b>fitness tracker</b>（核心词）</td><td class="num">38,529</td><td class="num">505</td><td class="num">12</td><td class="num" style="color:var(--danger);"><b>$10.00</b></td><td class="num">21,176</td><td class="num">$29.99</td></tr>
+          <tr><td>sleep tracker</td><td class="num">31,675</td><td class="num">171</td><td class="num">4</td><td class="num">$2.11</td><td class="num">7,379</td><td class="num">$99.00</td></tr>
+          <tr><td>health tracker</td><td class="num">18,008</td><td class="num">493</td><td class="num">12</td><td class="num">$2.10</td><td class="num">8,521</td><td class="num" style="color:var(--success);"><b>$239.00</b></td></tr>
+          <tr><td>activity tracker</td><td class="num">8,287</td><td class="num">264</td><td class="num">6</td><td class="num">$6.02</td><td class="num">20,589</td><td class="num">$99.00</td></tr>
+          <tr><td>fitness tracker for women</td><td class="num">851</td><td class="num">33</td><td class="num">1</td><td class="num">$2.61</td><td class="num">8,607</td><td class="num">$29.99</td></tr>
+          <tr><td>smart watch fitness tracker</td><td class="num">779</td><td class="num">35</td><td class="num">1</td><td class="num">$1.16</td><td class="num">15,273</td><td class="num">$115.99</td></tr>
+          <tr style="background:var(--danger-bg);"><td><b>ai fitness tracker</b></td><td class="num" colspan="6" style="text-align:left; color:var(--danger-dark); font-weight:700;">查询无搜索量数据 —— 买家不用这个词搜索</td></tr>
+          <tr style="background:var(--danger-bg);"><td><b>ai health tracker</b></td><td class="num" colspan="6" style="text-align:left; color:var(--danger-dark); font-weight:700;">查询无搜索量数据</td></tr>
+          <tr style="background:var(--danger-bg);"><td><b>fitness tracker no subscription</b></td><td class="num" colspan="6" style="text-align:left; color:var(--danger-dark); font-weight:700;">查询无搜索量数据（尽管这是竞品的高频卖点话术）</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="section-desc" style="font-size:12px; margin-top:8px;">*SPR = Search-to-Purchase Rank，越低表示上首页所需的历史销量门槛越低。三个无数据的词已如实保留展示，不换词凑数——"无数据"本身就是本报告最重要的结论之一。</p>
+
+      <div class="callout danger" style="margin-top:16px;">
+        <b>核心发现⑦："AI"完全不是流量入口，但"smart ring"是一个被严重低估的巨型入口。</b>三个AI相关词全部查无搜索量，证明<b>没有任何买家会主动搜索"AI健身手环"</b>——AI只能作为详情页的转化说服工具和定价支撑，绝不能作为SEO主攻方向。与此形成强烈反差的是"smart ring"月搜索量高达<b>233,314</b>，是核心词"fitness tracker"(38,529)的<b>6.1倍</b>，且CPC仅$3.02、SPR仅3（上首页门槛极低）。而"fitness tracker"这个词CPC高达<b>$10.00</b>——是"smart ring"的3.3倍、"health tracker"的4.8倍，词均价却只有$29.99，意味着<b>在手环形态上打广告，是用最贵的流量去卖最便宜的货</b>，单位经济极差。
+      </div>
+      <div class="callout success">
+        <b>形态选择建议直接从关键词数据浮现：智能戒指(smart ring) &gt; 手环(fitness tracker)。</b>三条独立证据指向同一方向：①流量端 smart ring 月搜233K、CPC $3.02、SPR 3，远优于 fitness tracker 的38.5K、$10.00、SPR 12；②销量端 RingConn 从2025-03的92件爆发到2026-08的11,222件，是全组增速最快的产品；③价格端 smart ring 词均价$59.97、BIEMHA戒指$59.99能做到4.9分，而同价位手环普遍只有4.0分。此外"health tracker"词均价$239、"sleep tracker"词均价$99，都显著高于"fitness tracker"的$29.99——<b>用词选择本身就在决定你会被算法推给什么价位的买家</b>。
+      </div>
+
+      <h3 class="sub-head">类目结构</h3>
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>指标</th><th class="num">数值</th><th>解读</th></tr></thead>
+        <tbody>
+          <tr><td>样本商品数 / 品牌数 / 卖家数</td><td class="num">100 / 35 / 47</td><td>品牌数少于商品数，说明头部品牌多SKU布局</td></tr>
+          <tr><td>样本均价 / 头部10均价</td><td class="num">$63.01 / $75.38</td><td>头部均价高于整体均价，与玩具类目"头部靠低价起量"规律相反</td></tr>
+          <tr><td><b>新品占比</b></td><td class="num" style="color:var(--success);"><b>72%</b></td><td><b>极高</b>——这是本次调研过的所有类目里新品占比最高的一个，说明市场对新玩家高度开放，老品护城河很浅</td></tr>
+          <tr><td>新品均销量 / 新品均价</td><td class="num">1,701件/月 / $46.32</td><td>新品能跑量，但均价$46.32明显低于头部$75.38，新品普遍靠低价切入</td></tr>
+          <tr><td><b>评分生存线</b></td><td class="num">3.5–4.0段<br>占37.8%销量</td><td><b>与玩具类目完全相反</b>：这个类目评分3.5-4.0的产品占据最大销量份额(37.8%)，4.5分以上反而只占16.4%。<b>低评分不致命</b>，Fitbit Charge 6只有4.0分仍是类目第二</td></tr>
+          <tr><td>$195以上价格带</td><td class="num">11.6%销量<br>$6.73M收入</td><td>只用11.6%的销量贡献了全类目最高的收入池</td></tr>
+          <tr><td>$15–30价格带</td><td class="num">28.1%销量<br>$1.63M收入</td><td>2.4倍于高价带的销量，却只有其24%的收入——低价带是销量陷阱</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout info" style="margin-top:16px;">
+        <b>品牌集中度揭示的收入结构（这是决定要不要进的关键一张表）：</b>Fitbit 41.4%销量 / 42.2%收入；<b>WHOOP 13.2%销量 / 32.8%收入（仅1款产品）</b>；RingConn 8.7%销量 / 17.9%收入（仅1款）；而白牌 prxxhri($14.99) 16.3%销量却只有<b>2.5%</b>收入、LIVIKEY($19.99) 15.5%销量只有<b>3.0%</b>收入。<b>两家白牌合计吃掉31.8%的销量，却只分到5.5%的收入池</b>。同样是打一场仗，WHOOP用13.2%的销量拿走了六倍于它们的钱。
+      </div>
+
+      <div class="callout info">
+        <b>季节性：电子类目是双峰而非单峰，与玩具类目不同。</b>以各产品自身月均值为基准：WHOOP 2025-11为1.48倍、2025-12为1.76倍，但<b>2026-06(Prime Day)高达1.96倍，是全年最高峰</b>；Fitbit Inspire 3同样呈双峰——2024-07(Prime Day)28,712件、2025-07 45,016件，与12月的52,432/56,861件形成两个高点。结论：<b>这个类目必须同时打Prime Day(6-7月)和圣诞(11-12月)两个节点</b>，只押Q4会丢掉近一半的旺季机会。上架窗口建议在4-5月完成，先吃Prime Day再养到Q4。
+      </div>
+    </section>
+
+    <section id="external">
+      <div class="section-head">
+        <div class="section-num">06</div>
+        <h2>外部信号：FDA对AI健康声称的监管边界</h2>
+        <p class="section-desc">这是开发AI健康产品最实质的合规风险。以下为可核查的完整监管时间线，每条附来源链接。</p>
+      </div>
+
+      <ul class="timeline">
+        <li class="warn">
+          <span class="tl-date">2025年7月14日 · FDA向WHOOP发出警告信</span>
+          FDA认定WHOOP的"Blood Pressure Insights"（血压洞察）功能构成<b>医疗器械</b>而非健康类产品，理由是其"每日收缩压/舒张压估算"的表述、以及带彩色目标区间的仪表盘式UI呈现方式，加上宣传中使用了<b>"medical grade"（医疗级）</b>措辞——却未取得FDA上市前批准(PMA)。
+        </li>
+        <li class="good">
+          <span class="tl-date">2026年1月6日 · FDA修订《General Wellness: Policy for Low Risk Devices》</span>
+          FDA<b>放宽</b>立场：非侵入式产品即使估算或输出血压、血氧、心率变异性、血糖等生理参数，只要其<b>预期用途严格限定于健康(wellness)用途</b>并满足指南其他条件，就可以被认定为"非器械的一般健康产品"。这实质上推翻了对WHOOP的原始执法立场。
+        </li>
+        <li class="good">
+          <span class="tl-date">2026年6月17日 · FDA向WHOOP发出结案函(closeout letter)</span>
+          因WHOOP已修改产品与标签，FDA表示不再就该功能追究法规要求。
+        </li>
+        <li class="warn">
+          <span class="tl-date">后续 · 警告信成为集体诉讼(class action)的依据</span>
+          即便FDA已经撤回，这封警告信仍被原告方用作对WHOOP提起<b>集体诉讼</b>的锚点。<b>这是本节最重要的一条</b>：监管机构撤回执法，并不等于商业风险消失——警告信一旦发出就成为永久的公开记录，可被私人诉讼反复引用。
+        </li>
+      </ul>
+
+      <div class="callout danger" style="margin-top:20px;">
+        <b>对本项目的直接意义（三条硬约束）：</b><br>
+        <b>①"预期用途"由你的文案决定，不由你的技术决定。</b>FDA判定是否属于医疗器械，依据的是"intended use"，而它从<b>宣传语、标签、广告和功能呈现方式</b>推断。同样的血压估算算法，写成"wellness insight"是合规产品，写成"medical grade daily blood pressure estimation"就是未经批准的医疗器械。<b>AI功能的措辞风险高于AI功能本身</b>——"AI医生""AI诊断""medical grade AI analysis"这类表述是明确红线。<br>
+        <b>②本报告竞品中已有多款处在这条红线附近。</b>Moremore($29.99)、Zeacool($25.99)、Bakoor($28.99)等白牌在Listing里直接宣传"Blood Pressure"监测，CUDIS($379)宣传"medical-grade accuracy"、"biological age"，WHOOP宣传"WHOOP Age / Pace of Aging"。这些正是FDA当年盯上WHOOP的同类表述。2026年1月的新指南给了缓冲，但<b>"medical grade"这个具体措辞仍然是触发点</b>。<br>
+        <b>③即使FDA不追究，私人诉讼仍可能追究。</b>WHOOP案证明了完整链路：警告信 → 撤回 → 但集体诉讼照打。对于中小卖家，一次集体诉讼的成本远超产品线利润。
+      </div>
+
+      <p class="section-desc" style="margin-top:16px; font-size:12.5px;">
+        Sources：
+        <a href="https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/whoop-inc-709755-07142025" target="_blank" rel="noopener">FDA: WHOOP警告信原文(2025-07-14)</a> ·
+        <a href="https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/warning-letters/whoop-inc-709755-06172026" target="_blank" rel="noopener">FDA: WHOOP结案函(2026-06-17)</a> ·
+        <a href="https://www.cov.com/en/news-and-insights/insights/2026/01/fda-issues-revised-guidance-on-general-wellness-products" target="_blank" rel="noopener">Covington: FDA修订一般健康产品指南</a> ·
+        <a href="https://natlawreview.com/article/fdas-2026-general-wellness-policy-and-what-it-means-manufacturers-wearable-devices" target="_blank" rel="noopener">NatLawReview: 2026一般健康政策对可穿戴厂商的意义</a> ·
+        <a href="https://www.afslaw.com/perspectives/longevity-lens/whoop-there-it-fda-warning-letter-now-anchors-class-action-against" target="_blank" rel="noopener">ArentFox Schiff: 警告信成为集体诉讼锚点</a> ·
+        <a href="https://www.medtechdive.com/news/fda-exempts-wearable-ai-features-guidance/809099/" target="_blank" rel="noopener">MedTech Dive: FDA豁免更多可穿戴AI功能</a>
+      </p>
+    </section>
+
+    <section id="decision">
+      <div class="section-head">
+        <div class="section-num">07</div>
+        <h2>开发AI产品的决策要点</h2>
+        <p class="section-desc">按优先级排序：P1(进入前必须解决) / P2(强烈建议) / P3(差异化加分)。每条都对应本报告前六节的具体数据证据。</p>
+      </div>
+
+      <ol class="rec-list">
+        <li class="rec-item p1">
+          <div class="rec-rank">01</div>
+          <div>
+            <p class="rec-title">先把传感器精度做到位，再谈AI——否则AI只会放大错误</p>
+            <p class="rec-body">非AI组头号痛点是"基础传感器不准"(40.0%)，AI组同样有22.0%的准确性差评，连$239的WHOOP都被实测"3.6英里走成2000步"、$88的Fitbit Inspire 3被实测"睡了7小时记成3分钟"。AI建立在传感器数据之上，<b>数据不准时，AI会把错误包装成看起来很专业的建议，差评比纯硬件产品更狠</b>。建议在打样阶段就用第三方设备做步数/心率/睡眠分期的对照实测，把精度作为立项闸门而不是优化项。</p>
+            <p class="rec-evidence">证据：第4节VOC分组统计；LIVIKEY"驾车时记录16步"、Fitbit Inspire 3"睡眠3分钟"实测差评</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">02</div>
+          <div>
+            <p class="rec-title">AI功能的文案措辞按FDA"预期用途"标准逐句审，禁用"medical grade"类表述</p>
+            <p class="rec-body">FDA判定是否为医疗器械依据的是从宣传语推断的"intended use"，不是技术本身。WHOOP 2025年因"medical grade"+血压估算吃警告信，虽在2026年1月新指南后结案，但<b>该警告信已成为集体诉讼的锚点</b>。所有AI输出必须限定在wellness语境（"insight""trend""wellness guidance"），明确避开诊断、医疗级、疾病相关表述。这一条是<b>零成本但漏了就致命</b>的合规动作。</p>
+            <p class="rec-evidence">证据：第6节FDA完整监管时间线，含警告信原文与结案函；ArentFox Schiff关于集体诉讼的分析</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">03</div>
+          <div>
+            <p class="rec-title">采用"AI能力 + 买断制"，不要复制订阅模型</p>
+            <p class="rec-body">订阅反感在VOC里是稳定的攻击靶心（AI组12.0%，且<b>非AI组的Fitbit Inspire 3同样中招</b>）。市场已经形成明确共识——RingConn、CUDIS、BAREZ、Allxin、BIEMHA、prxxhri全都把"No Subscription"写进标题或五点首句。新进入者若做订阅，等于主动站到所有竞品的火力集中点上；做买断，则可以直接继承这套现成的攻击话术。</p>
+            <p class="rec-evidence">证据：第2节AI功能盘点的商业模式列；WHOOP差评"better options with cheaper price and no annual subscription"</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">04</div>
+          <div>
+            <p class="rec-title">优先考虑智能戒指(smart ring)形态，而非手环</p>
+            <p class="rec-body">三条独立证据同向：①"smart ring"月搜233,314是"fitness tracker"的6.1倍，CPC $3.02仅为后者$10.00的三成，SPR 3远低于12；②RingConn从92件爆发到11,222件是全组增速冠军；③戒指形态词均价$59.97、BIEMHA戒指能做到4.9分，而同价位手环普遍卡在4.0分。<b>在"fitness tracker"词上投广告是用最贵的流量卖最便宜的货</b>（词均价仅$29.99），单位经济从一开始就不成立。</p>
+            <p class="rec-evidence">证据：第5节关键词矩阵；第3节RingConn销量趋势；市场价格分布数据</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">05</div>
+          <div>
+            <p class="rec-title">把"Amazon渠道完整保修"和"美制单位/美国本地化"做成明写的差异化点</p>
+            <p class="rec-body">两个跨组共性痛点，都是零成本机会：①RingConn与Fitbit两个不同价位段品牌都因"Amazon买的不给保修"吃差评（合计7条）——新品明确承诺Amazon渠道同享保修，可直接写进Listing；②XIAOMI因"只有公制无英制、无法选美国地区"吃了8条差评(占其差评20%)，这是纯本地化疏忽，对中国供应链卖家是极廉价的低垂果实。</p>
+            <p class="rec-evidence">证据：第4节核心发现⑥；XIAOMI差评"This version does not give the USA as a choice"、Fitbit差评"Amazon is an unauthorized retailer"</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">06</div>
+          <div>
+            <p class="rec-title">定价锚定$100–200区间，不要进$15–30红海</p>
+            <p class="rec-body">$15–30价格带用28.1%的销量只换到$1.63M收入，而$195以上价格带用11.6%的销量换到$6.73M。品牌集中度进一步印证：白牌prxxhri+LIVIKEY合计31.8%销量只分到5.5%收入池，WHOOP单款13.2%销量拿走32.8%。同时该类目<b>评分生存线极宽松</b>——3.5-4.0分段占据37.8%的销量份额，4.5分以上反而只占16.4%，意味着中高价位不需要完美评分也能活。</p>
+            <p class="rec-evidence">证据：第5节价格带分布与品牌集中度；第3节AI组ASP $178.93 vs 非AI组 $64.73</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">07</div>
+          <div>
+            <p class="rec-title">电池衰减做1年期老化验证，这是中高价位段的头号退货原因</p>
+            <p class="rec-body">AI组头号痛点是电池衰减(28.0%)，RingConn 20条差评里14条集中在"8-12个月后电池撑不住"，且多条明确写"almost exactly one year"——正好卡在保修期结束点，用户感知极差。智能戒指电池体积受限，这是形态固有短板，必须用真实老化测试（而非标称循环次数）验证。</p>
+            <p class="rec-evidence">证据：第4节AI组痛点统计；RingConn多条"battery no longer keeps charge after one year"差评</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">08</div>
+          <div>
+            <p class="rec-title">AI只写进详情页做转化与定价支撑，不要作为SEO主攻方向；上架窗口4–5月</p>
+            <p class="rec-body">"ai fitness tracker"/"ai health tracker"均查无搜索量，且AI组50条差评里只有2条(4.0%)提到AI——两条独立证据都说明<b>AI是转化工具不是流量入口</b>。SEO应主攻"smart ring"(233K)、"sleep tracker"(31.7K，词均价$99)、"health tracker"(18K，词均价$239)这些高价位关联词。节奏上该类目是<b>Prime Day + 圣诞双峰</b>（WHOOP 2026-06达月均1.96倍，高于12月的1.76倍），建议4-5月完成上架先吃Prime Day。</p>
+            <p class="rec-evidence">证据：第5节关键词矩阵与季节性分析；第4节核心发现⑤</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="callout ai" style="margin-top:24px;">
+        <b>最终决策概要：</b>这个市场<b>值得进，但不能以"做一个AI健身手环"的方式进</b>。可执行的组合是——<b>智能戒指形态</b>（流量成本仅为手环的三成、增速最快）+ <b>$100–200定价</b>（收入池所在，且评分生存线宽松）+ <b>AI能力买断制</b>（继承现成的反订阅话术）+ <b>传感器精度作为立项闸门</b>（AI的地基）+ <b>wellness语境的合规文案</b>（规避FDA/集体诉讼风险）。该类目新品占比高达72%，是本轮调研过的所有类目中对新玩家最开放的一个——护城河浅意味着机会，也意味着一旦你做成了，别人复制你也同样快，所以真正能守住的只有前面这几条里最难复制的那条：<b>传感器精度和长期电池表现</b>。
+      </div>
+    </section>
+
+    <footer>
+      数据来源：卖家精灵 MCP（asin_sales_trend / asin_detail / review / keyword_miner / product_research / market_* 系列），2026年8月抓取；外部监管信号通过WebSearch核实并附FDA官方来源链接。本报告仅供内部选品决策参考，不构成法律或医疗合规意见，正式立项前建议就具体宣传文案咨询FDA合规律师。
+    </footer>
+
+  </main>
+</div>
+
+<button class="back-to-top" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var AI_COMPS = [
+  {asin:"B0DY2SWV16", brand:"WHOOP 5.0/MG", img:"https://m.media-amazon.com/images/I/31wN2FZpfZL._AC_US200_.jpg", price:"$239.00", rating:4.4, ratings:2352, sales:12989, revenue:3104371, ai:"WHOOP AI分析140+项指标生成个性化教练；Healthspan生物年龄与衰老速度；实时压力监测。订阅制(含12个月会员)"},
+  {asin:"B0CC62ZG1M", brand:"Fitbit Charge 6", img:"https://m.media-amazon.com/images/I/41RLn0a8gxL._AC_US200_.jpg", price:"$126.87", rating:4.0, ratings:21671, sales:18693, revenue:2371581, ai:"Google Health Premium会员解锁「built with Gemini」的个性化教练，大模型驱动。订阅另付"},
+  {asin:"B0DWK135K9", brand:"RingConn Gen 2 Air", img:"https://m.media-amazon.com/images/I/41TA4KeJGvL._AC_US200_.jpg", price:"$199.00", rating:4.3, ratings:4534, sales:11222, revenue:2233178, ai:"内置AI助手结合多传感器数据输出个性化报告与建议。明确「标准功能无订阅费」"},
+  {asin:"B0GFXG8CZ5", brand:"Allxin 智能手环", img:"https://m.media-amazon.com/images/I/41hIuoM6tAL._AC_US200_.jpg", price:"$89.99", rating:4.2, ratings:22, sales:88, revenue:7919, ai:"「AI Health Report」合成睡眠/恢复/活动数据生成每日个性化洞察，宣称永久免费"},
+  {asin:"B0GKJBD9CJ", brand:"BAREZ 手环", img:"https://m.media-amazon.com/images/I/71oYjxNhZjL._AC_US200_.jpg", price:"$29.74", rating:4.0, ratings:48, sales:179, revenue:5323, ai:"Runmefit App提供「AI-powered sleep insights」睡眠分期与评分，无月费"},
+  {asin:"B0H3Z4TP9H", brand:"CUDIS 002 Ring", img:"https://m.media-amazon.com/images/I/41nv-+-fnAL._AC_US200_.jpg", price:"$379.00", rating:4.7, ratings:4, sales:11, revenue:4169, ai:"内置AI Coach分析Strain/Recovery给出建议；CUDIS Age生物年龄。宣称永久无订阅费"}
+];
+
+var NOAI_COMPS = [
+  {asin:"B0B5F9SZW7", brand:"Fitbit Inspire 3", img:"https://m.media-amazon.com/images/I/21o5Z87UgYL._AC_SR200,200_.jpg", price:"$87.74", rating:4.2, ratings:25369, sales:21576, revenue:1893078, ai:"无AI功能宣称。五点只列Daily Readiness Score、Stress Management Score等静态评分，未提及AI或Gemini"},
+  {asin:"B0DYF82545", brand:"XIAOMI Mi Band 10", img:"https://m.media-amazon.com/images/I/41N5EkEpt8L._AC_US200_.jpg", price:"$50.20", rating:4.4, ratings:12122, sales:3844, revenue:192969, ai:"无AI功能宣称。主打1.72吋AMOLED、21天续航、HyperOS 2系统"},
+  {asin:"B0F8HHS3NL", brand:"BIEMHA 智能戒指", img:"https://m.media-amazon.com/images/I/61R9gaw22IL._AC_US200_.jpg", price:"$59.99", rating:4.9, ratings:136, sales:4543, revenue:272535, ai:"无AI功能宣称。核心卖点是「No Subscription」+ IP68 + 5天续航"},
+  {asin:"B0GYNL6QFV", brand:"Moremore 手环", img:"https://m.media-amazon.com/images/I/618Y6apfa0L._AC_US200_.jpg", price:"$29.99", rating:4.0, ratings:500, sales:4958, revenue:148690, ai:"无AI功能宣称。宣传「high-performance chipset自动分析睡眠质量」但未使用AI措辞。注意：宣传血压监测，属FDA关注表述"},
+  {asin:"B0CC9DXVPF", brand:"LIVIKEY 手环", img:"https://m.media-amazon.com/images/I/41EaV8yxjaL._AC_US200_.jpg", price:"$19.99", rating:4.0, ratings:7234, sales:5518, revenue:110305, ai:"无AI功能宣称。纯基础监测：心率/睡眠/9种运动模式"}
+];
+
+function fmt(n){ return n.toLocaleString(); }
+function amzUrl(asin){ return 'https://www.amazon.com/dp/'+asin; }
+
+function renderGrid(elId, list, isAi){
+  var grid = document.getElementById(elId);
+  grid.innerHTML = '';
+  list.forEach(function(c){
+    var card = document.createElement('div');
+    card.className = 'comp-card ' + (isAi ? 'is-ai' : 'is-noai');
+    card.innerHTML =
+      '<a class="comp-img-wrap" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" title="在Amazon打开 '+c.brand+'"><img src="'+c.img+'" alt="'+c.brand+'" loading="lazy"></a>' +
+      '<div class="comp-body">' +
+        '<div class="comp-badge-row"><span class="badge '+(isAi?'pill-ai':'pill-accent')+'">'+c.price+'</span><span class="badge pill-success">'+c.rating+'★ / '+fmt(c.ratings)+'</span></div>' +
+        '<p class="comp-title"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">'+c.brand+' <i class="link-arrow">↗</i></a></p>' +
+        '<div class="comp-meta"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" class="asin-link">'+c.asin+'</a></div>' +
+        '<div class="comp-ai-feat '+(isAi?'':'none')+'">'+(isAi?'<b>AI功能：</b>':'')+c.ai+'</div>' +
+        '<div class="comp-sales">2026-08 月销量：<b>'+fmt(c.sales)+'</b> 件 / $'+fmt(c.revenue)+'</div>' +
+        '<a class="comp-open-btn" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">在Amazon查看 ↗</a>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+renderGrid('aiGrid', AI_COMPS, true);
+renderGrid('noaiGrid', NOAI_COMPS, false);
+
+var gridColor = '#e4e7ec';
+var mutedColor = '#8890a0';
+Chart.defaults.color = mutedColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.size = 12;
+
+new Chart(document.getElementById('groupChart'), {
+  type:'bar',
+  data:{
+    labels:['月销量(件)','月收入(千美元)','加权客单价($)'],
+    datasets:[
+      {label:'AI组', data:[43182, 7727, 179], backgroundColor:'#7f4bd8', borderRadius:4, maxBarThickness:38},
+      {label:'非AI组', data:[40439, 2618, 65], backgroundColor:'#8890a0', borderRadius:4, maxBarThickness:38}
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{position:'top'}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.dataset.label+': '+fmt(ctx.parsed.y); } } } },
+    scales:{ y:{ type:'logarithmic', grid:{color:gridColor}, ticks:{callback:function(v){return fmt(v);}} }, x:{ grid:{display:false} } }
+  }
+});
+
+var trendMonths = ['25-08','25-09','25-10','25-11','25-12','26-01','26-02','26-03','26-04','26-05','26-06','26-07','26-08'];
+var trendSeries = [
+  { label:'WHOOP 5.0 (AI, $239)', color:'#7f4bd8', data:[7400,6994,8498,18509,22015,13159,11050,10425,12504,13461,24579,14386,12989] },
+  { label:'Fitbit Charge 6 (AI, $127)', color:'#3c5ee0', data:[22115,18518,24759,25823,44149,25332,15282,13832,14490,18844,48584,24615,18693] },
+  { label:'RingConn Gen2 Air (AI, $199)', color:'#1baf7a', data:[8113,3801,16790,22286,23940,12397,9474,6768,6174,7781,7893,6467,11222] },
+  { label:'Fitbit Inspire 3 (非AI, $88)', color:'#b56b0a', data:[34174,32194,31290,32174,56861,20012,24865,26833,28644,32525,38038,25059,21576] },
+  { label:'LIVIKEY (非AI, $20)', color:'#d0432f', data:[8334,7324,8442,9413,7750,6550,5179,6561,5973,5813,6783,4757,5518] }
+];
+new Chart(document.getElementById('trendChart'), {
+  type:'line',
+  data:{ labels: trendMonths, datasets: trendSeries.map(function(s){ return { label:s.label, data:s.data, borderColor:s.color, backgroundColor:'transparent', borderWidth:2, pointRadius:2, spanGaps:true, tension:.25 }; }) },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false } },
+    scales:{ y:{ beginAtZero:true, grid:{color:gridColor}, ticks:{callback:function(v){return fmt(v);}} }, x:{ grid:{display:false} } }
+  }
+});
+var legendEl = document.getElementById('trendLegend');
+trendSeries.forEach(function(s){
+  var span = document.createElement('span');
+  span.innerHTML = '<span class="legend-dot" style="background:'+s.color+'"></span>'+s.label;
+  legendEl.appendChild(span);
+});
+
+var painLabels = ['基础传感器/数据不准','电池衰减或充电失效','订阅费反感','Amazon渠道无保修','App生态迁移功能倒退','硬件/表带断裂','连接配对失败','本地化缺陷(无英制)','客服无法解决','AI功能本身不及预期'];
+var aiPain =   [22.0, 28.0, 12.0, 10.0, 10.0, 10.0, 6.0, 0, 10.0, 4.0];
+var noaiPain = [40.0, 22.5, 5.0, 5.0, 7.5, 2.5, 15.0, 20.0, 2.5, 0];
+new Chart(document.getElementById('painChart'), {
+  type:'bar',
+  data:{
+    labels: painLabels,
+    datasets:[
+      {label:'AI组 (N=50)', data: aiPain, backgroundColor:'#7f4bd8', borderRadius:4, maxBarThickness:16},
+      {label:'非AI组 (N=40)', data: noaiPain, backgroundColor:'#8890a0', borderRadius:4, maxBarThickness:16}
+    ]
+  },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{position:'top'}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.dataset.label+': '+ctx.parsed.x+'%'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor}, ticks:{callback:function(v){return v+'%';}} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', function(){
+  backToTop.classList.toggle('show', window.scrollY > 500);
+});
+backToTop.addEventListener('click', function(){
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+var sections = document.querySelectorAll('main section, .hero');
+var navLinks = document.querySelectorAll('#toc a');
+window.addEventListener('scroll', function(){
+  var pos = window.scrollY + 120;
+  sections.forEach(function(sec){
+    if(pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight){
+      navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#'+sec.id); });
+    }
+  });
+});
+</script>
+</body>
+</html>
