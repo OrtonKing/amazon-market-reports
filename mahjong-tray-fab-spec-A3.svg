@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="420mm" height="297mm" viewBox="0 0 420 297" font-family="'Microsoft YaHei', Arial, sans-serif">
+
+  <defs>
+    <path id="hole" d="M 3,0 H 22 A 3 3 0 0 1 25,3 V 29 A 3 3 0 0 1 22,32 H 17.5 A 5 5 0 0 1 7.5,32 H 3 A 3 3 0 0 1 0,29 V 3 A 3 3 0 0 1 3,0 Z"/>
+    <marker id="dim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#c02020"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="420" height="297" fill="#ffffff"/>
+  <rect x="6" y="6" width="408" height="285" fill="none" stroke="#222" stroke-width="0.5"/>
+
+  <!-- title -->
+  <text x="14" y="17" font-size="7" font-weight="bold" fill="#222">麻将过牌托盘 · 加工图（TOP VIEW 1:1）</text>
+  <text x="14" y="24" font-size="3.6" fill="#555">外形 380 × 160 × 8 mm ｜ 盲孔 32 × 25 mm，深 5 mm，共 20 处 ｜ 图案见配套 1:1 印刷文件</text>
+
+  <!-- ============ board top view 1:1 ============ -->
+  <g transform="translate(20,42)">
+    <rect x="0" y="0" width="380" height="160" rx="8" fill="#f7f2e6" stroke="#222" stroke-width="0.7"/>
+    <g fill="#e3d6b4" stroke="#222" stroke-width="0.45">
+      <use xlink:href="#hole" x="12" y="40"/><use xlink:href="#hole" x="40.5" y="40"/><use xlink:href="#hole" x="69" y="40"/><use xlink:href="#hole" x="97.5" y="40"/><use xlink:href="#hole" x="126" y="40"/><use xlink:href="#hole" x="154.5" y="40"/><use xlink:href="#hole" x="183" y="40"/>
+      <use xlink:href="#hole" x="12" y="84"/><use xlink:href="#hole" x="40.5" y="84"/><use xlink:href="#hole" x="69" y="84"/><use xlink:href="#hole" x="97.5" y="84"/><use xlink:href="#hole" x="126" y="84"/><use xlink:href="#hole" x="154.5" y="84"/><use xlink:href="#hole" x="183" y="84"/>
+      <use xlink:href="#hole" x="250.5" y="36.5"/><use xlink:href="#hole" x="294.5" y="36.5"/><use xlink:href="#hole" x="338.5" y="36.5"/>
+      <use xlink:href="#hole" x="250.5" y="97"/><use xlink:href="#hole" x="294.5" y="97"/><use xlink:href="#hole" x="338.5" y="97"/>
+    </g>
+    <!-- section line A-A through row 1 -->
+    <line x1="-6" y1="56" x2="386" y2="56" stroke="#3060c0" stroke-width="0.35" stroke-dasharray="6 2 1.5 2"/>
+    <text x="-13" y="58" font-size="5" font-weight="bold" fill="#3060c0">A</text>
+    <text x="388" y="58" font-size="5" font-weight="bold" fill="#3060c0">A</text>
+  </g>
+
+  <!-- dims: width 380 -->
+  <g stroke="#c02020" stroke-width="0.35" fill="none">
+    <line x1="20" y1="42" x2="20" y2="33"/>
+    <line x1="400" y1="42" x2="400" y2="33"/>
+    <line x1="20" y1="35" x2="400" y2="35" marker-start="url(#dim)" marker-end="url(#dim)"/>
+  </g>
+  <text x="210" y="33.5" font-size="4.5" fill="#c02020" text-anchor="middle">380</text>
+
+  <!-- dims: height 160 -->
+  <g stroke="#c02020" stroke-width="0.35" fill="none">
+    <line x1="20" y1="42" x2="12" y2="42"/>
+    <line x1="20" y1="202" x2="12" y2="202"/>
+    <line x1="14" y1="42" x2="14" y2="202" marker-start="url(#dim)" marker-end="url(#dim)"/>
+  </g>
+  <text x="12.5" y="122" font-size="4.5" fill="#c02020" text-anchor="middle" transform="rotate(-90 12.5 122)">160</text>
+
+  <!-- leaders -->
+  <g stroke="#c02020" stroke-width="0.35" fill="none">
+    <line x1="26" y1="46" x2="44" y2="28"/>
+  </g>
+  <text x="45" y="27.5" font-size="3.6" fill="#c02020">R8（4 处）</text>
+  <g stroke="#c02020" stroke-width="0.35" fill="none">
+    <line x1="48.5" y1="98" x2="60" y2="215"/>
+  </g>
+  <text x="40" y="221" font-size="3.6" fill="#c02020">盲孔 32×25 深 5，圆角 R3，共 20 处</text>
+  <g stroke="#c02020" stroke-width="0.35" fill="none">
+    <line x1="32.5" y1="119" x2="24" y2="228"/>
+  </g>
+  <text x="14" y="233" font-size="3.6" fill="#c02020">底边中央指槽 R5（与孔同深 5）</text>
+
+  <!-- ============ detail: pocket 2:1 ============ -->
+  <g transform="translate(150,212)">
+    <text x="25" y="-7.5" font-size="4" font-weight="bold" fill="#222" text-anchor="middle">孔放大 2:1</text>
+    <g transform="scale(2)" fill="#e3d6b4" stroke="#222" stroke-width="0.3">
+      <use xlink:href="#hole" x="0" y="0"/>
+    </g>
+    <g stroke="#c02020" stroke-width="0.35" fill="none">
+      <line x1="0" y1="0" x2="0" y2="-3.5"/><line x1="50" y1="0" x2="50" y2="-3.5"/>
+      <line x1="0" y1="-1.8" x2="50" y2="-1.8" marker-start="url(#dim)" marker-end="url(#dim)"/>
+      <line x1="50" y1="0" x2="56" y2="0"/><line x1="50" y1="64" x2="56" y2="64"/>
+      <line x1="54" y1="0" x2="54" y2="64" marker-start="url(#dim)" marker-end="url(#dim)"/>
+      <line x1="32" y1="70" x2="45" y2="73"/>
+    </g>
+    <text x="25" y="-3" font-size="3.8" fill="#c02020" text-anchor="middle">25</text>
+    <text x="57.5" y="34" font-size="3.8" fill="#c02020">32</text>
+    <text x="46" y="74.5" font-size="3.6" fill="#c02020">R5 指槽</text>
+  </g>
+
+  <!-- ============ section A-A 2:1 (thickness) ============ -->
+  <g transform="translate(240,238)">
+    <text x="60" y="-20" font-size="4" font-weight="bold" fill="#3060c0" text-anchor="middle">剖面 A-A（板厚方向 2:1）</text>
+    <!-- board slab 8mm thick @2:1 = 16; pocket 5 deep @2:1 = 10 -->
+    <path d="M 0,0 H 34 V 10 H 84 V 0 H 120 V 16 H 0 Z" fill="#e3d6b4" stroke="#222" stroke-width="0.5"/>
+    <line x1="0" y1="0" x2="120" y2="16" stroke="none"/>
+    <!-- hatch -->
+    <g stroke="#999" stroke-width="0.25">
+      <line x1="4" y1="16" x2="20" y2="0"/><line x1="12" y1="16" x2="28" y2="0"/><line x1="20" y1="16" x2="34" y2="2"/>
+      <line x1="28" y1="16" x2="40" y2="10"/><line x1="40" y1="16" x2="46" y2="10"/><line x1="52" y1="16" x2="58" y2="10"/><line x1="64" y1="16" x2="70" y2="10"/><line x1="76" y1="16" x2="82" y2="10"/>
+      <line x1="86" y1="16" x2="96" y2="6"/><line x1="94" y1="16" x2="110" y2="0"/><line x1="102" y1="16" x2="118" y2="0"/><line x1="110" y1="16" x2="120" y2="6"/>
+    </g>
+    <g stroke="#c02020" stroke-width="0.35" fill="none">
+      <line x1="120" y1="0" x2="128" y2="0"/><line x1="120" y1="16" x2="128" y2="16"/>
+      <line x1="126" y1="0" x2="126" y2="16" marker-start="url(#dim)" marker-end="url(#dim)"/>
+      <line x1="34" y1="10" x2="26" y2="10"/>
+      <line x1="28" y1="0" x2="28" y2="10" marker-start="url(#dim)" marker-end="url(#dim)"/>
+    </g>
+    <text x="130" y="10" font-size="3.8" fill="#c02020">8（板厚）</text>
+    <text x="20" y="7" font-size="3.8" fill="#c02020" text-anchor="end">5（孔深）</text>
+    <text x="59" y="8" font-size="3.2" fill="#555" text-anchor="middle">盲孔（不打穿）</text>
+  </g>
+
+  <!-- ============ notes ============ -->
+  <g font-size="3.8" fill="#222">
+    <text x="240" y="272" font-weight="bold">技术要求：</text>
+    <text x="240" y="278">1. 外形 380×160 mm，四角 R8，板厚 8 mm；</text>
+    <text x="240" y="283">2. 20 个盲孔均为 32×25 mm、深 5 mm、内角 R3，底边带 R5 指槽；</text>
+    <text x="240" y="288">3. 正面图案按配套矢量文件 1:1 印刷/雕刻，孔位坐标以该文件为准。</text>
+  </g>
+</svg>
