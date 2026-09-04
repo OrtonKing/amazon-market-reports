@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>蜡染帆布柴火搬运袋市场调研与上市指导报告</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --ink:#1a1d24; --ink-2:#5b6270; --ink-3:#8890a0;
+    --border:#e4e7ec; --accent:#3c5ee0; --accent-bg:#eaeeff; --accent-dark:#22318f;
+    --danger:#d0432f; --danger-bg:#fceceb; --danger-dark:#7c2318;
+    --success:#1d8f5e; --success-bg:#e7f6ee; --success-dark:#0d5236;
+    --amber:#b56b0a; --amber-bg:#fdf1de; --amber-dark:#6e3f04;
+    --wood:#8a5a34; --wood-bg:#f6ece0; --wood-dark:#5c3a1f;
+    --radius:10px; --shadow:0 1px 2px rgba(20,20,30,.06), 0 8px 24px rgba(20,20,30,.05);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); line-height:1.65;}
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  img{max-width:100%; display:block;}
+  section, .hero{scroll-margin-top:24px;}
+
+  .back-to-top{
+    position:fixed; right:28px; bottom:28px; width:42px; height:42px; border-radius:50%;
+    background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:18px; box-shadow:0 4px 14px rgba(20,20,30,.25); border:none; cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:50;
+  }
+  .back-to-top.show{opacity:1; pointer-events:auto;}
+  .back-to-top:hover{transform:translateY(-3px);}
+
+  .bar-cell{position:relative;}
+  .bar-track{position:absolute; left:0; bottom:0; height:3px; width:100%; background:var(--border); border-radius:2px;}
+  .bar-fill{position:absolute; left:0; bottom:0; height:3px; border-radius:2px; background:var(--accent);}
+  table.data-table td.bar-cell{padding-bottom:14px;}
+
+  .layout{display:flex; max-width:1360px; margin:0 auto;}
+  .sidebar{
+    width:230px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto;
+    padding:28px 16px; border-right:1px solid var(--border);
+  }
+  .sidebar-title{font-size:13px; font-weight:600; color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em; margin:0 0 14px 8px;}
+  .sidebar nav a{
+    display:block; padding:9px 12px; border-radius:8px; font-size:13.5px; color:var(--ink-2); margin-bottom:2px;
+  }
+  .sidebar nav a:hover{background:var(--accent-bg); color:var(--accent-dark); text-decoration:none;}
+  .sidebar nav a.active{background:var(--accent); color:#fff;}
+
+  .main{flex:1; min-width:0; padding:0 40px 80px;}
+
+  .hero{padding:48px 0 28px; border-bottom:1px solid var(--border);}
+  .eyebrow{font-size:13px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  h1{font-size:28px; font-weight:700; margin:10px 0 8px; line-height:1.3;}
+  .subtitle{font-size:15px; color:var(--ink-2); max-width:760px; margin:0 0 20px;}
+  .method-box{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 20px; font-size:13.5px; color:var(--ink-2); margin-bottom:24px;
+  }
+  .method-box b{color:var(--ink);}
+
+  .kpi-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:24px 0 8px;}
+  .kpi{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);}
+  .kpi-label{font-size:12.5px; color:var(--ink-3); margin-bottom:6px;}
+  .kpi-value{font-size:24px; font-weight:700;}
+  .kpi-sub{font-size:12px; color:var(--ink-2); margin-top:4px;}
+  .kpi-sub.danger{color:var(--danger);}
+  .kpi-sub.success{color:var(--success);}
+
+  section{padding:52px 0; border-bottom:1px solid var(--border);}
+  section:last-of-type{border-bottom:none;}
+  .section-head{margin-bottom:22px;}
+  .section-num{font-size:12.5px; font-weight:700; color:var(--accent); letter-spacing:.04em;}
+  h2{font-size:22px; font-weight:700; margin:6px 0 6px;}
+  h3.sub-head{font-size:16px; font-weight:700; margin:28px 0 10px;}
+  .section-desc{font-size:14px; color:var(--ink-2); max-width:800px;}
+
+  .toolbar{display:flex; align-items:center; gap:8px; margin-top:18px; flex-wrap:wrap;}
+  .toolbar-label{font-size:12.5px; color:var(--ink-3); margin-right:2px;}
+  .sort-btn{font-size:12.5px; font-weight:600; padding:6px 13px; border-radius:100px; border:1px solid var(--border); background:var(--card); color:var(--ink-2); cursor:pointer; transition:all .15s ease;}
+  .sort-btn:hover{border-color:var(--accent); color:var(--accent-dark); background:var(--accent-bg);}
+  .sort-btn.active{background:var(--accent); border-color:var(--accent); color:#fff;}
+
+  .comp-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(255px,1fr)); gap:16px; margin-top:16px;}
+  .comp-card{position:relative; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; transition:transform .15s ease, box-shadow .15s ease;}
+  .comp-card:hover{transform:translateY(-3px); box-shadow:0 4px 10px rgba(20,20,30,.08), 0 14px 30px rgba(20,20,30,.08);}
+  .comp-card.is-open{border-top:3px solid var(--accent);}
+  .comp-card.is-closed{border-top:3px solid var(--wood);}
+  .comp-img-wrap{background:#fbfbfa; padding:18px; display:flex; align-items:center; justify-content:center; height:140px; border-bottom:1px solid var(--border); cursor:pointer;}
+  .comp-img-wrap img{max-height:104px; width:auto; margin:0 auto; transition:transform .2s ease;}
+  .comp-img-wrap:hover img{transform:scale(1.06);}
+  .comp-body{padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .comp-badge-row{display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .badge{display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:100px;}
+  .badge.pill-accent{background:var(--accent-bg); color:var(--accent-dark);}
+  .badge.pill-danger{background:var(--danger-bg); color:var(--danger-dark);}
+  .badge.pill-success{background:var(--success-bg); color:var(--success-dark);}
+  .badge.pill-wood{background:var(--wood-bg); color:var(--wood-dark);}
+  .comp-title{font-size:14.5px; font-weight:700; margin:0;}
+  .comp-title a{color:var(--ink);}
+  .comp-title a:hover{color:var(--accent-dark); text-decoration:none;}
+  .link-arrow{font-style:normal; font-size:12px; color:var(--accent); opacity:.7;}
+  .comp-meta{font-size:12.5px; color:var(--ink-2); display:flex; flex-direction:column; gap:3px; margin-top:2px;}
+  .asin-link{color:var(--ink-2); font-variant-numeric:tabular-nums;}
+  .asin-link:hover{color:var(--accent);}
+  .comp-sales{margin-top:auto; padding-top:10px; border-top:1px dashed var(--border); font-size:13px;}
+  .comp-sales b{font-size:16px;}
+  .comp-flag{font-size:12px; border-radius:6px; padding:7px 9px; line-height:1.5;}
+  .comp-flag.material{color:var(--danger-dark); background:var(--danger-bg);}
+  .comp-open-btn{display:block; text-align:center; margin-top:10px; font-size:12.5px; font-weight:600; padding:8px; border-radius:8px; background:var(--accent-bg); color:var(--accent-dark); transition:background .15s ease;}
+  .comp-open-btn:hover{background:var(--accent); color:#fff; text-decoration:none;}
+
+  .chart-card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); margin-bottom:20px;}
+  .chart-card-title{font-size:14px; font-weight:600; margin:0 0 4px;}
+  .chart-card-sub{font-size:12.5px; color:var(--ink-3); margin:0 0 14px;}
+  .chart-wrap{position:relative; width:100%;}
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .legend-row{display:flex; gap:16px; flex-wrap:wrap; font-size:12.5px; color:var(--ink-2); margin-top:10px;}
+  .legend-dot{display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:5px;}
+
+  .callout{border-radius:var(--radius); padding:16px 18px; font-size:13.5px; margin-top:16px;}
+  .callout.info{background:var(--accent-bg); color:var(--accent-dark); border:1px solid #c7d1f7;}
+  .callout.danger{background:var(--danger-bg); color:var(--danger-dark); border:1px solid #f1c7c0;}
+  .callout.wood{background:var(--wood-bg); color:var(--wood-dark); border:1px solid #e2c7a8;}
+  .callout.success{background:var(--success-bg); color:var(--success-dark); border:1px solid #b9e3cd;}
+  .callout b{font-weight:700;}
+
+  table.data-table{width:100%; border-collapse:collapse; font-size:13px; background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);}
+  table.data-table th, table.data-table td{padding:10px 12px; border-bottom:1px solid var(--border); text-align:left; vertical-align:top;}
+  table.data-table th{background:#f8f9fb; font-weight:600; color:var(--ink-2); font-size:12px; text-transform:uppercase; letter-spacing:.02em;}
+  table.data-table tr:last-child td{border-bottom:none;}
+  table.data-table tbody tr{transition:background .12s ease;}
+  table.data-table tbody tr:hover{background:#f8f9fb;}
+  table.data-table td.num{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+  table.data-table tr.total-row{background:#f8f9fb; font-weight:700;}
+  table.data-table tr.total-row td{border-top:2px solid var(--border);}
+  .table-scroll{overflow-x:auto; border-radius:var(--radius);}
+
+  .tag{display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;}
+  .tag.keep{background:var(--success-bg); color:var(--success-dark);}
+  .tag.diff{background:var(--amber-bg); color:var(--amber-dark);}
+  .tag.fix{background:var(--danger-bg); color:var(--danger-dark);}
+  .tag.wood{background:var(--wood-bg); color:var(--wood-dark);}
+
+  .rec-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:12px;}
+  .rec-item{display:flex; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);}
+  .rec-rank{font-size:20px; font-weight:800; color:var(--ink-3); width:28px; flex-shrink:0;}
+  .rec-item.p1 .rec-rank{color:var(--danger);}
+  .rec-item.p2 .rec-rank{color:var(--amber);}
+  .rec-item.p3 .rec-rank{color:var(--success);}
+  .rec-title{font-size:14.5px; font-weight:700; margin:0 0 4px;}
+  .rec-body{font-size:13.5px; color:var(--ink-2); margin:0;}
+  .rec-evidence{font-size:12px; color:var(--ink-3); margin-top:6px;}
+
+  footer{padding:28px 0 60px; font-size:12px; color:var(--ink-3);}
+
+  .vs-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px;}
+  .vs-card{background:var(--card); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); overflow:hidden;}
+  .vs-card.open-side{border-top:4px solid var(--accent);}
+  .vs-card.closed-side{border-top:4px solid var(--wood);}
+  .vs-head{padding:14px 18px; border-bottom:1px solid var(--border);}
+  .vs-head h3{font-size:15.5px; font-weight:700; margin:0;}
+  .vs-head .vs-sub{font-size:12px; color:var(--ink-3); margin-top:3px;}
+  .vs-body{padding:14px 18px;}
+  .dd-stat-row{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; padding:5px 0; border-bottom:1px dotted var(--border);}
+  .dd-stat-row:last-child{border-bottom:none;}
+  .dd-stat-name{color:var(--ink-2);}
+  .dd-stat-val{font-weight:700; color:var(--ink); white-space:nowrap; margin-left:8px;}
+  .quote-block{background:#f8f9fb; border-left:3px solid var(--accent); border-radius:0 6px 6px 0; padding:8px 12px; font-size:12.5px; color:var(--ink-2); margin-bottom:8px;}
+  .quote-block.wood-quote{border-left-color:var(--wood);}
+  .quote-block:last-child{margin-bottom:0;}
+  .quote-block .quote-author{display:block; margin-top:4px; font-size:11.5px; color:var(--ink-3); font-weight:600;}
+  .fact-box{background:var(--accent-bg); color:var(--accent-dark); border-radius:8px; padding:12px 14px; font-size:12.5px; margin-top:10px;}
+
+  .cost-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px;}
+  .cost-card{background:var(--card); border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow); padding:18px;}
+  .cost-card h4{font-size:14px; font-weight:700; margin:0 0 8px;}
+  .cost-card .cost-price{font-size:22px; font-weight:800; color:var(--wood-dark); margin-bottom:6px;}
+  .cost-card p{font-size:12.5px; color:var(--ink-2); margin:0;}
+
+  @media (max-width: 1180px){
+    .vs-grid{grid-template-columns:1fr;}
+    .cost-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width: 980px){
+    .layout{display:block;}
+    .sidebar{display:none;}
+    .main{padding:0 20px 60px;}
+    .kpi-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">目录</div>
+    <nav id="toc">
+      <a href="#overview">0. 概览与方法论</a>
+      <a href="#profiles">1. 11款竞品档案 &amp; 销量趋势</a>
+      <a href="#voc">2. VOC痛点：真实差评说了什么</a>
+      <a href="#deepdive">3. 重点竞品深度分析</a>
+      <a href="#external">4. 外部信号：安全与合规</a>
+      <a href="#market">5. 关键词流量与类目结构</a>
+      <a href="#redesign">6. 可落地的改款方向</a>
+      <a href="#cost">7. 成本费用与定价带建议</a>
+      <a href="#launch">8. 上架时机与备货建议</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <div class="hero" id="overview">
+      <div class="eyebrow">Amazon Waxed Canvas Firewood Carrier · 类目调研与上市指导报告</div>
+      <h1>蜡染帆布柴火搬运袋：11款真结构竞品真实销量 × 173条评论VOC洞察</h1>
+      <p class="subtitle">从核心关键词"waxed canvas firewood carrier"出发的类目调研，产出可落地的上架建议、改款方向、成本费用建议与备货建议。用户尚未提供对标ASIN或具体产品设计，竞品集由本报告自行按结构标准构建。</p>
+
+      <div class="method-box">
+        <b>类目定位：</b>Amazon对这个细分没有独立类目名，真实归属节点是 <code>Home & Kitchen:Heating, Cooling & Air Quality:Parts & Accessories:Stove & Fireplace Accessories:Log Carriers & Holders</code>（nodeId 3735261）。<b>竞品判定标准 = 蜡染/耐磨帆布材质 + 手柄提手 + 用于搬运壁炉/火炉柴火的托袋结构</b>，明确排除：金属柴火架(Firewood Racks，不同结构，是互补品而非竞品)、壁炉防火垫、通用花园工具收纳袋。最终锁定<b>11款</b>真结构竞品，价格带 $9.99–$39.99。<br><br>
+        <b>发现两条并存的结构路线，全程分段标注：</b>①<b>扁平开放两端款(占主流，7/11款)</b>——平铺装填、两端不封口，代表产品INNO STAGE旗舰款；②<b>封闭底端/号称站立款(2/11款)</b>——底部封闭防止碎屑漏出，部分宣称"可自立装填"，代表产品BONTHEE、LivinWell。<b>LivinWell在自家Listing文案里直接攻击第一条路线</b>："Open end totes should only be used as an outdoor firepit accessory"——这是一条真实的竞品互怼证据，第2节VOC会验证这条路线之争到底谁站得住脚。<br><br>
+        <b>发现材质替代信号：</b>11款里至少3款(Fire Beauty、Stanbroil、STBoo)在"waxed canvas"关键词下售卖，但Listing实际标注材质为<b>"400D Oxford canvas"或"1680D聚酯纤维"</b>，并非真正的蜡染帆布——VOC里也有买家实测吐槽"Not what I call waxed canvas"、"not a heavy canvas-like material"，说明市场上"蜡染帆布"这个关键词本身存在材质名实不符的普遍现象，这既是风险也是差异化机会。<br><br>
+        <b>数据来源与方法：</b>销量通过 <code>asin_sales_trend</code> 逐款调取真实月度成交量，统一取父体(parent)口径parentUnitSales，回溯13-28个月不等。评论通过 <code>review</code> 接口对8款竞品逐一调用，差评(1-3星)优先全量/大样本覆盖，好评(4-5星)抽样，共读取编码 <b>173条</b> 评论原文。<br><br>
+        <b>抽样口径披露：</b>差评优先抽样，占比是<b>负面反馈的内部结构，不是真实发生率</b>；FLASLD(新品仅46条评分)、LivinWell(负面仅9条)等样本天然偏薄，已在深度分析部分标注置信区间；本报告不含"改款设计点复核"章节——因用户尚无具体产品设计，第6节改为"可落地的改款方向"，直接给出设计建议而非复核既有方案。
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">覆盖竞品数</div>
+          <div class="kpi-value">11款</div>
+          <div class="kpi-sub">价格带 $9.99 – $39.99（类目广义价格带至$149.95）</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">编码评论样本量</div>
+          <div class="kpi-value">173条</div>
+          <div class="kpi-sub">差评大样本覆盖，好评抽样</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">"撕裂/破洞"耐用性差评占比</div>
+          <div class="kpi-value">19.1%</div>
+          <div class="kpi-sub danger">压倒性头号痛点，8/8读评竞品无一幸免</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">12月 vs 自身月均销量倍数</div>
+          <div class="kpi-value">3.58×</div>
+          <div class="kpi-sub success">6款竞品交叉验证，Q4季节性极强</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="profiles">
+      <div class="section-head">
+        <div class="section-num">01</div>
+        <h2>11款竞品档案：图片 · 价格 · 结构路线 · 真实销量</h2>
+        <p class="section-desc">蓝色顶边=扁平开放两端款，棕色顶边=封闭底端/号称站立款。销量为2026-09父体(parent)真实月度成交数据。红色材质标签=Listing材质表述疑似非真蜡染帆布。</p>
+      </div>
+
+      <div class="toolbar">
+        <span class="toolbar-label">排序：</span>
+        <button class="sort-btn active" data-sort="sales">按销量 ↓</button>
+        <button class="sort-btn" data-sort="rating">按评分 ↓</button>
+        <button class="sort-btn" data-sort="price">按价格 ↑</button>
+      </div>
+
+      <div class="comp-grid" id="compGrid"></div>
+
+      <div class="chart-card" style="margin-top:20px;">
+        <div class="chart-card-title">重点竞品 父体月销量趋势(2025-08 至 2026-09)</div>
+        <div class="chart-card-sub">数据源：asin_sales_trend 月度历史 parentUnitSales。</div>
+        <div class="chart-wrap" style="height:280px;"><canvas id="trendChart"></canvas></div>
+        <div class="legend-row" id="trendLegend"></div>
+      </div>
+
+      <div class="callout info">
+        <b>数据解读：</b>INNO STAGE旗舰款(B0779BJMQ3)是这批竞品里唯一销量破千的头部产品，2025年12月单月冲到7,258件，是自身年均的3.6倍。<b>FLASLD($9.99)是全场增速最快的新品</b>——上架仅6个月，从4月的33件一路涨到9月的510件，几乎月月环比正增长，说明极低价位($9.99，是类目均价$35.25的28%)在这个类目里依然能靠低价快速起量。<b>AMAGABELI这样评分基数最大(13,262条)的老牌反而在持续萎缩</b>：2024年中曾月销3,000+件，到2026年9月只剩360件——评分基数大不等于当前竞争力强，这是一个真实的"老品护城河变浅"信号。BONTHEE和LivinWell两款主打"站立式"结构的产品销量都明显弱于扁平开放款同价位竞品，第2节VOC会解释原因。
+      </div>
+    </section>
+
+    <section id="voc">
+      <div class="section-head">
+        <div class="section-num">02</div>
+        <h2>VOC洞察：173条评论里，真实买家在抱怨什么</h2>
+        <p class="section-desc">占比 = 提及次数 / 173，各类别独立计数，不互斥。</p>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">差评归因统计（10类）</div>
+        <div class="chart-card-sub">N=173条编码评论，覆盖8款竞品</div>
+        <div class="chart-wrap" style="height:380px;"><canvas id="painChart"></canvas></div>
+      </div>
+
+      <table class="data-table" style="margin-top:16px; margin-bottom:24px;">
+        <thead><tr><th>差评类别</th><th class="num">提及次数</th><th class="num">占比(N=173)</th><th>出现竞品</th></tr></thead>
+        <tbody id="painTableBody"></tbody>
+      </table>
+
+      <div class="callout danger">
+        <b>核心发现①：撕裂/破洞是压倒性头号痛点(19.1%)，覆盖了本次读评的全部8款竞品，与价格带、品牌历史无关。</b>从$9.99的低价款到$39.99的高端Readywares，从上架15年的老牌到半年新品，"帆布材质扛不住实际装柴负重和木材尖锐边角"的问题反复出现——AMAGABELI差评"the very first group I carried...got holes in it"、Readywares差评"Hole torn on first load"、INNO STAGE旗舰款"Rip in the fabric after 4 uses"。<b>这说明整个类目还没有一款真正解决"帆布耐磨与柴火尖锐边角对抗"这个核心矛盾的产品</b>，谁先做到，谁就拿到了这个类目最大的差异化筹码。
+      </div>
+
+      <div class="callout wood">
+        <b>核心发现②：两条结构路线的竞争已经有真实VOC定论——号称"站立式/freestanding"的产品普遍未能兑现承诺，反而招来更集中的差评。</b>BONTHEE(号称"Freestanding")20条差评里<b>10条</b>直接吐槽"不能自立"："no more rigidity than a laundry bag"(Boomer)、"totally soft bag...NOT self supporting"(KM)、"too many straps"(3条独立提及)；LivinWell(号称"STANDS BY ITSELF")同样有买家实测"as it aged, it became more flexible...never stood up for easy loading"。<b>问题的根源是这两款都只靠"加厚帆布+车缝"来实现自立，没有真正的刚性支撑结构(如内置骨架/PE硬底板/可拆卸支撑条)</b>——这恰好解释了为什么这两款销量明显弱于同价位扁平款：它们做了一个营销承诺，却用错误的工程手段去兑现，结果比诚实地做扁平款差评更集中。
+      </div>
+
+      <div class="callout danger">
+        <b>核心发现③：一条真实的安全信号——蜡染帆布近热源会融化/烧焦，且有物理原理支撑，不是个例。</b>INNO STAGE旗舰款差评"Would think it was heat resistant since it is used near a fireplace. <b>Melted and burned the corner first time we used it</b>"(Lynne Drury)。经WebSearch核实：石蜡(paraffin，蜡染帆布最常见的蜡处理原料)<b>熔点低至约37°C/99°F</b>，闪点约199°C/390°F——意味着<b>即使不直接接触明火，只要靠近壁炉高温表面或热灰烬，蜡层就可能软化甚至局部烧焦</b>，这在物理上完全站得住脚，不是买家使用不当。这个品类目前没有强制性CPSC标准直接管辖(16 CFR 1610阻燃标准仅适用于服装纺织品，不覆盖此类柴火袋)，<b>这既是合规空档，也是一个必须在说明书/警示标签上主动披露安全距离的责任风险点</b>。
+      </div>
+
+      <div class="callout info">
+        <b>核心发现④：两个可零成本修正的QC/包装问题。</b>①<b>折痕导致新品到手即"看起来像用过的"</b>——5条差评提到"three separate lines going across...discolored and worn looking on the creases"(CSahlfeld)、"creases from being folded literally lost its color"(Aubry)。这是紧密折叠运输导致蜡层沿折线开裂发白的QC/包装问题，改用卷筒包装或选用更柔韧的蜡配方即可规避，且是<b>开箱第一眼观感</b>，直接影响退货率和差评倾向。②<b>手柄材质造假争议</b>——多条差评指出"assuming the handle was made from leather...it is definitely not, it is fake leather"(Mr. Hey)，如果用PU革代替真皮却在Listing暗示"leather handle"，这是可预见的差评来源，如实标注"PU handle"反而比过度包装更省差评。
+      </div>
+
+      <div class="vs-grid">
+        <div class="vs-card open-side">
+          <div class="vs-head">
+            <h3>扁平开放两端款</h3>
+            <div class="vs-sub">代表：INNO STAGE / AMAGABELI / VIKROM / FLASLD</div>
+          </div>
+          <div class="vs-body">
+            <div class="dd-stat-row"><span class="dd-stat-name">主流市场份额</span><span class="dd-stat-val">7/11款，销量占比明显更高</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">核心优势</span><span class="dd-stat-val">不限木材长度，折叠收纳方便</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">核心弱点</span><span class="dd-stat-val">碎屑/树皮从两端漏出</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">耐用性差评</span><span class="dd-stat-val">仍是头号问题，未被结构解决</span></div>
+          </div>
+        </div>
+        <div class="vs-card closed-side">
+          <div class="vs-head">
+            <h3>封闭底端/号称站立款</h3>
+            <div class="vs-sub">代表：BONTHEE / LivinWell</div>
+          </div>
+          <div class="vs-body">
+            <div class="dd-stat-row"><span class="dd-stat-name">市场份额</span><span class="dd-stat-val">2/11款，销量明显更低</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">核心优势</span><span class="dd-stat-val">碎屑不外漏，理论上更适合室内地毯/木地板场景</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">核心弱点</span><span class="dd-stat-val">"站立"承诺普遍未兑现，绑带设计被吐槽繁琐</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">耐用性差评</span><span class="dd-stat-val">"不能自立"反而成为新的头号差评</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="deepdive">
+      <div class="section-head">
+        <div class="section-num">03</div>
+        <h2>重点竞品深度分析：头部/高端/号称站立款三方对比</h2>
+        <p class="section-desc">INNO STAGE旗舰款是当前销量冠军；Readywares是唯一验证成功的高端定位；BONTHEE代表"站立式"路线的真实市场反馈。</p>
+      </div>
+
+      <div class="vs-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="vs-card open-side">
+          <div class="vs-head">
+            <h3>INNO STAGE 旗舰款</h3>
+            <div class="vs-sub"><a href="https://www.amazon.com/dp/B0779BJMQ3" target="_blank" rel="noopener">B0779BJMQ3 ↗</a> · $23.96 · 4.8★/5,774</div>
+          </div>
+          <div class="vs-body">
+            <div class="dd-stat-row"><span class="dd-stat-name">2026-09月销量</span><span class="dd-stat-val">1,230件（全场第一）</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">12月峰值倍数</span><span class="dd-stat-val">3.61×自身月均</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">头号差评</span><span class="dd-stat-val">撕裂/破洞、手柄假皮革断裂</span></div>
+            <div style="margin-top:12px;">
+              <div class="quote-block">"Handle will break...it is definitely not [leather], it is fake leather that is filled with a cheap rope."<span class="quote-author">— Mr. Hey, 2★ → 假皮革手柄是可预见差评源</span></div>
+              <div class="quote-block">"Melted and burned the corner first time we used it."<span class="quote-author">— Lynne Drury, 1★ → 对应第4节安全信号</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vs-card open-side">
+          <div class="vs-head">
+            <h3>Readywares（高端露营定位）</h3>
+            <div class="vs-sub"><a href="https://www.amazon.com/dp/B01DTL94LW" target="_blank" rel="noopener">B01DTL94LW ↗</a> · $39.99 · 4.8★/2,311</div>
+          </div>
+          <div class="vs-body">
+            <div class="dd-stat-row"><span class="dd-stat-name">2026-09月销量</span><span class="dd-stat-val">120件（类目均价2.4倍仍稳定出单）</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">12月峰值倍数</span><span class="dd-stat-val">4.71×自身月均（全场最高）</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">头号差评</span><span class="dd-stat-val">"Made in China"与品牌调性冲突</span></div>
+            <div style="margin-top:12px;">
+              <div class="quote-block">"After 6 seasons hauling more than 18 cords of fir and oak...You won't find a better quality product."<span class="quote-author">— Lesli Jan, 5★ → 高端定位靠真实耐用性验证成立</span></div>
+              <div class="quote-block wood-quote">"Don't be fooled into thinking you're supporting our economy...was so disappointed to see the 'Made in China' label."<span class="quote-author">— 1★差评 → 品牌名"Readywares"营造的手工/本土调性与产地标签打架，4条独立差评重复此点</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="vs-card closed-side">
+          <div class="vs-head">
+            <h3>BONTHEE（站立式路线）</h3>
+            <div class="vs-sub"><a href="https://www.amazon.com/dp/B07KFX5V8D" target="_blank" rel="noopener">B07KFX5V8D ↗</a> · $29.99 · 4.7★/2,836</div>
+          </div>
+          <div class="vs-body">
+            <div class="dd-stat-row"><span class="dd-stat-name">2026-09月销量</span><span class="dd-stat-val">240件（同价位明显弱于开放款）</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">差评中"不能自立"占比</span><span class="dd-stat-val">10/20条 · 50%</span></div>
+            <div class="dd-stat-row"><span class="dd-stat-name">核心问题</span><span class="dd-stat-val">承诺与实物不符，绑带过多</span></div>
+            <div style="margin-top:12px;">
+              <div class="quote-block wood-quote">"I assumed this large, closed-end log carrier had fiberglass stays incorporated into it...It doesn't. It has no more rigidity than a laundry bag...buy one with an internal fiberglass skeleton."<span class="quote-author">— Boomer, 1★ → 买家自己提出了正确的工程解法：内置玻璃纤维支撑条，这正是第6节改款方向的依据</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout wood" style="margin-top:20px;">
+        <b>三方对比小结：</b>头部INNO STAGE证明了"扁平开放款+走量定价"能起规模，但耐用性和手柄材质是它自己都没解决的短板；Readywares证明了<b>$39.99的高端定位在这个类目里真实可行</b>，且12月旺季拉动比低价款更猛(4.71倍)，代价是"Made in China"标签与品牌名暗示的调性冲突，纯粹是命名/文案层面可修正的问题；BONTHEE则用真实差评证明了<b>"站立式"是一个买家真正想要的功能(碎屑不漏)，但目前没有一款产品用对的工程手段实现它</b>——这正是本报告认为最具差异化空间的空白点。
+      </div>
+    </section>
+
+    <section id="external">
+      <div class="section-head">
+        <div class="section-num">04</div>
+        <h2>外部信号：安全与合规核查</h2>
+        <p class="section-desc">聚焦VOC里发现的近热源安全信号，核查对应的CPSC/ASTM强制标准适用性。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th style="width:22%">发现</th><th>核实内容</th><th style="width:20%">对本项目的意义</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>16 CFR 1610《服装纺织品阻燃标准》不适用于本产品</b></td>
+            <td>经WebSearch核实，CPSC的16 CFR 1610强制阻燃标准明确限定适用范围为"intended to be used for clothing"(服装用途纺织品)，柴火搬运袋、收纳袋等非服装纺织品不在其强制测试范围内。</td>
+            <td>这意味着<b>没有强制性法规要求本产品必须通过阻燃测试</b>——合规上是空档，但VOC已经证明真实存在的融化/烧焦案例，属于"未被强制监管但真实存在的责任风险"</td>
+          </tr>
+          <tr>
+            <td><b>石蜡(paraffin wax)熔点约37°C(99°F)，该数值直接支撑VOC安全投诉的物理合理性</b></td>
+            <td>石蜡是蜡染帆布最常用的蜡处理原料之一，熔点约37°C，闪点约199°C(390°F)。也就是说帆布放置在壁炉/火炉散热范围内、或不慎接触到炽热灰烬和金属炉门时，蜡层完全可能在远低于起火温度的情况下就开始软化、发粘甚至局部焦化。</td>
+            <td>建议：①在Listing与说明书上明确标注"请勿让产品直接接触炉门/余烬，建议与热源保持至少X英寸安全距离"；②可考虑测试更高熔点的蜡配方(如蜂蜡与石蜡混合，蜂蜡熔点约62-64°C)作为差异化卖点"耐高温蜡染工艺"</td>
+          </tr>
+          <tr>
+            <td><b>材质名实不符风险：至少3款竞品在"waxed canvas"关键词下售卖，实际材质为Oxford布/聚酯纤维</b></td>
+            <td>Fire Beauty、Stanbroil两款Listing明确写"400D Oxford canvas"、"premium Oxford canvas"，STBoo更是直接写"Durable Synthetic Fabric (1680D polyester)"——均非传统意义的蜡染纯棉/棉麻帆布。VOC中已有买家实测吐槽"Not what I call 'waxed canvas'"、"not a heavy canvas-like material"。</td>
+            <td>这不构成当前的强制性合规违规(Amazon对材质描述精确度的执行力度有限)，但<b>如果真实使用蜡染帆布并在Listing/A+页面提供材质放大图、克重(oz)标注、蜡层实拍，可以直接对比出材质差异，把"求真"变成购买理由</b></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout wood" style="margin-top:20px;">
+        <b>对症下药的结论：</b>与本系列此前几份报告(CD播放器、玩具类)不同，这个类目<b>没有强制性国家标准需要合规排期</b>，外部信号的价值主要在于"用真实物理原理把VOC里的模糊抱怨升级为可执行的产品/文案改进项"——热源安全距离标注、真实材质克重标注，都是零认证成本、纯设计与文案层面就能落地的动作。
+      </div>
+
+      <p class="section-desc" style="margin-top:16px; font-size:12.5px;">
+        Sources：
+        <a href="https://www.cpsc.gov/Business--Manufacturing/Business-Education/Business-Guidance/Flammable-Fabrics-Act" target="_blank" rel="noopener">CPSC: Flammable Fabrics Act 说明</a> ·
+        <a href="https://www.ecfr.gov/current/title-16/chapter-II/subchapter-D/part-1610" target="_blank" rel="noopener">eCFR: 16 CFR Part 1610 全文</a> ·
+        <a href="https://en.wikipedia.org/wiki/Paraffin_wax" target="_blank" rel="noopener">Wikipedia: Paraffin Wax 熔点/闪点数据</a> ·
+        <a href="https://cameochemicals.noaa.gov/chemical/18025" target="_blank" rel="noopener">NOAA CAMEO Chemicals: Paraffin Wax 安全数据</a>
+      </p>
+    </section>
+
+    <section id="market">
+      <div class="section-head">
+        <div class="section-num">05</div>
+        <h2>关键词流量与类目结构</h2>
+        <p class="section-desc">数据源：keyword_miner 与 market_research_statistics(取Log Carriers &amp; Holders节点，nodeId 3735261)。</p>
+      </div>
+
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>关键词</th><th class="num">月搜索量</th><th class="num">月购买量</th><th class="num">SPR*</th><th class="num">PPC竞价</th><th class="num">商品数</th><th class="num">词均价</th></tr></thead>
+        <tbody>
+          <tr><td><b>firewood carrier</b>（核心泛词）</td><td class="num"><b>3,829</b></td><td class="num">328</td><td class="num">8</td><td class="num">$1.24</td><td class="num">699</td><td class="num">$9.99</td></tr>
+          <tr><td>firewood holder</td><td class="num">2,683</td><td class="num">59</td><td class="num">2</td><td class="num">$1.19</td><td class="num">932</td><td class="num" style="color:var(--success);"><b>$38.99</b></td></tr>
+          <tr><td>firewood bag</td><td class="num">1,455</td><td class="num">88</td><td class="num">2</td><td class="num">$1.10</td><td class="num">797</td><td class="num">$29.99</td></tr>
+          <tr><td>log carrier</td><td class="num">692</td><td class="num">42</td><td class="num">1</td><td class="num">$1.70</td><td class="num">495</td><td class="num">$20.64</td></tr>
+          <tr style="background:var(--danger-bg);"><td><b>waxed canvas firewood carrier</b>（用户核心词）</td><td class="num" colspan="6" style="text-align:left; color:var(--danger-dark); font-weight:700;">查询无搜索量数据 —— 精确长尾词没有独立可测搜索量</td></tr>
+          <tr style="background:var(--danger-bg);"><td>log carrier bag / firewood carrier bag / canvas wood carrier / wood carrying bag 等</td><td class="num" colspan="6" style="text-align:left; color:var(--danger-dark); font-weight:700;">均查询无独立搜索量数据</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="section-desc" style="font-size:12px; margin-top:8px;">*SPR = Search-to-Purchase Rank，越低表示上首页所需的历史销量门槛越低。"waxed canvas firewood carrier"等精确长尾词已如实展示"无数据"，不换词凑数——这是本报告的一个真实发现。</p>
+
+      <div class="callout danger" style="margin-top:16px;">
+        <b>核心发现⑤：用户提供的"核心关键词"本身没有独立可测的搜索量数据，这与本系列此前的CD播放器、Fitness Tracker报告发现的规律完全一致——精确描述结构的长尾词还没有形成买家的搜索习惯。</b>真正带独立搜索量数据的只有4个泛词：<b>firewood carrier</b>(3,829搜索/月，但词均价仅$9.99，SPR=8门槛偏高)、<b>firewood holder</b>(2,683搜索，词均价$38.99，SPR=2门槛低，明显是承接偏高客单价买家的词)、<b>firewood bag</b>(1,455搜索，词均价$29.99)、<b>log carrier</b>(692搜索，SPR=1门槛最低)。<b>"firewood holder"是一个被低估的词</b>：搜索量不小，但SPR只有2、词均价$38.99是四个词里最高的——意味着搜这个词的人群客单价预期更高、竞争页面历史销量门槛却更低，是新品切入的甜蜜点。
+      </div>
+
+      <h3 class="sub-head">类目结构</h3>
+      <div class="table-scroll">
+      <table class="data-table">
+        <thead><tr><th>指标</th><th class="num">数值</th><th>解读</th></tr></thead>
+        <tbody>
+          <tr><td>样本商品数 / 品牌数 / 卖家数</td><td class="num">100 / 76 / 69</td><td>品牌高度分散，无绝对垄断者</td></tr>
+          <tr><td>样本均价</td><td class="num">$35.25</td><td>显著高于本报告11款主力竞品的中位价($21.99)，说明类目里存在一个未被本次竞品集充分覆盖的高价装饰/礼品层(见品牌集中度分析)</td></tr>
+          <tr><td><b>新品占比(近期上架)</b></td><td class="num" style="color:var(--danger);"><b>11%</b></td><td><b>本系列调研过的所有类目里最低</b>——对比Fitness Tracker类目72%、变形机器人玩具18%。这是一个<b>存量主导、成熟度很高的市场</b>，新玩家进入速度慢</td></tr>
+          <tr><td><b>3年以上老品的销量占比</b></td><td class="num" style="color:var(--danger);"><b>67.2%</b></td><td>67%的类目销量来自上架3年以上的产品(62/100款)，首个上架商品可回溯到2011年——<b>这个类目的买家决策周期长、复购率低(一年一两次消耗品级采购)，一旦某款产品攒够评论基数就能长期躺赢</b>，这也解释了为什么FLASLD这样极低价新品需要靠$9.99的激进定价才能快速撕开口子</td></tr>
+          <tr><td>新品均销量 / 新品均价</td><td class="num">93件/月 / $28.45</td><td>新品能起量，但均价低于样本整体均价，新品仍普遍靠中低价切入</td></tr>
+          <tr><td><b>评分生存线</b></td><td class="num">4.5以上占76.95%<br>4.3以下几乎无销量</td><td>与变形机器人报告发现的规律一致：<b>评分低于4.3基本等于在这个类目没有销量</b>，任何耐用性问题(本报告头号痛点)一旦被差评放大，恢复成本很高</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout wood" style="margin-top:16px;">
+        <b>品牌集中度里藏着一个被本次11款主力竞品忽略的高价层：</b>Ignik($59.96，新品5.0分)、DNKMOR($89.99，145件/月仍稳定出单)、Kouboo($92.50，家居装饰品牌跨界)、1844 Helko Werk Germany($85.00，德国百年工具品牌延伸产品线)、Woodman's Pal($149.95)、Fshsup($99.99)——这些$60-150价位的产品虽然单品销量不大，但<b>都在稳定产生真实收入，且多数评分数偏少说明还没被"卷成本价战"</b>。这印证了第3节Readywares($39.99)高端定位可行的结论，且说明<b>$60以上还有一层几乎空白的礼品/装饰定位可以做</b>——用德式工具品牌调性、家居装饰品牌联名、或"传家宝级"耐用性作为叙事支点。
+      </div>
+
+      <div class="callout info" style="margin-top:16px;">
+        <b>季节性：Q4(11-12月)是极强的单峰旺季，6款竞品跨价格带交叉验证。</b>以各竞品自身13个月均值为基准：INNO STAGE旗舰款11月2.82倍/12月3.61倍；AMAGABELI 11月1.77倍/12月2.38倍；BONTHEE 11月1.91倍/12月4.12倍；<b>Readywares(高端款)11月1.97倍/12月4.71倍，全场最高</b>；INNO STAGE二线产品11月1.89倍/12月3.33倍；Fire Beauty 11月1.85倍/12月3.35倍。<b>6款均值：11月约2.04倍，12月约3.58倍</b>——越是高价位/礼品定位的产品，12月拉动倍数越猛(Readywares 4.71倍)，印证了"圣诞礼物"是这个类目最大的单一购买动机之一。
+      </div>
+    </section>
+
+    <section id="redesign">
+      <div class="section-head">
+        <div class="section-num">06</div>
+        <h2>可落地的改款方向</h2>
+        <p class="section-desc">每条都直接对应第2节VOC证据链或第4节安全信号，按"解决头号痛点→做真正的站立式→差异化定位"的优先级排列。</p>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th style="width:20%">改款方向</th><th>依据(VOC/数据证据)</th><th style="width:12%">优先级</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>底部/受力角落做双层加固补丁</b></td>
+            <td>撕裂破洞是压倒性头号痛点(19.1%/173条)，多条差评明确指向"底部破洞"、"边角磨破"——这是柴火尖锐边角反复摩擦同一受力点导致的，不是整体帆布强度问题，局部加固比整体升级面料成本效益更高</td>
+            <td><span class="tag fix">必须做</span></td>
+          </tr>
+          <tr>
+            <td><b>手柄材质如实标注，若用PU革则明确写"PU handle"不模糊为"leather"</b></td>
+            <td>多条差评直指"assuming leather...it is definitely not, fake leather"——预期落差本身就是差评来源，比材质本身更影响评分</td>
+            <td><span class="tag fix">必须做</span></td>
+          </tr>
+          <tr>
+            <td><b>如果做"站立式"，必须内置真实刚性支撑(PE硬底板或可拆卸支撑条)，不能只靠加厚帆布</b></td>
+            <td>BONTHEE/LivinWell两款"站立式"竞品的差评中位数达50%集中在"不能真正自立"；一条差评里买家自己给出了工程解法"buy one with an internal fiberglass skeleton"(Boomer)——这是目前类目里唯一被验证"needed但没做对"的功能</td>
+            <td><span class="tag wood">差异化机会</span></td>
+          </tr>
+          <tr>
+            <td><b>包装环节改"卷筒"而非"多次对折"，或选用不易开裂的蜡配方</b></td>
+            <td>5条差评反映折痕导致蜡层开裂发白，新品开箱即像"用过的"——这是零成本可改的包装工艺问题，直接影响开箱体验和退货率</td>
+            <td><span class="tag diff">低成本高回报</span></td>
+          </tr>
+          <tr>
+            <td><b>说明书/Listing标注"请勿直接接触炉门或灰烬，建议保持安全距离"</b></td>
+            <td>石蜡熔点约99°F，真实存在近热源融化案例(见第4节)——这是零成本的责任风险规避动作</td>
+            <td><span class="tag fix">必须做</span></td>
+          </tr>
+          <tr>
+            <td><b>标注真实克重(oz)与材质构成，附蜡层/帆布放大实拍图</b></td>
+            <td>类目里至少3款竞品材质名实不符(Oxford布/聚酯纤维冒充蜡染帆布)，VOC已有买家实测吐槽——真实材质透明化本身就是对比性卖点</td>
+            <td><span class="tag diff">差异化机会</span></td>
+          </tr>
+          <tr>
+            <td><b>手柄长度做区间可调节(魔术贴/多档扣)，而非固定超长设计</b></td>
+            <td>多条差评反映"handles are too long...drags on ground"，尤其对身高较矮买家不友好；可调节设计成本增量很小</td>
+            <td><span class="tag diff">低成本高回报</span></td>
+          </tr>
+          <tr>
+            <td><b>考虑$60+装饰/礼品定位的独立SKU(如联名花纹、皮革满配版)</b></td>
+            <td>类目品牌集中度数据显示$60-150价位段有多个稳定出单但竞争密度低的品牌(Ignik/DNKMOR/1844 Helko Werk等)；Readywares($39.99)证明高端定位在这个类目可行且12月拉动倍数最猛</td>
+            <td><span class="tag wood">差异化机会</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="cost">
+      <div class="section-head">
+        <div class="section-num">07</div>
+        <h2>成本费用与定价带建议</h2>
+        <p class="section-desc">本节不虚构具体采购报价（求真三条：禁止无来源的成本估算），而是基于真实市场价格带数据给出定位框架；精确单位经济模型需要你提供实际采购报价后用 <code>amazon-launch-plan</code> skill 测算。</p>
+      </div>
+
+      <div class="cost-grid">
+        <div class="cost-card">
+          <h4>走量层</h4>
+          <div class="cost-price">$9.99 – $14.99</div>
+          <p>以FLASLD($9.99)为代表，靠极低价快速起量抢占"firewood carrier"泛词流量(词均价恰好$9.99)。<b>风险</b>：本报告样本里这个价位段的评分基数最薄、材质替代(非真蜡染)集中在这个价位段，耐用性差评的绝对杀伤力最大——低价买家对"用了一次就破"的容忍度最低。</p>
+        </div>
+        <div class="cost-card">
+          <h4>主流层（推荐起点）</h4>
+          <div class="cost-price">$21.99 – $29.99</div>
+          <p>本报告11款竞品的中位价格带，INNO STAGE、AMAGABELI、BONTHEE均在此区间，是类目最大的成交密度区。<b>建议</b>：新品定价落在这个区间，用第6节"加固底部+真实材质标注+可调节手柄"作为对比同价位竞品的差异化点，而非单纯拼低价。</p>
+        </div>
+        <div class="cost-card">
+          <h4>高端/礼品层</h4>
+          <div class="cost-price">$39.99 – $89.99+</div>
+          <p>Readywares($39.99)已验证12月拉动倍数最猛(4.71倍)；Ignik/DNKMOR/1844 Helko Werk等品牌在$60-150价位段仍有稳定真实成交。<b>适合</b>：如果能做出真正的"站立式+真蜡染+终身耐用"综合方案，这个价位段的竞争密度是全类目最低的。</p>
+        </div>
+      </div>
+
+      <div class="callout info" style="margin-top:20px;">
+        <b>成本结构框架(供你对接供应商报价时参考的关键变量，非具体数字)：</b>①<b>帆布克重与蜡处理工艺</b>是最大的成本杠杆——16oz是当前竞品的主流克重标注，若要解决头号痛点(撕裂)，加厚到18-20oz或在受力角落做双层复合，边际成本增量通常远低于因差评导致的转化率损失；②<b>手柄材质</b>：真皮 vs PU革 vs 加固帆布织带三种方案价差明显，考虑到VOC里"假皮革断裂"是独立差评来源，如果预算不允许真皮，用加固帆布织带并如实标注，比用廉价PU革冒充真皮更划算；③<b>是否做刚性支撑结构</b>是决定能否切入"真正站立式"差异化定位的关键成本决策点，PE硬底板/可拆卸支撑条的边际成本需要向供应商单独询价；④<b>包装方式(卷筒vs折叠)</b>对头程物流体积成本有直接影响，折叠更省空间但会导致折痕问题(第2节)，需要在"物流成本"与"开箱质感"之间做权衡，可考虑局部改良折叠方式(如软性隔层填充折线处)而非改为卷筒包装。
+      </div>
+
+      <div class="callout wood" style="margin-top:16px;">
+        <b>下一步：</b>这些框架性建议不能替代精确单位经济模型。当你拿到实际FOB报价、头程物流费率、目标定价后，用 <code>amazon-launch-plan</code> skill 可以跑出完整的推广推演(广告预算、盈亏平衡点、大促铁律)——这是本报告之后的自然下一步。
+      </div>
+    </section>
+
+    <section id="launch">
+      <div class="section-head">
+        <div class="section-num">08</div>
+        <h2>上架时机与备货建议</h2>
+        <p class="section-desc">按优先级排序：P1(上架前置条件) / P2(强烈建议) / P3(锦上添花)。</p>
+      </div>
+
+      <ol class="rec-list">
+        <li class="rec-item p1">
+          <div class="rec-rank">01</div>
+          <div>
+            <p class="rec-title">上架窗口：8-9月完成上架并开始蓄评，务必在10月底前拿到基础评论量</p>
+            <p class="rec-body">6款竞品交叉验证Q4季节性极强(11月均值2.04倍/12月均值3.58倍)，且这个类目67%的销量来自3年以上老品——新品必须在旺季来临前积累起评分基数(本类目评分生存线是4.3，见第5节)，否则会在最大的旺季流量里因为评论数不足而在搜索排序上吃亏。</p>
+            <p class="rec-evidence">证据：第5节季节性分析；INNO STAGE/Readywares等6款竞品的12月峰值倍数</p>
+          </div>
+        </li>
+        <li class="rec-item p1">
+          <div class="rec-rank">02</div>
+          <div>
+            <p class="rec-title">备货比例向Q4倾斜：11-12月两个月的销量体量约等于其余10个月总和的40-60%(以头部竞品曲线估算)</p>
+            <p class="rec-body">以INNO STAGE旗舰款为例，2025年11-12月合计12,939件，占其13个月总销量26,161件的49.5%——接近一半的年销量集中在两个月里。备货计划必须预留足够的旺季安全库存，避免旺季断货(断货在这类"存量主导"市场里代价更大，因为丢失的排名和评论增速很难在淡季追回)。</p>
+            <p class="rec-evidence">证据：第1节INNO STAGE/Readywares等竞品13个月销量趋势原始数据</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">03</div>
+          <div>
+            <p class="rec-title">首批小批量验证"加固底部+真实材质标注"改款方向，再决定Q4主力批次的具体配置</p>
+            <p class="rec-body">第6节改款方向里，"底部双层加固"和"材质真实标注"是成本增量最小、直接对应头号痛点的两项，建议作为首批小批量(验证市场反馈与实际耐用性表现)的标配；"内置刚性支撑做真站立式"和"$60+高端SKU"这两项差异化程度更高、成本变量更大，可以在验证首批市场反馈后再决定是否投入Q4主力批次。</p>
+            <p class="rec-evidence">证据：第6节改款方向优先级排序；第2节VOC头号痛点占比</p>
+          </div>
+        </li>
+        <li class="rec-item p2">
+          <div class="rec-rank">04</div>
+          <div>
+            <p class="rec-title">定价起点建议落在$21.99-$29.99主流层，避免直接卷入$9.99-$14.99低价红海</p>
+            <p class="rec-body">低价层评分基数薄、材质替代问题集中、耐用性差评杀伤力最大；主流层是类目最大成交密度区，且新品在这个价位段用"真实解决头号痛点"作为差异化点，比单纯拼低价更可持续。</p>
+            <p class="rec-evidence">证据：第7节定价带分析；第5节类目均价$35.25与评分生存线数据</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">05</div>
+          <div>
+            <p class="rec-title">关键词布局主攻"firewood holder"与"firewood carrier"两个泛词，不要押注精确长尾词</p>
+            <p class="rec-body">"waxed canvas firewood carrier"等精确长尾词查无独立搜索量数据；"firewood holder"搜索量2,683且SPR仅2、词均价$38.99，是性价比最高的切入词；"firewood carrier"搜索量最大(3,829)但SPR门槛偏高(8)，需要更多广告投入或评论积累才能站稳首页。</p>
+            <p class="rec-evidence">证据：第5节关键词矩阵完整数据</p>
+          </div>
+        </li>
+        <li class="rec-item p3">
+          <div class="rec-rank">06</div>
+          <div>
+            <p class="rec-title">评估$60+装饰/礼品定位作为独立SKU的长期机会，不必在首批就all-in</p>
+            <p class="rec-body">这个价位段竞争密度低、Readywares已验证高端定位在本类目可行，但需要更强的品牌叙事(材质工艺、产地故事、联名设计)支撑，不是简单加价就能成立——建议作为主SKU站稳后的第二阶段扩展方向。</p>
+            <p class="rec-evidence">证据：第5节品牌集中度分析中$60-150价位段品牌列表</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <footer>
+      数据来源：卖家精灵 MCP（asin_sales_trend / asin_detail / review / keyword_miner / market_research_statistics 等），2026年9月抓取；外部信号通过WebSearch核实并附来源链接。本报告仅供内部选品决策参考，成本部分为框架性建议，不构成精确报价，正式采购前请以供应商实际报价为准。
+    </footer>
+
+  </main>
+</div>
+
+<button class="back-to-top" id="backToTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+var COMPETITORS = [
+  {asin:"B0779BJMQ3", brand:"INNO STAGE 旗舰款", img:"https://m.media-amazon.com/images/I/41a4rz87vEL._AC_US200_.jpg", price:"$23.96", dims:"39.8x18.9in", rating:4.8, ratings:5774, sales:1230, revenue:29434, type:"open", material:false, features:["扁平开放两端款，16oz蜡染帆布","PU革手柄(非真皮)，双棉质织带","全场销量冠军，12月峰值3.61倍"], highlight:true},
+  {asin:"B07CTHQFHP", brand:"AMAGABELI", img:"https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T2/images/I/51qubBEEvnL._AC_US200_.jpg", price:"$21.99", dims:"40x19in", rating:4.8, ratings:13262, sales:360, revenue:7916, type:"open", material:false, features:["扁平开放两端款，评分基数全场最大","2024年月销3000+，2026年降至360","老牌护城河正在变浅的真实案例"]},
+  {asin:"B0CG1XKRWX", brand:"VIKROM", img:"https://m.media-amazon.com/images/I/51iB9hizdjL._AC_US200_.jpg", price:"$12.49", dims:"38.8x18.4in", rating:4.7, ratings:260, sales:270, revenue:3302, type:"open", material:false, features:["扁平开放两端款，低价走量","可折叠平放收纳","2026年以来持续增长"]},
+  {asin:"B0GG4BPFWN", brand:"FLASLD", img:"https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T2/images/I/31Xl7fHbjTL._AC_US200_.jpg", price:"$9.99", dims:"39x18.5in", rating:4.6, ratings:46, sales:510, revenue:5095, type:"open", material:false, features:["全场增速最快新品(上架仅6个月)","极低价切入firewood carrier泛词","Vine好评验证材质手感扎实"]},
+  {asin:"B07KFX5V8D", brand:"BONTHEE", img:"https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T2/images/I/41phcRV3EdL._AC_SR200,200_.jpg", price:"$29.99", dims:"23.6x11.8x19.7in", rating:4.7, ratings:2836, sales:240, revenue:7738, type:"closed", material:false, features:["号称Freestanding+双肩带+手提两用","差评50%指向\"不能真正自立\"","三重绑带设计被吐槽繁琐"]},
+  {asin:"B08PSHZWYY", brand:"LivinWell", img:"https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T2/images/I/415pSC1ClIL._AC_US200_.jpg", price:"$24.95", dims:"23.5x11.5x15in", rating:4.6, ratings:320, sales:30, revenue:749, type:"closed", material:false, features:["号称\"STANDS BY ITSELF\"，封闭底端","文案直接攻击开放两端款设计","销量全场倒数，声量大市占小"]},
+  {asin:"B07915JNZP", brand:"INNO STAGE 二线款", img:"https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T2/images/I/41irvPxAVEL._AC_US200_.jpg", price:"$29.95", dims:"23.4x10x11.4in", rating:4.8, ratings:3939, sales:480, revenue:14376, type:"closed", material:false, features:["半封闭皮革设计，独立第二产品线","上下无端墙开放式装填","12月峰值3.33倍"]},
+  {asin:"B01DTL94LW", brand:"Readywares", img:"https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T1/images/I/41C4WKRpvSL._AC_US200_.jpg", price:"$39.99", dims:"39x18in", rating:4.8, ratings:2311, sales:120, revenue:4799, type:"open", material:false, features:["类目唯一验证成功的高端定位","露营场景明确背书，多年耐用性好评","12月峰值4.71倍，全场最高"]},
+  {asin:"B08FRP7JXZ", brand:"Fire Beauty", img:"https://m.media-amazon.com/images/I/417gb2+1mrL._AC_US200_.jpg", price:"$14.99", dims:"36.6x17.7in", rating:4.6, ratings:1139, sales:150, revenue:2249, type:"open", material:true, features:["Listing标注\"400D Oxford canvas\"","非传统蜡染帆布材质","内层喷涂防水涂层"]},
+  {asin:"B01M7X2EBM", brand:"Stanbroil", img:"https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T2/images/I/41UjiaDAA4L._AC_US200_.jpg", price:"$14.99", dims:"35x17.5in", rating:4.4, ratings:849, sales:120, revenue:1799, type:"open", material:true, features:["Listing标注\"premium Oxford canvas\"","差评实测\"not a heavy canvas-like material\"","全场评分最低(4.4)"]},
+  {asin:"B0D5DF449P", brand:"STBoo", img:"https://m.media-amazon.com/images/W/BW_MEDIAX_AVIF_MEASUREMENT_1306696-T2/images/I/41sTn0ME4CL._AC_US200_.jpg", price:"$18.99", dims:"39x18in", rating:4.7, ratings:356, sales:120, revenue:2279, type:"open", material:true, features:["Listing材质标注为1680D聚酯纤维","并非蜡染帆布，但仍在该关键词下售卖","三色可选，20%常态优惠券"]}
+];
+
+function fmt(n){ return n.toLocaleString(); }
+function amzUrl(asin){ return 'https://www.amazon.com/dp/'+asin; }
+
+var grid = document.getElementById('compGrid');
+var currentSort = 'sales';
+
+function renderGrid(sortKey){
+  grid.innerHTML = '';
+  var sorted = COMPETITORS.slice().sort(function(a,b){
+    if(sortKey==='price'){ return parseFloat(a.price.replace('$','')) - parseFloat(b.price.replace('$','')); }
+    if(sortKey==='rating'){ return b.rating - a.rating; }
+    return b.sales - a.sales;
+  });
+  sorted.forEach(function(c, i){
+    var card = document.createElement('div');
+    card.className = 'comp-card ' + (c.type==='open' ? 'is-open' : 'is-closed');
+    var featLis = c.features.map(function(f){ return '<li>'+f+'</li>'; }).join('');
+    var materialFlag = c.material ? '<div class="comp-flag material">⚠ 材质表述疑似非真蜡染帆布</div>' : '';
+    card.innerHTML =
+      '<div class="comp-rank" style="position:absolute; top:10px; left:10px; z-index:2; background:rgba(26,29,36,.78); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:100px;">#'+(i+1)+'</div>' +
+      '<a class="comp-img-wrap" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" title="在Amazon打开 '+c.brand+'"><img src="'+c.img+'" alt="'+c.brand+'" loading="lazy"></a>' +
+      '<div class="comp-body">' +
+        '<div class="comp-badge-row"><span class="badge '+(c.type==='open'?'pill-accent':'pill-wood')+'">'+c.price+'</span><span class="badge pill-success">'+c.rating+'★ / '+fmt(c.ratings)+'</span></div>' +
+        '<p class="comp-title"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">'+c.brand+' <i class="link-arrow">↗</i></a>'+(c.highlight?' <span class="tag wood" style="vertical-align:middle;">头部对标</span>':'')+'</p>' +
+        '<div class="comp-meta"><a href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener" class="asin-link">'+c.asin+'</a> · '+c.dims+'</div>' +
+        '<ul class="comp-features" style="font-size:12.5px; color:var(--ink-2); margin:0; padding-left:16px;">'+featLis+'</ul>' +
+        materialFlag +
+        '<div class="comp-sales">2026-09 父体真实月销量：<b>'+fmt(c.sales)+'</b> 件 / $'+fmt(c.revenue)+'</div>' +
+        '<a class="comp-open-btn" href="'+amzUrl(c.asin)+'" target="_blank" rel="noopener">在Amazon查看 ↗</a>' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+renderGrid(currentSort);
+
+document.querySelectorAll('.sort-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.sort-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentSort = btn.getAttribute('data-sort');
+    renderGrid(currentSort);
+  });
+});
+
+var gridColor = '#e4e7ec';
+var mutedColor = '#8890a0';
+Chart.defaults.color = mutedColor;
+Chart.defaults.borderColor = gridColor;
+Chart.defaults.font.size = 12;
+
+var trendMonths = ['25-08','25-09','25-10','25-11','25-12','26-01','26-02','26-03','26-04','26-05','26-06','26-07','26-08','26-09'];
+var trendSeries = [
+  { label:'INNO STAGE 旗舰款', color:'#3c5ee0', data:[495,725,2083,5681,7258,3255,2282,681,715,732,708,663,883,1230] },
+  { label:'Readywares(高端)', color:'#8a5a34', data:[289,465,678,1281,3066,846,601,306,242,202,190,166,128,120] },
+  { label:'BONTHEE(站立式)', color:'#b56b0a', data:[222,230,764,1213,2612,1197,794,281,193,192,198,171,183,240] },
+  { label:'FLASLD(低价新品)', color:'#1baf7a', data:[null,null,null,null,null,null,null,null,33,261,354,240,328,510] },
+  { label:'AMAGABELI(老牌)', color:'#d0432f', data:[633,1011,1729,1869,2503,2087,1083,682,559,469,467,308,293,360] }
+];
+new Chart(document.getElementById('trendChart'), {
+  type:'line',
+  data:{ labels: trendMonths, datasets: trendSeries.map(function(s){ return { label:s.label, data:s.data, borderColor:s.color, backgroundColor:'transparent', borderWidth:2, pointRadius:2, spanGaps:true, tension:.25 }; }) },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ mode:'index', intersect:false } },
+    scales:{ y:{ beginAtZero:true, grid:{color:gridColor}, ticks:{callback:function(v){return fmt(v);}} }, x:{ grid:{display:false} } }
+  }
+});
+var legendEl = document.getElementById('trendLegend');
+trendSeries.forEach(function(s){
+  var span = document.createElement('span');
+  span.innerHTML = '<span class="legend-dot" style="background:'+s.color+'"></span>'+s.label;
+  legendEl.appendChild(span);
+});
+
+var painData = [
+  {label:'撕裂/破洞(整体耐用性差)', n:33, seg:'8/8读评竞品全部出现，无一幸免'},
+  {label:'号称"站立式"实测不达标', n:11, seg:'BONTHEE/LivinWell两款集中'},
+  {label:'实物比图片小/图片误导', n:10, seg:'旗舰款/AMAGABELI/Readywares分散'},
+  {label:'手柄/背带断裂或假皮革', n:8, seg:'旗舰款/二线款/Stanbroil'},
+  {label:'折痕导致新品即褪色', n:5, seg:'二线款集中，旗舰款也有提及'},
+  {label:'材质非真蜡染帆布', n:4, seg:'二线款/BONTHEE/Stanbroil'},
+  {label:'"Made in China"与品牌调性冲突', n:4, seg:'仅Readywares，但反复出现'},
+  {label:'过多绑带/设计繁琐', n:3, seg:'BONTHEE集中'},
+  {label:'手柄过长拖地(人体工学)', n:2, seg:'旗舰款'},
+  {label:'近热源融化烧焦(安全)', n:1, seg:'旗舰款，但有物理原理支撑'}
+];
+new Chart(document.getElementById('painChart'), {
+  type:'bar',
+  data:{ labels: painData.map(function(d){return d.label;}), datasets:[{ data: painData.map(function(d){return d.n;}), backgroundColor:'#8a5a34', borderRadius:4, maxBarThickness:20 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:function(ctx){ return ctx.parsed.x+' 次 ('+(ctx.parsed.x/173*100).toFixed(1)+'%)'; } } } },
+    scales:{ x:{ beginAtZero:true, grid:{color:gridColor} }, y:{ grid:{display:false}, ticks:{font:{size:11.5}} } }
+  }
+});
+
+var maxPain = Math.max.apply(null, painData.map(function(d){return d.n;}));
+var painTbody = document.getElementById('painTableBody');
+painData.forEach(function(d){
+  var pct = (d.n/173*100).toFixed(1);
+  var tr = document.createElement('tr');
+  tr.innerHTML = '<td class="bar-cell">'+d.label+'<span class="bar-track"><span class="bar-fill" style="width:'+(d.n/maxPain*100).toFixed(0)+'%; background:#8a5a34;"></span></span></td><td class="num">'+d.n+'</td><td class="num">'+pct+'%</td><td>'+d.seg+'</td>';
+  painTbody.appendChild(tr);
+});
+
+var backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', function(){
+  backToTop.classList.toggle('show', window.scrollY > 500);
+});
+backToTop.addEventListener('click', function(){
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+var sections = document.querySelectorAll('main section, .hero');
+var navLinks = document.querySelectorAll('#toc a');
+window.addEventListener('scroll', function(){
+  var pos = window.scrollY + 120;
+  sections.forEach(function(sec){
+    if(pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight){
+      navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#'+sec.id); });
+    }
+  });
+});
+</script>
+</body>
+</html>
