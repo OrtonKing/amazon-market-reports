@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="380mm" height="160mm" viewBox="0 0 380 160"
+     font-family="'Bahnschrift SemiBold Condensed','Bahnschrift','Arial Narrow',Arial,sans-serif">
+
+  <defs>
+    <!-- brushed brass background -->
+    <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9be82"/>
+      <stop offset="0.5" stop-color="#c9a763"/>
+      <stop offset="1" stop-color="#d3b170"/>
+    </linearGradient>
+    <!-- tile-shaped pocket: 25 x 32 mm, R3 corners, finger notch R5 at bottom -->
+    <path id="hole" d="M 3,0 H 22 A 3 3 0 0 1 25,3 V 29 A 3 3 0 0 1 22,32 H 17.5 A 5 5 0 0 1 7.5,32 H 3 A 3 3 0 0 1 0,29 V 3 A 3 3 0 0 1 3,0 Z"/>
+    <marker id="ah" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="3.4" markerHeight="3.4" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#241c12"/>
+    </marker>
+  </defs>
+
+  <!-- ============ OUTLINE (board cut, 380 x 160, R8) ============ -->
+  <g id="LAYER-outline-cut">
+    <rect x="0.35" y="0.35" width="379.3" height="159.3" rx="8" fill="url(#brass)" stroke="#7a5f33" stroke-width="0.7"/>
+  </g>
+
+  <!-- ============ POCKETS (blind, depth 5 mm) ============ -->
+  <g id="LAYER-pockets-depth-5mm" fill="#a4874e" stroke="#6e5628" stroke-width="0.5">
+    <!-- hand rack row 1 (slots 1-7) -->
+    <use xlink:href="#hole" x="12" y="40"/>
+    <use xlink:href="#hole" x="40.5" y="40"/>
+    <use xlink:href="#hole" x="69" y="40"/>
+    <use xlink:href="#hole" x="97.5" y="40"/>
+    <use xlink:href="#hole" x="126" y="40"/>
+    <use xlink:href="#hole" x="154.5" y="40"/>
+    <use xlink:href="#hole" x="183" y="40"/>
+    <!-- hand rack row 2 (slots 8-14) -->
+    <use xlink:href="#hole" x="12" y="84"/>
+    <use xlink:href="#hole" x="40.5" y="84"/>
+    <use xlink:href="#hole" x="69" y="84"/>
+    <use xlink:href="#hole" x="97.5" y="84"/>
+    <use xlink:href="#hole" x="126" y="84"/>
+    <use xlink:href="#hole" x="154.5" y="84"/>
+    <use xlink:href="#hole" x="183" y="84"/>
+    <!-- pass 3 -->
+    <use xlink:href="#hole" x="250.5" y="36.5"/>
+    <use xlink:href="#hole" x="294.5" y="36.5"/>
+    <use xlink:href="#hole" x="338.5" y="36.5"/>
+    <!-- receive 3 -->
+    <use xlink:href="#hole" x="250.5" y="97"/>
+    <use xlink:href="#hole" x="294.5" y="97"/>
+    <use xlink:href="#hole" x="338.5" y="97"/>
+  </g>
+
+  <!-- ============ ARTWORK (printed / engraved) ============ -->
+  <g id="LAYER-artwork" fill="#241c12">
+
+    <!-- ~quick tips bar ~-->
+    <g id="quick-tips">
+      <rect x="10" y="5.5" width="66" height="11" rx="5.5" fill="#241c12"/>
+      <!-- bulb icon -->
+      <circle cx="18" cy="10.3" r="2.3" fill="none" stroke="#e8d9a8" stroke-width="0.75"/>
+      <rect x="16.8" y="12.8" width="2.4" height="1.7" rx="0.5" fill="#e8d9a8"/>
+      <path d="M 18,5.5 v-1.3 M 14.1,7 l-1,-1 M 21.9,7 l1,-1 M 13.4,10.3 h-1.4 M 22.6,10.3 h1.4" stroke="#e8d9a8" stroke-width="0.65" stroke-linecap="round"/>
+      <text x="25.5" y="13.3" font-size="6.4" font-weight="bold" fill="#f2e6c2" letter-spacing="0.6">QUICK TIPS</text>
+
+      <text x="84" y="10" font-size="3.4" font-weight="bold">• 1st: RIGHT →</text>
+      <text x="87" y="15.2" font-size="3.4" font-weight="bold">ACROSS → LEFT</text>
+
+      <text x="148" y="10" font-size="3.4" font-weight="bold">• Optional 2nd:</text>
+      <text x="151" y="15.2" font-size="3.4" font-weight="bold">LEFT → ACROSS → RIGHT</text>
+
+      <text x="224" y="10" font-size="3.4" font-weight="bold">• Courtesy Pass:</text>
+      <text x="227" y="15.2" font-size="3.4" font-weight="bold">0-3 across</text>
+
+      <text x="294" y="12.8" font-size="3.4" font-weight="bold">• East starts with 14</text>
+    </g>
+
+    <!-- ~hand rack ~-->
+    <g id="hand-rack">
+      <rect x="8" y="20" width="204" height="113" rx="4" fill="none" stroke="#241c12" stroke-width="0.8"/>
+      <text x="110" y="28.8" font-size="6.2" font-weight="bold" text-anchor="middle" letter-spacing="1.4">HAND RACK</text>
+      <!-- numbers row 1 -->
+      <text x="24.5" y="37.2" font-size="4.4" font-weight="bold" text-anchor="middle">1</text>
+      <text x="53" y="37.2" font-size="4.4" font-weight="bold" text-anchor="middle">2</text>
+      <text x="81.5" y="37.2" font-size="4.4" font-weight="bold" text-anchor="middle">3</text>
+      <text x="110" y="37.2" font-size="4.4" font-weight="bold" text-anchor="middle">4</text>
+      <text x="138.5" y="37.2" font-size="4.4" font-weight="bold" text-anchor="middle">5</text>
+      <text x="167" y="37.2" font-size="4.4" font-weight="bold" text-anchor="middle">6</text>
+      <text x="195.5" y="37.2" font-size="4.4" font-weight="bold" text-anchor="middle">7</text>
+      <!-- numbers row 2 -->
+      <text x="24.5" y="127.3" font-size="4.4" font-weight="bold" text-anchor="middle">8</text>
+      <text x="53" y="127.3" font-size="4.4" font-weight="bold" text-anchor="middle">9</text>
+      <text x="81.5" y="127.3" font-size="4.4" font-weight="bold" text-anchor="middle">10</text>
+      <text x="110" y="127.3" font-size="4.4" font-weight="bold" text-anchor="middle">11</text>
+      <text x="138.5" y="127.3" font-size="4.4" font-weight="bold" text-anchor="middle">12</text>
+      <text x="167" y="127.3" font-size="4.4" font-weight="bold" text-anchor="middle">13</text>
+      <text x="195.5" y="127.3" font-size="4.4" font-weight="bold" text-anchor="middle">14</text>
+      <!-- east's 14th tile tag (yellow) above slot 14 -->
+      <rect x="182.5" y="78" width="26" height="5.2" rx="1.5" fill="#e6c23a" stroke="#241c12" stroke-width="0.35"/>
+      <text x="195.5" y="81.8" font-size="2" font-weight="bold" text-anchor="middle">EAST'S 14TH TILE</text>
+    </g>
+
+    <!-- pick 3 arrow (rack -> pass box) -->
+    <text x="226" y="31.5" font-size="4" font-weight="bold" text-anchor="middle">PICK 3</text>
+    <path d="M 215.5,35.5 H 234" fill="none" stroke="#241c12" stroke-width="1.2" marker-end="url(#ah)"/>
+
+    <!-- ~pass 3 ~-->
+    <g id="pass3">
+      <rect x="238" y="18" width="138" height="60" rx="4" fill="none" stroke="#241c12" stroke-width="0.8"/>
+      <text x="307" y="26.5" font-size="5.8" font-weight="bold" text-anchor="middle" letter-spacing="1.4">PASS 3</text>
+      <text x="263" y="34" font-size="4" font-weight="bold" text-anchor="middle">P1</text>
+      <text x="307" y="34" font-size="4" font-weight="bold" text-anchor="middle">P2</text>
+      <text x="351" y="34" font-size="4" font-weight="bold" text-anchor="middle">P3</text>
+    </g>
+
+    <!-- pass-out arrow (below pass box, hooking down-right) -->
+    <text x="303" y="84.6" font-size="3.8" font-weight="bold" text-anchor="middle">PASS 3</text>
+    <path d="M 285,78 v 4 q 0,4 4,4 h 49 q 5,0 5,5 v 2" fill="none" stroke="#241c12" stroke-width="1.1" marker-end="url(#ah)"/>
+
+    <!-- ~receive 3 ~-->
+    <g id="receive3">
+      <text x="238" y="88.5" font-size="5.8" font-weight="bold" letter-spacing="1.4">RECEIVE 3</text>
+      <text x="263" y="94.8" font-size="4" font-weight="bold" text-anchor="middle">R1</text>
+      <text x="307" y="94.8" font-size="4" font-weight="bold" text-anchor="middle">R2</text>
+      <text x="351" y="94.8" font-size="4" font-weight="bold" text-anchor="middle">R3</text>
+    </g>
+
+    <!-- draw 3 (angled up-left into R1) -->
+    <text x="281" y="138.4" font-size="3.8" font-weight="bold">DRAW 3</text>
+    <path d="M 278,137.2 q -5,-0.5 -7.2,-3.6" fill="none" stroke="#241c12" stroke-width="1" marker-end="url(#ah)"/>
+
+    <!-- add to hand (hook from under R1, long arrow left into rack) -->
+    <text x="105" y="142.2" font-size="4.2" font-weight="bold" text-anchor="middle" letter-spacing="0.6">ADD TO HAND</text>
+    <path d="M 256,134 Q 257,140.8 248,140.8 H 146" fill="none" stroke="#241c12" stroke-width="1.1" marker-end="url(#ah)"/>
+
+    <!-- ~bottom step bar ~-->
+    <g id="steps">
+      <rect x="10" y="145.5" width="364" height="13" rx="6.5" fill="none" stroke="#241c12" stroke-width="0.8"/>
+
+      <circle cx="98" cy="152" r="3.3" fill="#241c12"/>
+      <text x="98" y="153.4" font-size="3.7" font-weight="bold" text-anchor="middle" fill="#f2e6c2">1</text>
+      <text x="103.6" y="153.6" font-size="4.5" font-weight="bold">PICK 3</text>
+      <path d="M 128,152 h 16" fill="none" stroke="#241c12" stroke-width="1.1" marker-end="url(#ah)"/>
+
+      <circle cx="153" cy="152" r="3.3" fill="#241c12"/>
+      <text x="153" y="153.4" font-size="3.7" font-weight="bold" text-anchor="middle" fill="#f2e6c2">2</text>
+      <text x="158.6" y="153.6" font-size="4.5" font-weight="bold">PASS 3</text>
+      <path d="M 183,152 h 16" fill="none" stroke="#241c12" stroke-width="1.1" marker-end="url(#ah)"/>
+
+      <circle cx="208" cy="152" r="3.3" fill="#241c12"/>
+      <text x="208" y="153.4" font-size="3.7" font-weight="bold" text-anchor="middle" fill="#f2e6c2">3</text>
+      <text x="213.6" y="153.6" font-size="4.5" font-weight="bold">RETURN</text>
+      <path d="M 238,152 h 16" fill="none" stroke="#241c12" stroke-width="1.1" marker-end="url(#ah)"/>
+
+      <circle cx="263" cy="152" r="3.3" fill="#241c12"/>
+      <text x="263" y="153.4" font-size="3.7" font-weight="bold" text-anchor="middle" fill="#f2e6c2">4</text>
+      <text x="268.6" y="153.6" font-size="4.5" font-weight="bold">DRAW 3</text>
+      <path d="M 293,152 h 16" fill="none" stroke="#241c12" stroke-width="1.1" marker-end="url(#ah)"/>
+
+      <circle cx="318" cy="152" r="3.3" fill="#241c12"/>
+      <text x="318" y="153.4" font-size="3.7" font-weight="bold" text-anchor="middle" fill="#f2e6c2">5</text>
+      <text x="323.6" y="153.6" font-size="4.5" font-weight="bold">ADD TO HAND</text>
+    </g>
+  </g>
+</svg>
